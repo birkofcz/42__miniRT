@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+         #
+#    By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/24 15:29:04 by sbenes            #+#    #+#              #
-#    Updated: 2023/07/31 14:29:24 by sbenes           ###   ########.fr        #
+#    Updated: 2023/07/31 17:24:31 by tkajanek         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ INC =	-I ./include/\
 
 #sources
 SRC_PATH =	src/
-SRC = 	main.c error.c utils.c parser.c
+SRC = 	main.c error.c utils.c parser.c init.c\
+	
 SRCS =	$(addprefix $(SRC_PATH), $(SRC))
 
 #objects

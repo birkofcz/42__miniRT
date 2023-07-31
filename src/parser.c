@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:03:58 by sbenes            #+#    #+#             */
-/*   Updated: 2023/07/31 16:00:22 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:13:36 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ Taking argv[1] as arg, parsing based on identifier...
 int	ft_parser(char *scene)
 {
 	int		fd;
-	char *line;
-	char *file;
+	char	*line;
+	char	*file;
+	char	**description;
 
 	line = ft_strdup("");
 	file = NULL;
@@ -52,8 +53,7 @@ int	ft_parser(char *scene)
 	}
 	else
 		return (ft_error("Invalid scene file"), 1);
-	ft_split(file, "\n");
+	description = ft_split(file, "\n");
+	ft_init(description);
 	//Identifier crossroads. (also need to init the structs with zeros somwhere. Maybe do another struct just to have information about the scene = flags 1/0 on objects...);
-
-	
 }

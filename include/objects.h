@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/07/31 14:47:49 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/07/31 16:10:00 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,16 @@ typedef struct s_cylinder
 	int		g;
 	int		b;
 }	t_cy;
+
+typedef struct s_scene
+{
+	t_amb	amb;
+	t_cam	cam;
+	t_light	light;
+	t_sp	*sp;
+	t_pl	*pl;
+	t_cy	*cy;
+}
 
 #endif
 
