@@ -6,7 +6,7 @@
 #    By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/24 15:29:04 by sbenes            #+#    #+#              #
-#    Updated: 2023/07/30 17:09:57 by sbenes           ###   ########.fr        #
+#    Updated: 2023/07/31 14:29:24 by sbenes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ INC =	-I ./include/\
 
 #sources
 SRC_PATH =	src/
-SRC = 	main.c
+SRC = 	main.c error.c utils.c parser.c
 SRCS =	$(addprefix $(SRC_PATH), $(SRC))
 
 #objects
