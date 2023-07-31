@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:08:42 by sbenes            #+#    #+#             */
-/*   Updated: 2023/07/31 14:11:15 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/07/31 15:21:53 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_error(char *message)
 
 	len = ft_strlen(message);
 	write(2, "Error: ", 8);
+	write(2, "\n", 1);
 	write(2, message, len);
 	write(2, "\n", 1);
 }
