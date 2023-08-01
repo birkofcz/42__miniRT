@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/07/31 17:23:52 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:03:21 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 t_amb	init_ambient(char *line)
 {
-	t_amb amb;
+	t_amb	amb;
 	char	**param;
 	char	**rgb;
 
@@ -27,12 +27,12 @@ t_amb	init_ambient(char *line)
 	amb.g = ft_atoi(rgb[1]);
 	amb.b = ft_atoi(rgb[2]);
 	ft_freesplit(rgb);
-	return(amb);
+	return (amb);
 }
 
 t_cam	init_camera(char *line)
 {
-	t_cam cam;
+	t_cam	cam;
 	char	**param;
 	char	**view_point;
 	char	**orient_vect;
@@ -111,7 +111,7 @@ bool	ft_init_env(char **description, t_scene *scene)
 		}
 		else if (ft_check_env(description[i]) == 3)
 		{
-			scene->ligh = init_light(description[i]);
+			scene->light = init_light(description[i]);
 			env_count++;
 		}
 		i++;
@@ -121,7 +121,7 @@ bool	ft_init_env(char **description, t_scene *scene)
 	return (true);
 }
 
-t_scene *ft_init(char **description)
+t_scene	*ft_init(char **description)
 {
 	t_scene	scene;
 	int obj_count;
@@ -135,5 +135,4 @@ t_scene *ft_init(char **description)
 	if (obj_count == 0)
 		return (ft_error("No valid object."), NULL);
 	return (&scene);
-
 }
