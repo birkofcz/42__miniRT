@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/01 14:58:29 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/01 18:44:37 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_amb	init_ambient(char *line)
 	char	**param;
 	char	**rgb;
 
-	param = ft_split(line, " ");
+	param = ft_split(line, ' ');
 	amb.ratio = ft_atof(param[1]);
-	rgb = ft_split(param[2], ",");
+	rgb = ft_split(param[2], ',');
 	ft_freesplit(param);
 	amb.r = ft_atoi(rgb[0]);
 	amb.g = ft_atoi(rgb[1]);
@@ -37,13 +37,13 @@ t_cam	init_camera(char *line)
 	char	**view_point;
 	char	**orient_vect;
 
-	param = ft_split(line, " ");
-	view_point = ft_split(param[1], ",");
+	param = ft_split(line, ' ');
+	view_point = ft_split(param[1], ',');
 	cam.x = ft_atof(view_point[0]);
 	cam.y = ft_atof(view_point[1]);
 	cam.z = ft_atof(view_point[2]);
 	ft_freesplit(view_point);
-	orient_vect = ft_split(param[2], ",");
+	orient_vect = ft_split(param[2], ',');
 	cam.vx = ft_atof(orient_vect[0]);
 	cam.vy = ft_atof(orient_vect[1]);
 	cam.vz = ft_atof(orient_vect[2]);
@@ -59,8 +59,8 @@ t_light	init_light(char *line)
 	char	**param;
 	char	**coor;
 
-	param = ft_split(line, " ");
-	coor = ft_split(param[1], ",");
+	param = ft_split(line, ' ');
+	coor = ft_split(param[1], ',');
 	light.x = ft_atof(coor[0]);
 	light.y = ft_atof(coor[1]);
 	light.z = ft_atof(coor[2]);
@@ -75,40 +75,18 @@ int	ft_check_env(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i] == " ")
+	while (line[i] == ' ')
 		i++;
-	if (line[i] == "A")
+	if (line[i] == 'A')
 		return (1);
-	else if (line[i] == "C")
+	else if (line[i] == 'C')
 		return (2);
-	else if (line[i] == "L")
+	else if (line[i] == 'L')
 		return (3);
 	else
 		return (4);
 }
 
-/*
-Counts the objects - sphere, plane or cylinder -  by the identifier in the description
- */
-int	ft_count_objects(char **description, char *ident)
-{
-	int	i;
-	int j;
-	int	count;
-
-	i = 0;
-	j = 0;
-	count = 0;
-	while (description[i] != NULL)
-	{
-		while (description[i][j] == " ")
-			j++;
-		if (ft_strncmp(description[i] + j, ident, ft_strlen(ident)) == 0)
-			count++;
-		i++;
-	}
-	return (count);
-}
 bool	ft_init_env(char **description, t_scene *scene)
 {
 	int	i;
@@ -143,33 +121,6 @@ bool	ft_init_env(char **description, t_scene *scene)
 	return (true);
 }
 
-int	ft_allocate_objects(t_scene *scene, char **description)
-{
-	int	sphere_count;
-	int	plane_count;
-	int	cylinder_count;
-
-	sphere_count = ft_count_objects(description, 'sp');
-	plane_count = ft_count_objects(description, 'pl');
-	cylinder_count = ft_count_objects(description, 'cy');
-
-	if (sum(sphere_count, plane_count, cylinder_count) == 0)
-		return (1);
-	if (sphere_count != 0)
-		scene->sp = (t_sp *)malloc(sizeof(t_sp) * sphere_count);
-	else 
-		scene->sp = NULL;
-	if (plane_count != 0)
-		scene->pl = (t_pl *)malloc(sizeof(t_pl) * plane_count);
-	else
-		scene->pl = NULL;
-	if (cylinder_count != 0)
-		scene->cy = (t_cy *)malloc(sizeof(t_cy) * cylinder_count);
-	else
-		scene->cy = NULL;
-	return (0);
-}
-
 t_scene	*ft_init(char **description)
 {
 	t_scene	scene;
@@ -178,11 +129,11 @@ t_scene	*ft_init(char **description)
 		return (ft_error("Duplicate A, C, L values"), NULL);
 	if (ft_allocate_objects(&scene, description) == 1)
 		return (ft_error("No valid objects"), NULL);
-	if (scene.sp)
-		ft_init_sphere(description, &scene);
-	if (scene.pl)
-		ft_init_plane(description, &scene);
-	if (scene.cy)
-		ft_init_cylinder(description, &scene);
+	if (scene.sp != NULL)
+		ft_init_objects(description, &scene "sp");
+	if (scene.pl != NULL)
+		ft_init_objects(description, &scene, "pl");
+	if (scene.cy != NULL)
+		ft_init_objects(description, &scene, "cy");
 	return (&scene);
 }

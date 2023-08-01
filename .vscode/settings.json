@@ -2,6 +2,7 @@
 	"files.associations": {
 		"stdio.h": "c",
 		"random": "c",
-		"objects.h": "c"
+		"objects.h": "c",
+		"minirt.h": "c"
 	}
 }
