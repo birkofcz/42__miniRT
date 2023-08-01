@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/01 14:03:21 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:45:24 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,24 @@ int	ft_check_env(char *line)
 		return (4);
 }
 
+/*
+Counts the objects - sphere, plane or cylinder -  by the identifier in the description
+ */
+int ft_count_objects(char **description, char *identifier)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (description[i] != NULL)
+	{
+		if (ft_strncmp(description[i], identifier, ft_strlen(identifier)) == 0)
+			count++;
+		i++;
+	}
+	return (count);
+}
 bool	ft_init_env(char **description, t_scene *scene)
 {
 	int	i;
@@ -94,9 +112,9 @@ bool	ft_init_env(char **description, t_scene *scene)
 
 	i = 0;
 	env_count = 0;
-	scene->amb = NULL;
+/* 	scene->amb = NULL;
 	scene->cam = NULL;
-	scene->light = NULL;
+	scene->light = NULL; */
 	while (description[i] != NULL)
 	{
 		if (ft_check_env(description[i]) == 1)
@@ -121,18 +139,37 @@ bool	ft_init_env(char **description, t_scene *scene)
 	return (true);
 }
 
+int	ft_allocate_objects(t_scene *scene, char **description)
+{
+	int	sphere_count;
+	int	plane_count;
+	int	cylinder_count;
+
+	sphere_count = ft_count_objects(description, 'sp');
+	plane_count = ft_count_objects(description, 'pl');
+	cylinder_count = ft_count_objects(description, 'cy');
+
+	if (sum(sphere_count, plane_count, cylinder_count) == 0)
+		return (ft_error("No valid objects"), 1);
+	if (sphere_count != 0)
+		scene->sp = (t_sp *)malloc(sizeof(t_sp) * sphere_count);
+	if (plane_count != 0)
+		scene->pl = (t_pl *)malloc(sizeof(t_pl) * plane_count);
+	if (cylinder_count != 0)
+		scene->cy = (t_cy *)malloc(sizeof(t_cy) * cylinder_count);
+	return (0);
+}
+
 t_scene	*ft_init(char **description)
 {
 	t_scene	scene;
-	int obj_count;
 
-	obj_count = 0;
 	if (!ft_init_env(description, &scene))
 		return (ft_error("Duplicate A, C, L values"), NULL);
-	obj_count += ft_init_sphere(description, &scene);
-	obj_count += ft_init_plane(description, &scene);
-	obj_count += ft_init_cylinder(description, &scene);
-	if (obj_count == 0)
-		return (ft_error("No valid object."), NULL);
+	if (ft_allocate_objects(&scene, description) == 1)
+		return (ft_error("No valid objects"), NULL);
+	ft_init_sphere(description, &scene);
+	ft_init_plane(description, &scene);
+	ft_init_cylinder(description, &scene);
 	return (&scene);
 }
