@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/01 14:45:24 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/01 14:58:29 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,20 @@ int	ft_check_env(char *line)
 /*
 Counts the objects - sphere, plane or cylinder -  by the identifier in the description
  */
-int ft_count_objects(char **description, char *identifier)
+int	ft_count_objects(char **description, char *ident)
 {
 	int	i;
+	int j;
 	int	count;
 
 	i = 0;
+	j = 0;
 	count = 0;
 	while (description[i] != NULL)
 	{
-		if (ft_strncmp(description[i], identifier, ft_strlen(identifier)) == 0)
+		while (description[i][j] == " ")
+			j++;
+		if (ft_strncmp(description[i] + j, ident, ft_strlen(ident)) == 0)
 			count++;
 		i++;
 	}
@@ -150,13 +154,19 @@ int	ft_allocate_objects(t_scene *scene, char **description)
 	cylinder_count = ft_count_objects(description, 'cy');
 
 	if (sum(sphere_count, plane_count, cylinder_count) == 0)
-		return (ft_error("No valid objects"), 1);
+		return (1);
 	if (sphere_count != 0)
 		scene->sp = (t_sp *)malloc(sizeof(t_sp) * sphere_count);
+	else 
+		scene->sp = NULL;
 	if (plane_count != 0)
 		scene->pl = (t_pl *)malloc(sizeof(t_pl) * plane_count);
+	else
+		scene->pl = NULL;
 	if (cylinder_count != 0)
 		scene->cy = (t_cy *)malloc(sizeof(t_cy) * cylinder_count);
+	else
+		scene->cy = NULL;
 	return (0);
 }
 
@@ -168,8 +178,11 @@ t_scene	*ft_init(char **description)
 		return (ft_error("Duplicate A, C, L values"), NULL);
 	if (ft_allocate_objects(&scene, description) == 1)
 		return (ft_error("No valid objects"), NULL);
-	ft_init_sphere(description, &scene);
-	ft_init_plane(description, &scene);
-	ft_init_cylinder(description, &scene);
+	if (scene.sp)
+		ft_init_sphere(description, &scene);
+	if (scene.pl)
+		ft_init_plane(description, &scene);
+	if (scene.cy)
+		ft_init_cylinder(description, &scene);
 	return (&scene);
 }
