@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/02 15:08:30 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:38:12 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,19 +121,17 @@ bool	ft_init_env(char **description, t_scene *scene)
 	return (true);
 }
 
-t_scene	*ft_init(char **description)
+int	ft_init(char **description, t_scene *scene)
 {
-	t_scene	scene;
-
-	if (!ft_init_env(description, &scene))
-		return (ft_error("Duplicate A, C, L values"), NULL);
-	if (ft_allocate_objects(&scene, description) == 1)
-		return (ft_error("No valid objects"), NULL);
-	if (scene.sp != NULL)
-		ft_init_objects(description, &scene, "sp");
-	if (scene.pl != NULL)
-		ft_init_objects(description, &scene, "pl");
-	if (scene.cy != NULL)
-		ft_init_objects(description, &scene, "cy");
-	return (&scene);
+	if (!ft_init_env(description, scene))
+		return (ft_error("Duplicate A, C, L values"), 1);
+	if (ft_allocate_objects(scene, description) == 1)
+		return (ft_error("No valid objects"), 1);
+	if (scene->sp != NULL)
+		ft_init_objects(description, scene, "sp");
+	if (scene->pl != NULL)
+		ft_init_objects(description, scene, "pl");
+	if (scene->cy != NULL)
+		ft_init_objects(description, scene, "cy");
+	return (0);
 }

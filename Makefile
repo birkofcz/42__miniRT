@@ -6,7 +6,7 @@
 #    By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/24 15:29:04 by sbenes            #+#    #+#              #
-#    Updated: 2023/08/02 15:07:13 by tkajanek         ###   ########.fr        #
+#    Updated: 2023/08/02 16:09:59 by tkajanek         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ NAME = 		miniRT
 
 # compiler
 CC =		cc
-CFLAGS =	-Wall -Wextra -Werror
+CFLAGS =	-Wall -Wextra -Werror -g
 
 #Minilibx
 MLX_PATH =	mlx/
@@ -43,7 +43,7 @@ INC =	-I ./include/\
 #sources
 SRC_PATH =	src/
 SRC = 	main.c error.c utils.c parser.c \
-	init_objects.c init_scene.c
+	init_objects.c init_scene.c debug.c
 	
 SRCS =	$(addprefix $(SRC_PATH), $(SRC))
 

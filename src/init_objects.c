@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:04:48 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/02 15:24:42 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/02 16:51:57 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,28 @@ int	ft_count_objects(char **description, char *ident)
 
 int	ft_allocate_objects(t_scene *scene, char **description)
 {
-	int sphere_count;
-	int	plane_count;
-	int cylinder_count;
+	scene->sphere_count = ft_count_objects(description, "sp");
+	scene->plane_count = ft_count_objects(description, "pl");
+	scene->cylinder_count = ft_count_objects(description, "cy");
 
-	sphere_count = ft_count_objects(description, "sp");
-	plane_count = ft_count_objects(description, "pl");
-	cylinder_count = ft_count_objects(description, "cy");
-
-	if ((sphere_count + plane_count + cylinder_count) == 0)
+	if ((scene->sphere_count + scene->plane_count + scene->cylinder_count) == 0)
 		return (1);
-	if (sphere_count != 0)
-		scene->sp = (t_sp *)malloc(sizeof(t_sp) * sphere_count);
+	if (scene->sphere_count != 0)
+		scene->sp = (t_sp *)malloc(sizeof(t_sp) * scene->sphere_count);
 	else 
 		scene->sp = NULL;
-	if (plane_count != 0)
-		scene->pl = (t_pl *)malloc(sizeof(t_pl) * plane_count);
+	if (scene->plane_count != 0)
+		scene->pl = (t_pl *)malloc(sizeof(t_pl) * scene->plane_count);
 	else
 		scene->pl = NULL;
-	if (cylinder_count != 0)
-		scene->cy = (t_cy *)malloc(sizeof(t_cy) * cylinder_count);
+	if (scene->cylinder_count != 0)
+		scene->cy = (t_cy *)malloc(sizeof(t_cy) * scene->cylinder_count);
 	else
 		scene->cy = NULL;
 	return (0);
 }
 
-t_sp	*ft_init_sphere(char *line)
+t_sp	ft_init_sphere(char *line)
 {
 	t_sp	sphere;
 	char	**param;
@@ -73,16 +69,16 @@ t_sp	*ft_init_sphere(char *line)
 	sphere.z = ft_atof(coor[2]);
 	ft_freesplit(coor);
 	sphere.diameter = ft_atof(param[2]);
-	rgb = ft_split(param[3]);
+	rgb = ft_split(param[3], ',');
 	sphere.r = ft_atoi(rgb[0]);
 	sphere.g = ft_atoi(rgb[1]);
 	sphere.b = ft_atoi(rgb[2]);
 	ft_freesplit(rgb);
 	ft_freesplit(param);
-	return (&sphere);
+	return (sphere);
 }
 
-t_pl	*ft_init_plane(char *line)
+t_pl	ft_init_plane(char *line)
 {
 	t_pl	plane;
 	char	**param;
@@ -100,16 +96,16 @@ t_pl	*ft_init_plane(char *line)
 	plane.vy = ft_atof(temp[1]);
 	plane.vz = ft_atof(temp[2]);
 	ft_freesplit(temp);
-	rgb = ft_split(param[3]);
+	rgb = ft_split(param[3], ',');
 	plane.r = ft_atoi(rgb[0]);
 	plane.g = ft_atoi(rgb[1]);
 	plane.b = ft_atoi(rgb[2]);
 	ft_freesplit(rgb);
 	ft_freesplit(param);
-	return (&plane);
+	return (plane);
 }
 
-t_cy	*ft_init_cylinder(char *line)
+t_cy	ft_init_cylinder(char *line)
 {
 	t_cy	cylinder;
 	char	**param;
@@ -129,16 +125,16 @@ t_cy	*ft_init_cylinder(char *line)
 	ft_freesplit(temp);
 	cylinder.diameter = ft_atof(param[3]);
 	cylinder.height = ft_atof(param[4]);
-	rgb = ft_split(param[5]);
+	rgb = ft_split(param[5], ',');
 	cylinder.r = ft_atoi(rgb[0]);
 	cylinder.g = ft_atoi(rgb[1]);
 	cylinder.b = ft_atoi(rgb[2]);
 	ft_freesplit(rgb);
 	ft_freesplit(param);
-	return (&plane);
+	return (cylinder);
 }
 
-void	ft_init_object(char **description, t_scene *scene, char *ident)
+void	ft_init_objects(char **description, t_scene *scene, char *ident)
 {
 	int i;
 	int	j;
@@ -149,11 +145,11 @@ void	ft_init_object(char **description, t_scene *scene, char *ident)
 	{
 		if (ft_strncmp(description[i], ident, ft_strlen(ident)) == 0)
 		{
-			if (ft_strncmp('sp', ident, ft_strlen(ident)) == 0)
+			if (ft_strncmp("sp", ident, ft_strlen(ident)) == 0)
 				scene->sp[j] = ft_init_sphere(description[i]);
-			if (ft_strncmp('pl', ident, ft_strlen(ident)) == 0)
+			if (ft_strncmp("pl", ident, ft_strlen(ident)) == 0)
 				scene->pl[j] = ft_init_plane(description[i]);
-			if (ft_strncmp('cy', ident, ft_strlen(ident)) == 0)
+			if (ft_strncmp("cy", ident, ft_strlen(ident)) == 0)
 				scene->cy[j] = ft_init_cylinder(description[i]);
 			j++;
 		}
