@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:04:48 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/01 18:44:39 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:06:56 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,11 @@ void	ft_init_object(char **description, t_scene *scene, char *ident)
 		if (ft_strncmp(description[i], ident, ft_strlen(ident)) == 0)
 		{
 			if (ft_strncmp('sp', ident, ft_strlen(ident)) == 0)
-				scene->sp[j] = ft_init_sp(description[i]);
+				scene->sp[j] = ft_init_sphere(description[i]);
 			if (ft_strncmp('pl', ident, ft_strlen(ident)) == 0)
-				scene->pl[j] = ft_init_sp(description[i]);
+				scene->pl[j] = ft_init_plane(description[i]);
 			if (ft_strncmp('cy', ident, ft_strlen(ident)) == 0)
-				scene->cy[j] = ft_init_sp(description[i]);
+				scene->cy[j] = ft_init_cylinder(description[i]);
 			j++;
 		}
 		i++;

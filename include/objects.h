@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/01 18:46:03 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:09:42 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,6 @@ typedef struct s_scene
 	t_sp	*sp;
 	t_pl	*pl;
 	t_cy	*cy;
-}
+} t_scene;
 
 #endif

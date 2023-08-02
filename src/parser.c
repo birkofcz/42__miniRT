@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:03:58 by sbenes            #+#    #+#             */
-/*   Updated: 2023/07/31 16:13:36 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:16:39 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	ft_parser(char *scene)
 	}
 	else
 		return (ft_error("Invalid scene file"), 1);
-	description = ft_split(file, "\n");
+	description = ft_split(file, '\n');
 	ft_init(description);
+	return (0);
 	//Identifier crossroads. (also need to init the structs with zeros somwhere. Maybe do another struct just to have information about the scene = flags 1/0 on objects...);
 }

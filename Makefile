@@ -6,7 +6,7 @@
 #    By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/24 15:29:04 by sbenes            #+#    #+#              #
-#    Updated: 2023/07/31 17:24:31 by tkajanek         ###   ########.fr        #
+#    Updated: 2023/08/02 15:07:13 by tkajanek         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ INC =	-I ./include/\
 
 #sources
 SRC_PATH =	src/
-SRC = 	main.c error.c utils.c parser.c init.c\
+SRC = 	main.c error.c utils.c parser.c \
+	init_objects.c init_scene.c
 	
 SRCS =	$(addprefix $(SRC_PATH), $(SRC))
 

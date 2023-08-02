@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/01 18:44:37 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:08:30 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_scene	*ft_init(char **description)
 	if (ft_allocate_objects(&scene, description) == 1)
 		return (ft_error("No valid objects"), NULL);
 	if (scene.sp != NULL)
-		ft_init_objects(description, &scene "sp");
+		ft_init_objects(description, &scene, "sp");
 	if (scene.pl != NULL)
 		ft_init_objects(description, &scene, "pl");
 	if (scene.cy != NULL)
