@@ -29,6 +29,22 @@ void	ft_freesplit(char **split)
 	free(split);
 }
 
+static int	ft_space_sign(char *str, int *is_neg)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			*is_neg *= -1;
+		i++;
+	}
+	return (i);
+}
+
 double	ft_atof(char *str)
 {
 	int		i;
