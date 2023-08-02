@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:04:48 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/02 15:06:56 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:24:42 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_allocate_objects(t_scene *scene, char **description)
 	plane_count = ft_count_objects(description, "pl");
 	cylinder_count = ft_count_objects(description, "cy");
 
-	if (sum(sphere_count, plane_count, cylinder_count) == 0)
+	if ((sphere_count + plane_count + cylinder_count) == 0)
 		return (1);
 	if (sphere_count != 0)
 		scene->sp = (t_sp *)malloc(sizeof(t_sp) * sphere_count);
