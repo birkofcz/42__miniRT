@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/02 16:06:28 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:41:08 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,37 @@
 # include "objects.h"
 # include <stdbool.h>
 
+/* error.c */
 void	ft_error(char *message);
-int	ft_parser(char *file, t_scene *scene);
-void	ft_freesplit(char **split);
-double	ft_atof(char *str);
-
-/* init.c */
-int	ft_init(char **description, t_scene *scene);
 
 /* init_objects.c */
 void	ft_init_objects(char **description, t_scene *scene, char *ident);
-int	ft_allocate_objects(t_scene *scene, char **description);
+t_cy	ft_init_cylinder(char *line);
+t_pl	ft_init_plane(char *line);
+t_sp	ft_init_sphere(char *line);
+
+/* init_objects_utils.c */
+int		ft_count_objects(char **description, char *ident);
+int		ft_allocate_objects(t_scene *scene, char **description);
+
+/* init_scene.c */
+bool	ft_init_env(char **description, t_scene *scene);
+int		ft_check_env(char *line);
+t_light	init_light(char *line);
+t_cam	init_camera(char *line);
+t_amb	init_ambient(char *line);
+
+/* init.c */
+int		ft_init(char **description, t_scene *scene);
+
+/* parser.c */
+int		ft_parser(char *file, t_scene *scene);
+bool	ft_testfile(char *input);
+
+/* utils.c */
+void	ft_freesplit(char **split);
 
 /* debug.c */
 void	debug_all(t_scene *scene);
+
 #endif
