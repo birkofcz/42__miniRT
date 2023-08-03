@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 14:43:53 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 15:07:29 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/03 15:19:29 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void	ft_freearr(char **arr);
 bool	ft_isstr(char *input, char *to_compare);
 void	ft_printarr(char **arr);
 double	ft_atof(char *str);
-int		ft_puterror(char *message, int return_num);
+void	ft_puterror(char *message);
+int		ft_puterror_rv(char *message, int return_num);
 
 
 #endif
