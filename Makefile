@@ -6,7 +6,7 @@
 #    By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/24 15:29:04 by sbenes            #+#    #+#              #
-#    Updated: 2023/08/03 15:37:18 by sbenes           ###   ########.fr        #
+#    Updated: 2023/08/03 17:11:22 by sbenes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ INC =	-I ./include/\
 #sources
 SRC_PATH =	src/
 SRC = 	main.c error.c utils.c parser.c \
-	init_objects.c init_objects_utils.c init_scene.c init.c debug.c
+	init_objects.c init_objects_utils.c init_scene.c init.c debug.c\
+	events.c exit.c render.c
 	
 SRCS =	$(addprefix $(SRC_PATH), $(SRC))
 

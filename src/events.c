@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isstr.c                                         :+:      :+:    :+:   */
+/*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/03 14:46:39 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 16:21:47 by sbenes           ###   ########.fr       */
+/*   Created: 2023/08/03 16:45:35 by sbenes            #+#    #+#             */
+/*   Updated: 2023/08/03 17:24:59 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/miniRT.h"
 
-/* 
-ft_strncmp, but convinient and more usable with logical True of False.
-strncmp returns 0 when strings matching, which is logically counter-intuitive
- */
-bool	ft_isstr(char *input, char *to_compare)
+int	ft_key_event(int key, t_mlxdata *mlxdata)
 {
-	if (!ft_strncmp(input, to_compare, ft_strlen(to_compare)))
-		return (true);
-	return (false);
+	//printf("%d\n", key);
+	if (key == KEY_ESC)
+		ft_clean_exit(mlxdata);
+	// more functions follow if needed
+/* 	else if (key == KEY_PLUS)
+		ft_zoom(f, 0.5); */
+	else
+		return (1);
+	//ft_render(mlxdata, scene); //re-render the image for window if neccessary when some key pressed;
+	return (0);
 }

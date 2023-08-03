@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/02 16:52:18 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:30:02 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,14 @@ typedef struct s_cylinder
 	int		b;
 }	t_cy;
 
+typedef struct s_mlxdata
+{
+	void	*mlx_p;
+	void	*win_p;
+	void	*img_p;
+	char	*img_data;
+}	t_mlxdata;
+
 typedef struct s_scene
 {
 	t_amb	amb;
@@ -126,9 +134,9 @@ typedef struct s_scene
 	t_sp	*sp;
 	t_pl	*pl;
 	t_cy	*cy;
-	int sphere_count;
-	int	plane_count;
-	int cylinder_count;
-} t_scene;
+	int		sphere_count;
+	int		plane_count;
+	int		cylinder_count;
+}	t_scene;
 
 #endif

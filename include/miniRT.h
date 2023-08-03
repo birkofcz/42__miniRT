@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 15:41:08 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/03 17:20:06 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,34 @@
 # include "../mlx/mlx.h"
 # include "objects.h"
 # include <stdbool.h>
+
+# define WIDTH 1000
+# define HEIGHT 1000
+
+/* Keymap for mlx loop */
+enum e_keymap
+{
+	EXIT_BUTTON = 17,
+	KEY_ESC = 65307,
+	KEY_UP = 65362,
+	KEY_DOWN = 65364,
+	KEY_LEFT = 65361,
+	KEY_RIGHT = 65363,
+	KEY_PLUS = 61,
+	KEY_MINUS = 45,
+	KEY_C = 99,
+	KEY_S = 115,
+	KEY_1 = 49,
+	KEY_2 = 50,
+	KEY_3 = 51,
+	KEY_4 = 52,
+	KEY_5 = 53,
+	KEY_6 = 54,
+	KEY_7 = 55,
+	MOUSE_LCLICK = 1,
+	MOUSE_ZOOMIN = 4,
+	MOUSE_ZOOMOUT = 5
+};
 
 /* error.c */
 void	ft_error(char *message);
@@ -45,6 +73,8 @@ t_amb	init_ambient(char *line);
 
 /* init.c */
 int		ft_init(char **description, t_scene *scene);
+void	ft_init_image(t_mlxdata *mlxdata);
+void	ft_init_mlx(t_mlxdata *mlxdata);
 
 /* parser.c */
 int		ft_parser(char *file, t_scene *scene);
@@ -52,6 +82,17 @@ bool	ft_testfile(char *input);
 
 /* utils.c */
 void	ft_freesplit(char **split);
+
+/* events.c */
+int		ft_key_event(int key, t_mlxdata *mlxdata);
+
+/* exit.c */
+void	ft_clean_exit(t_mlxdata *mlxdata); //add scene as second argument - clear also that struct
+int		ft_endgame(t_mlxdata *mlxdata);
+
+/* render.c */
+void	ft_render(t_mlxdata *mlxdata);
+
 
 /* debug.c */
 void	debug_all(t_scene *scene);
