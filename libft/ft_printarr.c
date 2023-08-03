@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printarr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 14:25:59 by sbenes           ###   ########.fr       */
+/*   Created: 2023/08/03 14:55:29 by sbenes            #+#    #+#             */
+/*   Updated: 2023/08/03 14:58:53 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/miniRT.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+/* 
+Function to print array, for debugging purposes
+ */
+
+void	ft_printarr(char **arr)
 {
-	t_scene	scene;
+	int	i;
 
-	if (argc == 1)
-		return (ft_error("Missing scene file path"), 1);
-	ft_parser(argv[1], &scene);
-	debug_all(&scene);
-	return (0);
+	i = 0;
+	if (arr != NULL)
+	{
+		while (arr[i] != NULL)
+		{
+			ft_printf("%s\n", arr[i]);
+			i++;
+		}
+	}
 }

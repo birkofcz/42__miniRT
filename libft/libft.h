@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 14:43:53 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/02 15:14:55 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:07:29 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include "get_next_line.h"  
+# include "ft_printf.h"
 
 typedef struct s_list
 {
@@ -74,7 +76,13 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-/* Newly added function*/
+/* Newly added function after the project Libft*/
 int		ft_isspace(int c);
+void	ft_freearr(char **arr);
+bool	ft_isstr(char *input, char *to_compare);
+void	ft_printarr(char **arr);
+double	ft_atof(char *str);
+int		ft_puterror(char *message, int return_num);
+
 
 #endif

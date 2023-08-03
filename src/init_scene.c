@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/02 16:38:12 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/03 14:25:38 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,6 @@ bool	ft_init_env(char **description, t_scene *scene)
 
 	i = 0;
 	env_count = 0;
-/* 	scene->amb = NULL;
-	scene->cam = NULL;
-	scene->light = NULL; */
 	while (description[i] != NULL)
 	{
 		if (ft_check_env(description[i]) == 1)
@@ -124,7 +121,7 @@ bool	ft_init_env(char **description, t_scene *scene)
 int	ft_init(char **description, t_scene *scene)
 {
 	if (!ft_init_env(description, scene))
-		return (ft_error("Duplicate A, C, L values"), 1);
+		return (ft_error("Duplicate or missing A, C, L values"), 1);
 	if (ft_allocate_objects(scene, description) == 1)
 		return (ft_error("No valid objects"), 1);
 	if (scene->sp != NULL)

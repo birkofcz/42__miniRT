@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_puterror.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 14:25:59 by sbenes           ###   ########.fr       */
+/*   Created: 2023/08/03 15:04:22 by sbenes            #+#    #+#             */
+/*   Updated: 2023/08/03 15:07:14 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/miniRT.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+/* 
+Service function to use for writing an error message to stderr (with newline)
+and returning defined int - could be used in return statements as is
+ */
+
+int	ft_puterror(char *message, int return_num)
 {
-	t_scene	scene;
+	int		len;
 
-	if (argc == 1)
-		return (ft_error("Missing scene file path"), 1);
-	ft_parser(argv[1], &scene);
-	debug_all(&scene);
-	return (0);
+	len = ft_strlen(message);
+	write(2, message, len);
+	write(2, "\n", 1);
+	return (return_num);
 }

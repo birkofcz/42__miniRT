@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isstr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 14:25:59 by sbenes           ###   ########.fr       */
+/*   Created: 2023/08/03 14:46:39 by sbenes            #+#    #+#             */
+/*   Updated: 2023/08/03 15:12:20 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/miniRT.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+/* 
+ft_strncmp, but convinient and more usable with logical True of False.
+strncmp returns 0 when strings matching, which is logically counter-intuitive
+ */
+bool	ft_isstr(char *input, char *to_compare)
 {
-	t_scene	scene;
-
-	if (argc == 1)
-		return (ft_error("Missing scene file path"), 1);
-	ft_parser(argv[1], &scene);
-	debug_all(&scene);
-	return (0);
+	if (!ft_strncmp(input, to_compare, ft_strlen(to_compare)))
+		return (true);
+	return (false);
 }
