@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 15:57:33 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/03 15:21:29 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/06 15:49:52 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,48 +16,48 @@ void print_ambient_light(const t_amb *ambient_light)
 {
     printf("Ambient Light:\n");
     printf("Ratio: %f\n", ambient_light->ratio);
-    printf("RGB: %d, %d, %d\n", ambient_light->r, ambient_light->g, ambient_light->b);
+    printf("RGB: %d, %d, %d\n", ambient_light->color.r, ambient_light->color.g, ambient_light->color.b);
 }
 
 void print_camera(const t_cam *camera)
 {
     printf("Camera:\n");
-    printf("Position: (%f, %f, %f)\n", camera->x, camera->y, camera->z);
-    printf("Orientation Vector: (%f, %f, %f)\n", camera->vx, camera->vy, camera->vz);
+    printf("Position: (%f, %f, %f)\n", camera->viewpoint.x, camera->viewpoint.y, camera->viewpoint.z);
+    printf("Orientation Vector: (%f, %f, %f)\n", camera->normal.x, camera->normal.y, camera->normal.z);
     printf("FOV: %d\n", camera->fov);
 }
 
 void print_light(const t_light *light)
 {
     printf("Light:\n");
-    printf("Position: (%f, %f, %f)\n", light->x, light->y, light->z);
+    printf("Position: (%f, %f, %f)\n", light->lightpoint.x, light->lightpoint.y, light->lightpoint.z);
     printf("Brightness Ratio: %f\n", light->bright_ratio);
 }
 
 void print_sphere(const t_sp *sphere)
 {
     printf("Sphere:\n");
-    printf("Center: (%f, %f, %f)\n", sphere->x, sphere->y, sphere->z);
+    printf("Center: (%f, %f, %f)\n", sphere->center.x, sphere->center.y, sphere->center.z);
     printf("Diameter: %f\n", sphere->diameter);
-    printf("RGB: %d, %d, %d\n", sphere->r, sphere->g, sphere->b);
+    printf("RGB: %d, %d, %d\n", sphere->color.r, sphere->color.g, sphere->color.b);
 }
 
 void print_plane(const t_pl *plane)
 {
     printf("Plane:\n");
-    printf("Point: (%f, %f, %f)\n", plane->x, plane->y, plane->z);
-    printf("Normal Vector: (%f, %f, %f)\n", plane->vx, plane->vy, plane->vz);
-    printf("RGB: %d, %d, %d\n", plane->r, plane->g, plane->b);
+    printf("Point: (%f, %f, %f)\n", plane->point.x, plane->point.y, plane->point.z);
+    printf("Normal Vector: (%f, %f, %f)\n", plane->normal.x, plane->normal.y, plane->normal.z);
+    printf("RGB: %d, %d, %d\n", plane->color.r, plane->color.g, plane->color.b);
 }
 
 void print_cylinder(const t_cy *cylinder)
 {
     printf("Cylinder:\n");
-    printf("Center: (%f, %f, %f)\n", cylinder->x, cylinder->y, cylinder->z);
-    printf("Axis Vector: (%f, %f, %f)\n", cylinder->vx, cylinder->vy, cylinder->vz);
+    printf("Center: (%f, %f, %f)\n", cylinder->center.x, cylinder->center.y, cylinder->center.z);
+    printf("Axis Vector: (%f, %f, %f)\n", cylinder->normal.x, cylinder->normal.y, cylinder->normal.z);
     printf("Diameter: %f\n", cylinder->diameter);
     printf("Height: %f\n", cylinder->height);
-    printf("RGB: %d, %d, %d\n", cylinder->r, cylinder->g, cylinder->b);
+    printf("RGB: %d, %d, %d\n", cylinder->color.r, cylinder->color.g, cylinder->color.b);
 }
 
 void	debug_all(t_scene * scene)
