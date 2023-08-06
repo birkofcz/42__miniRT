@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 17:20:06 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/06 16:23:22 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,9 @@ void	ft_render(t_mlxdata *mlxdata);
 /* debug.c */
 void	debug_all(t_scene *scene);
 
+/* ray.c */
+t_ray	create_ray(t_vec3 origin, t_vec3 direction);
+
+/* sphere.c */
+t_color ray_color(ray ray);
 #endif
