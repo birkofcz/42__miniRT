@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 16:30:02 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/06 15:48:06 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,30 @@
 # define OBJECTS_H
 
 # include "miniRT.h"
+# include "vec3.h"
+# include "color.h"
 
 /* Ambient lightning
 identifier: A
 ratio - ambient lightning ratio in range [0.0,1.0]
-rgb - colors in range [0-255] 
+color - colors in range [0-255] 
 */
 typedef struct s_ambientlight
 {
-	float	ratio;
-	int		r;
-	int		g;
-	int		b;
+	double	ratio;
+	t_rgb	color;
 }	t_amb;
 
 /* Camera 
 identifier: C
 xyz coordinates of the viewpoint
-vx,vy,vz - 3d normalized orientation vector for each axis
+vec3 - 3d normalized orientation vector for each axis
 fov - horizontal field of view in degrees in range [0,180]
  */
 typedef struct s_camera
 {
-	float	x;
-	float	y;
-	float	z;
-	float	vx;
-	float	vy;
-	float	vz;
+	t_vec3	viewpoint;
+	t_vec3	normal;
 	int		fov;
 }	t_cam;
 
@@ -52,10 +48,8 @@ bright_ratio - light brightness ratio in range [0.0,1.0]
  */
 typedef struct s_light
 {
-	float	x;
-	float	y;
-	float	z;
-	float	bright_ratio;
+	t_vec3	lightpoint;
+	double	bright_ratio;
 }	t_light;
 
 /* Sphere - object
@@ -66,13 +60,9 @@ rgb - rgb colors in range [0-255]
  */
 typedef struct s_sphere
 {
-	float	x;
-	float	y;
-	float	z;
-	float	diameter;
-	int		r;
-	int		g;
-	int		b;
+	t_vec3	center;
+	double	diameter;
+	t_rgb	color;
 }	t_sp;
 
 /* Plane - object
@@ -83,15 +73,9 @@ rgb - colors in range [0-255]
  */
 typedef struct s_plane
 {
-	float	x;
-	float	y;
-	float	z;
-	float	vx;
-	float	vy;
-	float	vz;
-	int		r;
-	int		g;
-	int		b;
+	t_vec3	point;
+	t_vec3	normal;
+	t_rgb	color;
 }	t_pl;
 
 /* Cylinder - object
@@ -105,17 +89,11 @@ rgb - rgb colors in range [0-255]
  */
 typedef struct s_cylinder
 {
-	float	x;
-	float	y;
-	float	z;
-	float	vx;
-	float	vy;
-	float	vz;
-	float	diameter;
-	float	height;
-	int		r;
-	int		g;
-	int		b;
+	t_vec3	center;
+	t_vec3	normal;
+	double	diameter;
+	double	height;
+	t_rgb	color;
 }	t_cy;
 
 typedef struct s_mlxdata

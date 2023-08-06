@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/03 15:40:41 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/06 15:46:10 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ t_amb	init_ambient(char *line)
 	amb.ratio = ft_atof(param[1]);
 	rgb = ft_split(param[2], ',');
 	ft_freesplit(param);
-	amb.r = ft_atoi(rgb[0]);
-	amb.g = ft_atoi(rgb[1]);
-	amb.b = ft_atoi(rgb[2]);
+	amb.color.r = ft_atoi(rgb[0]);
+	amb.color.g = ft_atoi(rgb[1]);
+	amb.color.b = ft_atoi(rgb[2]);
 	ft_freesplit(rgb);
 	return (amb);
 }
@@ -39,14 +39,14 @@ t_cam	init_camera(char *line)
 
 	param = ft_split(line, ' ');
 	view_point = ft_split(param[1], ',');
-	cam.x = ft_atof(view_point[0]);
-	cam.y = ft_atof(view_point[1]);
-	cam.z = ft_atof(view_point[2]);
+	cam.viewpoint.x = ft_atof(view_point[0]);
+	cam.viewpoint.y = ft_atof(view_point[1]);
+	cam.viewpoint.z = ft_atof(view_point[2]);
 	ft_freesplit(view_point);
 	orient_vect = ft_split(param[2], ',');
-	cam.vx = ft_atof(orient_vect[0]);
-	cam.vy = ft_atof(orient_vect[1]);
-	cam.vz = ft_atof(orient_vect[2]);
+	cam.normal.x = ft_atof(orient_vect[0]);
+	cam.normal.y = ft_atof(orient_vect[1]);
+	cam.normal.z = ft_atof(orient_vect[2]);
 	ft_freesplit(orient_vect);
 	cam.fov = ft_atoi(param[3]);
 	ft_freesplit(param);
@@ -61,9 +61,9 @@ t_light	init_light(char *line)
 
 	param = ft_split(line, ' ');
 	coor = ft_split(param[1], ',');
-	light.x = ft_atof(coor[0]);
-	light.y = ft_atof(coor[1]);
-	light.z = ft_atof(coor[2]);
+	light.lightpoint.x = ft_atof(coor[0]);
+	light.lightpoint.y = ft_atof(coor[1]);
+	light.lightpoint.z = ft_atof(coor[2]);
 	ft_freesplit(coor);
 	light.bright_ratio = ft_atof(param[2]);
 	ft_freesplit(param);
