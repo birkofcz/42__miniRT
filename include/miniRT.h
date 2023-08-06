@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/06 15:59:59 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/06 16:23:22 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,13 @@ void	ft_render(t_mlxdata *mlxdata);
 /* debug.c */
 void	debug_all(t_scene *scene);
 
+
+/* ray.c */
+t_ray	create_ray(t_vec3 origin, t_vec3 direction);
+
+/* sphere.c */
+t_color ray_color(ray ray);
+
 /* vector_operations.c */
 t_vec3	create_vec3(double x, double y, double z);
 void	normalize_vector(t_vec3 *vector);
@@ -106,7 +113,5 @@ double	dot_product(t_vec3 a, t_vec3 b);
 t_vec3	substraction(t_vec3 vec1, t_vec3 vec2);
 t_vec3	addition(t_vec3 vec1, t_vec3 vec2);
 t_vec3	multiply(t_vec3 vec1, double x);
-
-
 
 #endif
