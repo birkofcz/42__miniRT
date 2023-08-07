@@ -6,10 +6,11 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 14:52:40 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/06 16:35:41 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:14:44 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "miniRT.h"
 /*
 point: This is the three-dimensional vector representing a point in space.
 It is the point for which you want to calculate the normal vector on the surface of the sphere.
@@ -18,9 +19,9 @@ t_vec3	get_sphere_normal(t_vec3 point, t_sp sphere)
 {
 	t_vec3 normal;
 
-	normal = substract(point, sphere.center);
-	normalize_vector(&normal);
-	return (n);
+	normal = substraction(point, sphere.center);
+	normal = normalize_vector(normal);
+	return (normal);
 }
 
 /*
@@ -40,14 +41,14 @@ int	get_roots(double *t0, double *t1, t_ray ray, t_sphere sphere)
 	return (1);
 }*/
 
-bool hit_sphere(t_vec3 point, double radius, t_ray r)
+bool hit_sphere(t_vec3 center, double radius, t_ray r)
  {
 	double	a;
 	double	b;
 	double	c;
 	double discriminant;
 
-    t_vec3 origin_to_center = subtract(r.origin, center);
+    t_vec3 origin_to_center = substraction(r.origin, center);
     
 	a = dot_product(r.direction, r.direction); //skalarni soucin
  	b = 2.0 * dot_product(origin_to_center, r.direction);
@@ -59,30 +60,30 @@ bool hit_sphere(t_vec3 point, double radius, t_ray r)
 		return (false);
 }
 
-t_color ray_color(ray ray)
+t_rgb ray_color(t_ray ray, t_scene *scene)
 {
 
-    if (hit_sphere(scene->center, scene->diameter / 2, ray))
-        return (t_color) {1, 0, 0};
+    if (hit_sphere(scene->sp[0].center, scene->sp[0].diameter / 2, ray))
+        return ((t_rgb) {250, 0, 0});
 
-    vec3 unit_direction = normalize_vector(r.direction);
+    t_vec3 unit_direction = normalize_vector(ray.direction);
     double t = 0.5 * (unit_direction.y + 1.0);
 
-    color white = {1.0, 1.0, 1.0};
-    color blue = {0.5, 0.7, 1.0};
+    t_rgb white = {255, 255, 255};
+    t_rgb blue = {255*0.5, 255*0.7, 255};
 
-    color c1, c2, result;
-    c1.x = (1.0 - t) * white.x;
-    c1.y = (1.0 - t) * white.y;
-    c1.z = (1.0 - t) * white.z;
+    t_rgb c1, c2, result;
+    c1.r = (1.0 - t) * white.r;
+    c1.g = (1.0 - t) * white.g;
+    c1.b = (1.0 - t) * white.b;
 
-    c2.x = t * blue.x;
-    c2.y = t * blue.y;
-    c2.z = t * blue.z;
+    c2.r = t * blue.r;
+    c2.g = t * blue.g;
+    c2.b = t * blue.b;
 
-    result.x = c1.x + c2.x;
-    result.y = c1.y + c2.y;
-    result.z = c1.z + c2.z;
+    result.r = c1.r + c2.r;
+    result.g = c1.g + c2.g;
+    result.b = c1.b + c2.b;
 
     return result;
 }

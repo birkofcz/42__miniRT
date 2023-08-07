@@ -6,13 +6,13 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/06 16:28:45 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:56:20 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-render_sphere(t_scene scene)
+int render_sphere(t_scene *scene)
 {
     // Image
     const double aspect_ratio = 16.0 / 9.0;
@@ -27,18 +27,21 @@ render_sphere(t_scene scene)
     t_vec3 origin = {0, 0, 0};
     t_vec3 horizontal = {viewport_width, 0, 0};
     t_vec3 vertical = {0, viewport_height, 0};
-    t_vec3 lower_left_corner = subtract(origin, scale(0.5, add(horizontal, vertical)));
-    lower_left_corner = subtract(lower_left_corner, scale(focal_length, (vec3){0, 0, 1}));
+    t_vec3 lower_left_corner = substraction(origin, multiply(addition(horizontal, vertical), 0.5));
+    lower_left_corner = substraction(lower_left_corner, multiply((t_vec3){0, 0, 1}, focal_length));
 
     // Render
     printf("P3\n%d %d\n255\n", image_width, image_height);
 
-    for (int j = image_height - 1; j >= 0; --j) {
+    for (int j = image_height - 1; j >= 0; --j)
+	{
         fprintf(stderr, "\rScanlines remaining: %d ", j);
         for (int i = 0; i < image_width; ++i) {
             double u = (double)i / (image_width - 1);
             double v = (double)j / (image_height - 1);
-            color pixel_color = ray_color(origin, horizontal, vertical, lower_left_corner, image_width, image_height, i, j);
+			t_vec3 direction = substraction(addition(addition(lower_left_corner, multiply(horizontal, u)), multiply(vertical, v)), origin);
+            t_ray ray = create_ray(origin, direction);
+			t_rgb pixel_color = ray_color(ray, scene);
             printf("%d %d %d ", pixel_color.r, pixel_color.g, pixel_color.b);
         }
     }
@@ -50,12 +53,12 @@ render_sphere(t_scene scene)
 int	main(int argc, char **argv)
 {
 	t_scene		scene;
-	t_mlxdata	mlxdata;
+	//t_mlxdata	mlxdata;
 
 	if (argc == 1)
 		return (ft_error("Missing scene file path"), 1);
 	ft_parser(argv[1], &scene);
-	render_scene(&scene);
+	render_sphere(&scene);
 	/*
 	debug_all(&scene);
 	ft_init_mlx(&mlxdata);

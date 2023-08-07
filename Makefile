@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+         #
+#    By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/24 15:29:04 by sbenes            #+#    #+#              #
-#    Updated: 2023/08/03 17:11:22 by sbenes           ###   ########.fr        #
+#    Updated: 2023/08/06 17:29:50 by tkajanek         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ INC =	-I ./include/\
 SRC_PATH =	src/
 SRC = 	main.c error.c utils.c parser.c \
 	init_objects.c init_objects_utils.c init_scene.c init.c debug.c\
-	events.c exit.c render.c
+	events.c exit.c render.c vector_operations.c sphere.c ray.c
 	
 SRCS =	$(addprefix $(SRC_PATH), $(SRC))
 

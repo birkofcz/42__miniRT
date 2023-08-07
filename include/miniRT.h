@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/06 16:23:22 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:47:25 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ void	debug_all(t_scene *scene);
 t_ray	create_ray(t_vec3 origin, t_vec3 direction);
 
 /* sphere.c */
-t_color ray_color(ray ray);
+t_rgb ray_color(t_ray ray, t_scene *scene);
 
 /* vector_operations.c */
 t_vec3	create_vec3(double x, double y, double z);
-void	normalize_vector(t_vec3 *vector);
+t_vec3	normalize_vector(t_vec3 vector);
 double	vector_len(t_vec3 vector);
 t_vec3	cross_product(t_vec3 a, t_vec3 b);
 double	dot_product(t_vec3 a, t_vec3 b);

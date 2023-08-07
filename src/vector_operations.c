@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_operations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 15:51:34 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/06 16:00:07 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/06 17:46:14 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,17 @@ t_vec3	create_vec3(double x, double y, double z)
 	result.z = z;
 	return (result);
 }
-void	normalize_vector(t_vec3 *vector)
+t_vec3	normalize_vector(t_vec3 vector)
 {
+	t_vec3	normal;
 	double	len;
 
-	len = sqrt(vector->x * vector->x + vector->y
-	* vector->y + vector->z * vector->z);
-	vector->x /= len;
-	vector->y /= len;
-	vector->z /= len;
+	len = sqrt(vector.x * vector.x + vector.y
+	* vector.y + vector.z * vector.z);
+	normal.x = vector.x / len;
+	normal.y = vector.y / len;
+	normal.z = vector.z / len;
+	return (normal);
 }
 
 double	vector_len(t_vec3 vector)
