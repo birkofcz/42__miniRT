@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/06 17:35:41 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:35:41 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ typedef struct s_mlxdata
 	void	*win_p;
 	void	*img_p;
 	char	*img_data;
+	int		bpp;
+	int		line_size;
 }	t_mlxdata;
 
 typedef struct s_scene
@@ -115,12 +117,21 @@ typedef struct s_scene
 	int		sphere_count;
 	int		plane_count;
 	int		cylinder_count;
+	t_rgb **pixel_map;
 }	t_scene;
+
+typedef struct	s_pixel{
+	unsigned char b;
+	unsigned char g;
+	unsigned char r;
+}				t_pixel;
 
 typedef struct s_ray
 {
 	t_vec3	origin;
 	t_vec3	direction;
 }	t_ray;
+
+
 
 #endif

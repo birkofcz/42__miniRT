@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 14:52:40 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/06 18:14:44 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:11:37 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,13 @@ t_rgb ray_color(t_ray ray, t_scene *scene)
 {
 
     if (hit_sphere(scene->sp[0].center, scene->sp[0].diameter / 2, ray))
-        return ((t_rgb) {250, 0, 0});
+		return (scene->sp[0].color);
 
     t_vec3 unit_direction = normalize_vector(ray.direction);
     double t = 0.5 * (unit_direction.y + 1.0);
 
     t_rgb white = {255, 255, 255};
     t_rgb blue = {255*0.5, 255*0.7, 255};
-
     t_rgb c1, c2, result;
     c1.r = (1.0 - t) * white.r;
     c1.g = (1.0 - t) * white.g;

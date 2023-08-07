@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/06 17:47:25 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:49:24 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	ft_clean_exit(t_mlxdata *mlxdata); //add scene as second argument - clear a
 int		ft_endgame(t_mlxdata *mlxdata);
 
 /* render.c */
-void	ft_render(t_mlxdata *mlxdata);
+void	ft_render(t_mlxdata *mlxdata, t_scene *scene);
 
 
 /* debug.c */

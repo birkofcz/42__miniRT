@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:35:14 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 17:20:16 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/07 17:43:58 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	ft_init_image(t_mlxdata *mlxdata)
 	if (!(mlxdata->img_p))
 		ft_clean_exit(mlxdata);
 	tmp = mlx_get_data_addr(mlxdata->img_p, &bpp, &line_size, &endian);
+	mlxdata->bpp = bpp;
+	mlxdata->line_size = line_size;
+	//printf("bpp = %d, line_size = %d, endian = %d", bpp, line_size, endian);
 	mlxdata->img_data = tmp;
 }
 
