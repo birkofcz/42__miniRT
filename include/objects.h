@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/07 17:35:41 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/12 19:18:48 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,18 @@ typedef struct s_camera
 {
 	t_vec3	viewpoint;
 	t_vec3	normal;
-	int		fov;
+	t_vec3	w;
+	t_vec3	u;
+	t_vec3	v;
+	t_vec3	horizontal;
+	t_vec3	vertical;
+	t_vec3	lower_left_corner;
+	double	fov;
+	double	fov_rad;
+	double	focal_length;
+	double	viewport_height;
+	double	viewport_width;
+	double	aspect_ratio;
 }	t_cam;
 
 /* Light
@@ -104,20 +115,49 @@ typedef struct s_mlxdata
 	char	*img_data;
 	int		bpp;
 	int		line_size;
+	int	img_height;
+	int img_width;
 }	t_mlxdata;
+
+typedef enum e_type
+{
+	NONE,
+	SPHERE,
+	PLANE,
+	CYLINDER
+}				t_type;
+
+typedef struct s_object
+{
+	t_type			type;
+	void			*object;
+	struct s_object	*next;
+}				t_object;
+
+typedef struct s_ray
+{
+	t_vec3	origin;
+	t_vec3	direction;
+	double	t_min;
+	double	t_max;
+}	t_ray;
 
 typedef struct s_scene
 {
 	t_amb	amb;
 	t_cam	cam;
 	t_light	light;
-	t_sp	*sp;
-	t_pl	*pl;
-	t_cy	*cy;
+	//t_sp	*sp;
+	//t_pl	*pl;
+	//t_cy	*cy;
+	t_object *head_object;
+	t_object *object;
 	int		sphere_count;
 	int		plane_count;
 	int		cylinder_count;
 	t_rgb **pixel_map;
+	t_ray	ray;//aktualni paprsek v reseni.
+
 }	t_scene;
 
 typedef struct	s_pixel{
@@ -126,12 +166,31 @@ typedef struct	s_pixel{
 	unsigned char r;
 }				t_pixel;
 
-typedef struct s_ray
-{
-	t_vec3	origin;
-	t_vec3	direction;
-}	t_ray;
 
+/*
+t_min = lower bound for valid intersection distances along the ray.
+t_max = upper bound for valid intersection distances along the ray.
+For rendering hit, you need to get the lowest t
+from the hittable objects along the ray.
+Intersection_point = Ray_origin + t * Ray_direction
+*/
+
+
+//hit record
+//clash: Hit point where the ray intersects the object's surface. 
+//normal: Vector perpendicular to the surface at the point of intersection.
+//distance: Ray(t) = Origin + t * Direction -> t in the formula
+//front_face: true if the ray is outside the object 
+typedef struct s_hitrecord
+{
+	t_vec3		clash;
+	double		clash_distance;
+	t_vec3		normal;
+	t_rgb		color; //mozna netreba pokud obsahuje stejnou barvu jako *obj
+	t_type		type;
+	bool		front_face; //maybe discard, used for transparent
+	t_object	*obj;
+}				t_hitrecord;
 
 
 #endif

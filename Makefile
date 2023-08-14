@@ -6,7 +6,7 @@
 #    By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/24 15:29:04 by sbenes            #+#    #+#              #
-#    Updated: 2023/08/06 17:29:50 by tkajanek         ###   ########.fr        #
+#    Updated: 2023/08/14 15:52:29 by tkajanek         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ INC =	-I ./include/\
 SRC_PATH =	src/
 SRC = 	main.c error.c utils.c parser.c \
 	init_objects.c init_objects_utils.c init_scene.c init.c debug.c\
-	events.c exit.c render.c vector_operations.c sphere.c ray.c
+	events.c exit.c render.c vector_operations.c sphere.c ray.c hit_plane.c
 	
 SRCS =	$(addprefix $(SRC_PATH), $(SRC))
 

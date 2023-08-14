@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 15:57:33 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/06 15:49:52 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/14 14:46:34 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
+
+void debug_print_ray(t_ray ray) {
+    printf("Ray Origin: (%.2f, %.2f, %.2f)\n", ray.origin.x, ray.origin.y, ray.origin.z);
+    printf("Ray Direction: (%.2f, %.2f, %.2f)\n", ray.direction.x, ray.direction.y, ray.direction.z);
+}
+
 
 void print_ambient_light(const t_amb *ambient_light)
 {
@@ -21,10 +27,21 @@ void print_ambient_light(const t_amb *ambient_light)
 
 void print_camera(const t_cam *camera)
 {
-    printf("Camera:\n");
-    printf("Position: (%f, %f, %f)\n", camera->viewpoint.x, camera->viewpoint.y, camera->viewpoint.z);
-    printf("Orientation Vector: (%f, %f, %f)\n", camera->normal.x, camera->normal.y, camera->normal.z);
-    printf("FOV: %d\n", camera->fov);
+	printf("Camera:\n");
+   printf("Viewpoint: (%.2f, %.2f, %.2f)\n", camera->viewpoint.x, camera->viewpoint.y, camera->viewpoint.z);
+    printf("Normal: (%.2f, %.2f, %.2f)\n", camera->normal.x, camera->normal.y, camera->normal.z);
+    printf("w: (%.2f, %.2f, %.2f)\n", camera->w.x, camera->w.y, camera->w.z);
+    printf("u: (%.2f, %.2f, %.2f)\n", camera->u.x, camera->u.y, camera->u.z);
+    printf("v: (%.2f, %.2f, %.2f)\n", camera->v.x, camera->v.y, camera->v.z);
+    printf("Horizontal: (%.2f, %.2f, %.2f)\n", camera->horizontal.x, camera->horizontal.y, camera->horizontal.z);
+    printf("Vertical: (%.2f, %.2f, %.2f)\n", camera->vertical.x, camera->vertical.y, camera->vertical.z);
+    printf("Lower Left Corner: (%.2f, %.2f, %.2f)\n", camera->lower_left_corner.x, camera->lower_left_corner.y, camera->lower_left_corner.z);
+    printf("FOV: %.2f\n", camera->fov);
+    printf("FOV Rad: %.2f\n", camera->fov_rad);
+    printf("Focal Length: %.2f\n", camera->focal_length);
+    printf("Viewport Height: %.2f\n", camera->viewport_height);
+    printf("Viewport Width: %.2f\n", camera->viewport_width);
+    printf("Aspect Ratio: %.2f\n", camera->aspect_ratio);
 }
 
 void print_light(const t_light *light)
@@ -68,31 +85,25 @@ void	debug_all(t_scene * scene)
 	printf("\n");
     print_light(&scene->light);
 	printf("\n");
-    // Print sphere, plane, and cylinder values if they are not NULL
-    if (scene->sp != NULL)
+    
+	t_object *current = scene->head_object; // Start iterating from the head_object
+
+    while (current != NULL)
     {
-        for (int i = 0; i < scene->sphere_count; i++) // 'num_spheres' is the number of spheres in the array
+        if (current->type == SPHERE)
         {
-            print_sphere(&scene->sp[i]);
+            print_sphere((t_sp *)current->object);
         }
-    }
-	printf("\n");
-    // Print planes if they are not NULL
-    if (scene->pl != NULL)
-    {
-        for (int i = 0; i < scene->plane_count; i++) // 'num_planes' is the number of planes in the array
+        else if (current->type == PLANE)
         {
-            print_plane(&scene->pl[i]);
+            print_plane((t_pl *)current->object);
         }
-    }
-	printf("\n");
-    // Print cylinders if they are not NULL
-    if (scene->cy != NULL)
-    {
-        for (int i = 0; i < scene->cylinder_count; i++) // 'num_cylinders' is the number of cylinders in the array
+        else if (current->type == CYLINDER)
         {
-            print_cylinder(&scene->cy[i]);
+            print_cylinder((t_cy *)current->object);
         }
+		printf("object printed, the next: %p\n", current->next);
+        current = current->next; // Move to the next object in the linked list
     }
 }
 

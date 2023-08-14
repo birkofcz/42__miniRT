@@ -3,6 +3,8 @@
 		"stdio.h": "c",
 		"random": "c",
 		"objects.h": "c",
-		"minirt.h": "c"
+		"minirt.h": "c",
+		"type_traits": "c",
+		"limits": "c"
 	}
 }

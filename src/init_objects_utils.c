@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objects_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:30:50 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 15:42:22 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/12 18:52:10 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 Counts the objects - sphere, plane or cylinder -
 by the identifier in the description
  */
-int	ft_count_objects(char **description, char *ident)
+int	ft_count_objects(char **description)
 {
 	int	i;
 	int	count;
@@ -25,13 +25,14 @@ int	ft_count_objects(char **description, char *ident)
 	count = 0;
 	while (description[i] != NULL)
 	{
-		if (ft_isstr(description[i], ident))
+		if (ft_isstr(description[i], "sp") || ft_isstr(description[i], "pl")
+			|| ft_isstr(description[i], "cy"))
 			count++;
 		i++;
 	}
 	return (count);
 }
-
+/*
 int	ft_allocate_objects(t_scene *scene, char **description)
 {
 	scene->sphere_count = ft_count_objects(description, "sp");
@@ -53,4 +54,4 @@ int	ft_allocate_objects(t_scene *scene, char **description)
 	else
 		scene->cy = NULL;
 	return (0);
-}
+}*/

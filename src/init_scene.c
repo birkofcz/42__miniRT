@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/06 15:46:10 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/09 17:55:13 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_cam	init_camera(char *line)
 	ft_freesplit(orient_vect);
 	cam.fov = ft_atoi(param[3]);
 	ft_freesplit(param);
+	cam.aspect_ratio = (double)16 / 9;
 	return (cam);
 }
 

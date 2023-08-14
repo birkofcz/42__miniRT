@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:35:14 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/07 17:43:58 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:59:03 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,9 @@ int	ft_init(char **description, t_scene *scene)
 {
 	if (!ft_init_env(description, scene))
 		return (ft_error("Duplicate or missing A, C, L values"), 1);
-	if (ft_allocate_objects(scene, description) == 1)
+	if (ft_count_objects (description) == 0)
 		return (ft_error("No valid objects"), 1);
-	if (scene->sp != NULL)
-		ft_init_objects(description, scene, "sp");
-	if (scene->pl != NULL)
-		ft_init_objects(description, scene, "pl");
-	if (scene->cy != NULL)
-		ft_init_objects(description, scene, "cy");
+	ft_init_objects(description, scene);
 	return (0);
 }
 
