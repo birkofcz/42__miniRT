@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/14 15:52:13 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:21:49 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,25 @@ double	dot_product(t_vec3 a, t_vec3 b);
 t_vec3	substraction(t_vec3 vec1, t_vec3 vec2);
 t_vec3	addition(t_vec3 vec1, t_vec3 vec2);
 t_vec3	multiply(t_vec3 vec1, double x);
+double length_squared(t_vec3 v);
 
 bool	hit_plane(t_scene *scene, t_hitrecord *rec, t_object *obj);
+bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj);
+void		quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *solution);
+void	apply_light(t_scene *scene, t_hitrecord *rec);
+t_quadratic_solution quadratic_sphere(t_vec3 center, double radius, t_ray r);
+
+/*zkopirovano, nutno upravit*/
+void		print_mat4(t_mat4 mat);
+t_mat4		mat4_identity(void);
+t_mat4		mat4_mult(t_mat4 a, t_mat4 b);
+t_mat4		mat4_translate(t_vec3 v);
+t_mat4		mat4_scale(t_vec3 v);
+t_mat4		mat4_rotate_x(double angle);
+t_mat4		mat4_rotate_y(double angle);
+t_mat4		mat4_rotate_z(double angle);
+t_mat4		mat4_rotate(t_vec3 v);
+t_mat4		mat4_transpose(t_mat4 m);
+t_mat4		mat4_inverse(t_mat4 m);
+t_vec3		mat4_mult_vect(t_mat4 m, t_vec3 v);
 #endif

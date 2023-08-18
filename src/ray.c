@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:58 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/14 18:50:08 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/18 20:00:39 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ bool	hit(t_scene *scene, t_hitrecord *rec, t_object *obj)
 		return (hit_sphere(scene, rec, obj));
 	else if (obj->type == PLANE)
 		return (hit_plane(scene, rec, obj));
-	//else if (obj->type == CYLINDER)
-	//	return (hit_cylinder(scene, rec, obj));
+	else if (obj->type == CYLINDER)
+		return (hit_cylinder(scene, rec, obj));
 	return (false);
 }
 
@@ -40,7 +40,6 @@ bool hittable_list_hit(t_scene *scene, t_hitrecord *rec)
     {
 		
         // Check if the ray intersects with the current object
-		printf("object type : %d\n", scene->object->type);
         if (hit(scene, &tmp_rec, scene->object))
         {
             hit_anything = true;
@@ -52,8 +51,8 @@ bool hittable_list_hit(t_scene *scene, t_hitrecord *rec)
     scene->object = scene->head_object;  // Reset the object pointer to the beginning
 
     // If there was a hit, apply lighting and shading calculations
-    // if (hit_anything == true)
-    //    apply_light(data, rec);
+	if (hit_anything == true)
+		apply_light(scene, rec);
 
     return (hit_anything);  // Return whether any object was hit
 }
@@ -66,7 +65,7 @@ t_rgb	ray_color2(t_scene *scene)
 	if (hittable_list_hit(scene, &rec))
 		return (rec.color);
 	//return (fill_color(0, 0, 0));
-	t_vec3 unit_direction = normalize_vector(scene->ray.direction);
+	/*t_vec3 unit_direction = normalize_vector(scene->ray.direction);
     double t = 0.5 * (unit_direction.y + 1.0);
 
     t_rgb white = {255, 255, 255};
@@ -82,9 +81,13 @@ t_rgb	ray_color2(t_scene *scene)
 
     result.r = c1.r + c2.r;
     result.g = c1.g + c2.g;
-    result.b = c1.b + c2.b;
+    result.b = c1.b + c2.b;*/
+	t_rgb result;
+	result.r = 0;
+    result.g = 0;
+    result.b = 0;
 
-    return result;
+    return (result);
 }	
 
 /*

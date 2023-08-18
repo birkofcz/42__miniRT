@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 15:51:34 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/10 19:58:31 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:21:51 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ double	vector_len(t_vec3 vector)
 {
 	return (sqrt(vector.x * vector.x + vector.y * vector.y +
 													vector.z * vector.z));
+}
+
+double length_squared(t_vec3 v)
+{
+    return v.x * v.x + v.y * v.y + v.z * v.z;
 }
 
 t_vec3	cross_product(t_vec3 a, t_vec3 b)

@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/12 19:18:48 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:43:10 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,12 +160,12 @@ typedef struct s_scene
 
 }	t_scene;
 
-typedef struct	s_pixel{
+typedef struct	s_pixel	
+{
 	unsigned char b;
 	unsigned char g;
 	unsigned char r;
 }				t_pixel;
-
 
 /*
 t_min = lower bound for valid intersection distances along the ray.
@@ -186,11 +186,46 @@ typedef struct s_hitrecord
 	t_vec3		clash;
 	double		clash_distance;
 	t_vec3		normal;
-	t_rgb		color; //mozna netreba pokud obsahuje stejnou barvu jako *obj
+	t_rgb		color;
 	t_type		type;
 	bool		front_face; //maybe discard, used for transparent
 	t_object	*obj;
 }				t_hitrecord;
 
+// t1,t2 are roots of quadratic formula.
+// Ray(t) = Origin + t * Direction
+typedef struct s_qua_sol
+{
+	double		t1;
+	double		t2;
+	double		discriminant;
+}		t_quadratic_solution;
+
+/*
+2x2 Matrix (t_mat2):
+Used for 2D transformations, such as scaling and shearing in 2D space.
+
+3x3 Matrix (t_mat3):
+Used for 2D transformations with an added translation component.
+Also used for 3D transformations that don't involve perspective transformations.
+(scaling, rotation, translation).
+
+4x4 Matrix (t_mat4):
+Used for 3D transformations including perspective transformations.
+*/
+typedef struct s_mat2
+{
+	double	m[2][2];
+}			t_mat2;
+
+typedef struct s_mat3
+{
+	double	m[3][3];
+}			t_mat3;
+
+typedef struct s_mat4
+{
+	double	m[4][4];
+}			t_mat4;
 
 #endif

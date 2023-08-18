@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/14 15:09:04 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/17 16:16:04 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,10 +206,9 @@ void	render(t_scene *scene)
 			scene->ray = calculate_ray(scene, x, y);
 			
 			//debug_print_ray(ray);
-			pixel_color = ray_color2(scene);
-			
+			pixel_color = ray_color2(scene);			
             scene->pixel_map[y][x] = pixel_color;
-			//av_color(&pixel_color, ray_color(data));
+			
 			//my_mlx_pixel_put(&data->img, x, y, rgb(pixel_color));
 			x++;
 		}

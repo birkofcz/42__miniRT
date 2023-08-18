@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   hit_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 14:52:40 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/14 14:41:38 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:15:31 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-
-// t1,t2 are roots of quadratic formula.
-// Ray(t) = Origin + t * Direction
-typedef struct s_qua_sol
-{
-	double		t1;
-	double		t2;
-	double		discriminant;
-}		t_quadratic_solution;
 
 // ax^2 + bx + c = 0
 // Discriminant (D) = b^2 - 4ac
