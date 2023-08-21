@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:03:58 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/16 15:22:12 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:10:03 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	ft_parser(char *file, t_scene *scene)
 	else
 		return (ft_error("Invalid scene file"), 1);
 	description = ft_split(input, '\n');
-	ft_init(description, scene);
+	if (ft_init(description, scene) == 1)
+		return (1);
 	return (0);
 	//Identifier crossroads. (also need to init the structs with zeros somwhere. Maybe do another struct just to have information about the scene = flags 1/0 on objects...);
 }

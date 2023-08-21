@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/18 18:21:49 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:05:52 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ enum e_keymap
 void	ft_error(char *message);
 
 /* init_objects.c */
-void	ft_init_objects(char **description, t_scene *scene);
+bool	ft_init_objects(char **description, t_scene *scene);
 t_cy	*ft_init_cylinder(char *line);
 t_pl	*ft_init_plane(char *line);
 t_sp	*ft_init_sphere(char *line);
@@ -84,6 +84,8 @@ bool	ft_testfile(char *input);
 
 /* utils.c */
 void	ft_freesplit(char **split);
+t_rgb	fill_rgb(int r, int g, int b);
+
 
 /* events.c */
 int		ft_key_event(int key, t_mlxdata *mlxdata);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/17 16:16:04 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:10:32 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,11 @@ t_ray	calculate_ray(t_scene *scene, int x, int y)
     double u;
 	double v;
 	t_vec3	direction;
-	printf("x = %d, y = %d\n", x, y);
+	//printf("x = %d, y = %d\n", x, y);
 
  	u = (x + 0.5) / WIDTH;     // Adding 0.5 for single-sample center of pixel
     v = (HEIGHT - y - 0.5) / HEIGHT; 
-	printf("u = %f, v = %f\n", u, v);
+	//printf("u = %f, v = %f\n", u, v);
 	direction = direction_vec_creation(scene, u, v);
 	return(create_ray(scene->cam.viewpoint, direction));
 }
@@ -224,7 +224,8 @@ int	main(int argc, char **argv)
 
 	if (argc == 1)
 		return (ft_error("Missing scene file path"), 1);
-	ft_parser(argv[1], &scene);
+	if (ft_parser(argv[1], &scene) == 1)
+		return (1);
 	//debug_all(&scene);	
 	//send_rays(&scene);
 	render(&scene);

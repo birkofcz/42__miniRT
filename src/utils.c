@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:22:24 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 15:39:49 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/21 14:16:49 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,14 @@ void	ft_freesplit(char **split)
 		}
 	}
 	free(split);
+}
+
+t_rgb	fill_rgb(int r, int g, int b)
+{
+	t_rgb	result;
+
+	result.r = r;
+	result.g = g;
+	result.b = b;
+	return (result);
 }
