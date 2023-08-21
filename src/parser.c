@@ -6,12 +6,11 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:03:58 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/02 17:04:55 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:22:12 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
-#include "../include/objects.h"
 /* 
 Testing the file - for "." and "rt"
  */

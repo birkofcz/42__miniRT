@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/06 17:47:25 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:46:03 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 # include "objects.h"
 # include <stdbool.h>
 
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 1024
+# define HEIGHT 576
+# define EPSILON 1e-6
 
 /* Keymap for mlx loop */
 enum e_keymap
@@ -51,17 +52,18 @@ enum e_keymap
 	MOUSE_ZOOMOUT = 5
 };
 
+
 /* error.c */
 void	ft_error(char *message);
 
 /* init_objects.c */
-void	ft_init_objects(char **description, t_scene *scene, char *ident);
-t_cy	ft_init_cylinder(char *line);
-t_pl	ft_init_plane(char *line);
-t_sp	ft_init_sphere(char *line);
+void	ft_init_objects(char **description, t_scene *scene);
+t_cy	*ft_init_cylinder(char *line);
+t_pl	*ft_init_plane(char *line);
+t_sp	*ft_init_sphere(char *line);
 
 /* init_objects_utils.c */
-int		ft_count_objects(char **description, char *ident);
+int		ft_count_objects(char **description);
 int		ft_allocate_objects(t_scene *scene, char **description);
 
 /* init_scene.c */
@@ -82,6 +84,7 @@ bool	ft_testfile(char *input);
 
 /* utils.c */
 void	ft_freesplit(char **split);
+void free_object_list(t_object *obj);
 
 /* events.c */
 int		ft_key_event(int key, t_mlxdata *mlxdata);
@@ -91,18 +94,23 @@ void	ft_clean_exit(t_mlxdata *mlxdata); //add scene as second argument - clear a
 int		ft_endgame(t_mlxdata *mlxdata);
 
 /* render.c */
-void	ft_render(t_mlxdata *mlxdata);
+void	ft_render(t_mlxdata *mlxdata, t_scene *scene);
 
 
 /* debug.c */
 void	debug_all(t_scene *scene);
+void debug_print_ray(t_ray ray);
 
 
 /* ray.c */
 t_ray	create_ray(t_vec3 origin, t_vec3 direction);
+bool	hit(t_scene *scene, t_hitrecord *rec, t_object *obj);
+t_vec3	clash_point(t_ray *r, double t);
+t_ray	calculate_ray(t_scene *scene, int x, int y);
 
 /* sphere.c */
-t_rgb ray_color(t_ray ray, t_scene *scene);
+t_rgb	ray_color(t_scene *scene);
+bool	hit_sphere(t_scene *scene, t_hitrecord *rec, t_object *obj);
 
 /* vector_operations.c */
 t_vec3	create_vec3(double x, double y, double z);
@@ -113,5 +121,13 @@ double	dot_product(t_vec3 a, t_vec3 b);
 t_vec3	substraction(t_vec3 vec1, t_vec3 vec2);
 t_vec3	addition(t_vec3 vec1, t_vec3 vec2);
 t_vec3	multiply(t_vec3 vec1, double x);
+double length_squared(t_vec3 v);
+bool	is_normal_negative(t_vec3 vec);
+
+bool	hit_plane(t_scene *scene, t_hitrecord *rec, t_object *obj);
+bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj);
+void		quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *solution);
+void	apply_light(t_scene *scene, t_hitrecord *rec);
+t_quadratic_solution quadratic_sphere(t_vec3 center, double radius, t_ray r);
 
 #endif
