@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:22:24 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 14:16:49 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/21 15:59:13 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_rgb	fill_rgb(int r, int g, int b)
 	result.g = g;
 	result.b = b;
 	return (result);
+}
 
 void free_object_list(t_object *obj)
 {
