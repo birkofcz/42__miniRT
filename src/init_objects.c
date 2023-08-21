@@ -6,13 +6,13 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:04:48 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/21 15:07:12 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/21 16:59:12 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-static bool	ft_testparam(char *param)
+bool	ft_testparam(char *param)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ static bool	ft_fillcyldiahei(t_cy *cyl, char *dia, char *hei)
 	return (true);
 }
 
-static bool	ft_testcoors(char **coors)
+bool	ft_testcoors(char **coors)
 {
 	int	i;
 	int	y;
@@ -56,7 +56,7 @@ static bool	ft_testcoors(char **coors)
 	return (true);
 }
 
-static bool	ft_testvector(char **vector)
+bool	ft_testvector(char **vector)
 {
 	int		i;
 	int		y;
@@ -84,7 +84,7 @@ static bool	ft_testvector(char **vector)
 	return (true);
 }
 
-static bool	ft_testcolor(char **color)
+bool	ft_testcolor(char **color)
 {
 	int	i;
 	int	y;

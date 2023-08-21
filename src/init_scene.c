@@ -3,16 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   init_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/09 17:55:13 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:25:04 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 #include "../include/objects.h"
 
+static void	ft_free_amb(char **data, char **param, t_amb *amb, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	ft_error(error_msg);
+	amb->error_flag = true;
+	exit(1);
+}
+
+static void	ft_free_cam(char **data, char **param, t_cam *cam, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	ft_error(error_msg);
+	exit(1);
+}
+
+static void	ft_free_light(char **data, char **param, t_light *light, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	ft_error(error_msg);
+	exit(1);
+}
+
+/* Functions */
 t_amb	init_ambient(char *line)
 {
 	t_amb	amb;
@@ -20,12 +49,16 @@ t_amb	init_ambient(char *line)
 	char	**rgb;
 
 	param = ft_split(line, ' ');
-	amb.ratio = ft_atof(param[1]);
+	if (ft_testparam(param[1]))
+		amb.ratio = ft_atof(param[1]);
+	else
+		ft_free_amb(NULL, param, &amb, "Bad ambient ratio");
 	rgb = ft_split(param[2], ',');
+	if (ft_testcolor(rgb))
+		amb.color = fill_rgb(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+	else
+		ft_free_amb(rgb, param, &amb, "Bad coloring in ambient");
 	ft_freesplit(param);
-	amb.color.r = ft_atoi(rgb[0]);
-	amb.color.g = ft_atoi(rgb[1]);
-	amb.color.b = ft_atoi(rgb[2]);
 	ft_freesplit(rgb);
 	return (amb);
 }
@@ -34,21 +67,26 @@ t_cam	init_camera(char *line)
 {
 	t_cam	cam;
 	char	**param;
-	char	**view_point;
-	char	**orient_vect;
+	char	**v;
+	char	**n;
 
 	param = ft_split(line, ' ');
-	view_point = ft_split(param[1], ',');
-	cam.viewpoint.x = ft_atof(view_point[0]);
-	cam.viewpoint.y = ft_atof(view_point[1]);
-	cam.viewpoint.z = ft_atof(view_point[2]);
-	ft_freesplit(view_point);
-	orient_vect = ft_split(param[2], ',');
-	cam.normal.x = ft_atof(orient_vect[0]);
-	cam.normal.y = ft_atof(orient_vect[1]);
-	cam.normal.z = ft_atof(orient_vect[2]);
-	ft_freesplit(orient_vect);
-	cam.fov = ft_atoi(param[3]);
+	v = ft_split(param[1], ',');
+	if (ft_testcoors(v))
+		cam.viewp = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
+	else
+		ft_free_cam(v, param, &cam, "Bad viewpoint data");
+	ft_freesplit(v);
+	n = ft_split(param[2], ',');
+	if (ft_testvector(n))
+		cam.normal = create_vec3(ft_atof(n[0]), ft_atof(n[1]), ft_atof(n[2]));
+	else
+		ft_free_cam(n, param, &cam, "Invalid orient vector");
+	ft_freesplit(n);
+	if (ft_testparam(param[3]))
+		cam.fov = ft_atoi(param[3]);
+	else
+		ft_free_cam(NULL, param, &cam, "Invalid FOV");
 	ft_freesplit(param);
 	cam.aspect_ratio = (double)16 / 9;
 	return (cam);
@@ -58,15 +96,20 @@ t_light	init_light(char *line)
 {
 	t_light	light;
 	char	**param;
-	char	**coor;
+	char	**lp;
 
 	param = ft_split(line, ' ');
-	coor = ft_split(param[1], ',');
-	light.lightpoint.x = ft_atof(coor[0]);
-	light.lightpoint.y = ft_atof(coor[1]);
-	light.lightpoint.z = ft_atof(coor[2]);
-	ft_freesplit(coor);
-	light.bright_ratio = ft_atof(param[2]);
+	lp = ft_split(param[1], ',');
+	if (ft_testcoors(lp))
+		light.lightpoint = create_vec3(ft_atof(lp[0]), ft_atof(lp[1]),
+				ft_atoi(lp[2]));
+	else
+		ft_free_light(lp, param, &light, "Bad viewpoint data", line);
+	ft_freesplit(lp);
+	if (ft_testparam(param[2]))
+		light.bright_ratio = ft_atof(param[2]);
+	else
+		ft_free_light(NULL, param, &light, "Bad brightness ratio");
 	ft_freesplit(param);
 	return (light);
 }
@@ -99,22 +142,22 @@ bool	ft_init_env(char **description, t_scene *scene)
 	{
 		if (ft_check_env(description[i]) == 1)
 		{
-			scene->amb = init_ambient(description[i]);
+			scene->amb = init_ambient(description[i]); //do teto funkce free(description) --pred exit!
 			env_count++;
 		}
 		else if (ft_check_env(description[i]) == 2)
 		{
-			scene->cam = init_camera(description[i]);
+			scene->cam = init_camera(description[i]); //do teto funkce free(description) --pred exit!
 			env_count++;
 		}
 		else if (ft_check_env(description[i]) == 3)
 		{
-			scene->light = init_light(description[i]);
+			scene->light = init_light(description[i]); //do teto funkce free(description) --pred exit!
 			env_count++;
 		}
 		i++;
 	}
 	if (env_count != 3)
-		return (false);
+		return (ft_error("Duplicate or missing A, C, L values"), false);
 	return (true);
 }

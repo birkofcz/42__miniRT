@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 15:10:32 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/21 17:16:23 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ camera is tilted or rotated with respect to the world's vertical axis.*/
 	camera->viewport_width = camera->aspect_ratio * camera->viewport_height;
 		
 	// Calculate camera's basis vectors
-	camera->w = normalize_vector(substraction(camera->viewpoint, look_at));  // Forward direction
+	camera->w = normalize_vector(substraction(camera->viewp, look_at));  // Forward direction
 	//w = forward_direction_vector, This vector represents the direction in which the camera is looking.
 	camera->u = normalize_vector(cross_product(vec_up, camera->w));
 	// Right direction = represents the "right" direction from the camera's
@@ -78,7 +78,7 @@ camera is tilted or rotated with respect to the world's vertical axis.*/
 		
 	// Calculate the lower left corner of the imaging plane
 	tmp = multiply(camera->w, 1 / camera->focal_length);
-	tmp = substraction(camera->viewpoint, tmp);
+	tmp = substraction(camera->viewp, tmp);
 	tmp = substraction(tmp, multiply(camera->horizontal, 0.5));
 	tmp = substraction(tmp, multiply(camera->vertical, 0.5));
 	camera->lower_left_corner = tmp;

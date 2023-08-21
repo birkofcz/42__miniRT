@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 15:05:52 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/21 16:59:18 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ bool	ft_init_objects(char **description, t_scene *scene);
 t_cy	*ft_init_cylinder(char *line);
 t_pl	*ft_init_plane(char *line);
 t_sp	*ft_init_sphere(char *line);
+bool	ft_testcoors(char **coors);
+bool	ft_testvector(char **vector);
+bool	ft_testparam(char *param);
+bool	ft_testcolor(char **color);
+
+
+
 
 /* init_objects_utils.c */
 int		ft_count_objects(char **description);

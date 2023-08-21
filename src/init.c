@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:35:14 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 15:06:00 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/21 16:42:42 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int	ft_init(char **description, t_scene *scene)
 {
 	if (!ft_init_env(description, scene))
-		return (ft_error("Duplicate or missing A, C, L values"), 1);
+	{
+		ft_freesplit(description);
+		return (1);
+	}
 	if (ft_count_objects (description) == 0)
 		return (ft_error("No valid objects"), 1);
 	if (!ft_init_objects(description, scene))
