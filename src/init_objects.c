@@ -3,39 +3,160 @@
 /*                                                        :::      ::::::::   */
 /*   init_objects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:04:48 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/14 15:02:19 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:07:12 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
+static bool	ft_testparam(char *param)
+{
+	int	i;
+
+	i = 0;
+	while (param[i])
+	{
+		if ((param[i] < '0' || param[i] > '9') && param[i] != '.' )
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+static bool	ft_fillcyldiahei(t_cy *cyl, char *dia, char *hei)
+{
+	if ((!ft_testparam(dia)) || (!ft_testparam(hei)))
+		return (false);
+	cyl->diameter = ft_atof(dia);
+	cyl->height = ft_atof(hei);
+	return (true);
+}
+
+static bool	ft_testcoors(char **coors)
+{
+	int	i;
+	int	y;
+
+	i = 0;
+	while (coors[i])
+	{
+		y = 0;
+		while (coors[i][y])
+		{
+			if ((coors[i][y] < '0' || coors[i][y] > '9') && 
+				(coors[i][y] != '.' && coors[i][y] != '-'))
+				return (false);
+			y++;
+		}
+		i++;
+	}
+	return (true);
+}
+
+static bool	ft_testvector(char **vector)
+{
+	int		i;
+	int		y;
+	double	magnitude;
+	double	tolerance;
+
+	i = 0;
+	while (vector[i])
+	{
+		y = 0;
+		while (vector[i][y])
+		{
+			if ((vector[i][y] < '0' || vector[i][y] > '9') && 
+				(vector[i][y] != '.' && vector[i][y] != '-'))
+				return (false);
+			y++;
+		}
+		i++;
+	}
+	magnitude = pow(ft_atof(vector[0]), 2) + pow(ft_atof(vector[1]), 2) 
+		+ pow(ft_atof(vector[2]), 2);
+	tolerance = 0.00001;
+	if (fabs(magnitude - 1) > tolerance)
+		return (false);
+	return (true);
+}
+
+static bool	ft_testcolor(char **color)
+{
+	int	i;
+	int	y;
+	int	color_value;
+
+	i = 0;
+	while (color[i]) 
+	{
+		y = 0;
+		while (color[i][y])
+		{
+			if (color[i][y] < '0' || color[i][y] > '9') 
+				return (false);
+			y++;
+		}
+		color_value = ft_atoi(color[i]);
+		if (color_value < 0 || color_value > 255)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+static void	ft_free_sp(char **data, char **param, t_sp *sphere, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	free(sphere);
+	ft_error(error_msg);
+}
+
+static void	ft_free_pl(char **data, char **param, t_pl *plane, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	free(plane);
+	ft_error(error_msg);
+}
+
+static void	ft_free_cy(char **data, char **param, t_cy *cyl, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	free(cyl);
+	ft_error(error_msg);
+}
 t_sp	*ft_init_sphere(char *line)
 {
 	t_sp	*sphere;
 	char	**param;
-	char	**coor;
+	char	**c;
 	char	**rgb;
 
 	sphere = (t_sp *)malloc(sizeof(t_sp)); 
 	if (sphere == NULL)
-	{
-        // Handle memory allocation error
-        return NULL;
-    }
+		return (NULL);
 	param = ft_split(line, ' ');
-	coor = ft_split(param[1], ',');
-	sphere->center.x = ft_atof(coor[0]);
-	sphere->center.y = ft_atof(coor[1]);
-	sphere->center.z = ft_atof(coor[2]);
-	ft_freesplit(coor);
+	c = ft_split(param[1], ',');
+	if (!ft_testcoors(c))
+		return (ft_free_sp(c, param, sphere, "Invalid coordinates"), NULL);
+	sphere->center = create_vec3(ft_atof(c[0]), ft_atof(c[1]), ft_atof(c[2]));
+	ft_freesplit(c);
+	if (!ft_testparam(param[2]))
+		return (ft_free_sp(NULL, param, sphere, "Invalid data"), NULL);
 	sphere->diameter = ft_atof(param[2]);
 	rgb = ft_split(param[3], ',');
-	sphere->color.r = ft_atoi(rgb[0]);
-	sphere->color.g = ft_atoi(rgb[1]);
-	sphere->color.b = ft_atoi(rgb[2]);
+	if (!ft_testcolor(rgb))
+		return (ft_free_sp(rgb, param, sphere, "Invalid color"), NULL);
+	sphere->color = fill_rgb(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
 	ft_freesplit(rgb);
 	ft_freesplit(param);
 	return (sphere);
@@ -45,30 +166,25 @@ t_pl	*ft_init_plane(char *line)
 {
 	t_pl	*plane;
 	char	**param;
-	char	**temp;
+	char	**t;
 	char	**rgb;
 
 	plane = (t_pl *)malloc(sizeof(t_pl)); 
-    if (plane == NULL)
-    {
-        // Handle memory allocation error
-        return NULL;
-    }
 	param = ft_split(line, ' ');
-	temp = ft_split(param[1], ',');
-	plane->point.x = ft_atof(temp[0]);
-	plane->point.y = ft_atof(temp[1]);
-	plane->point.z = ft_atof(temp[2]);
-	ft_freesplit(temp);
-	temp = ft_split(param[2], ',');
-	plane->normal.x = ft_atof(temp[0]);
-	plane->normal.y = ft_atof(temp[1]);
-	plane->normal.z = ft_atof(temp[2]);
-	ft_freesplit(temp);
+	t = ft_split(param[1], ',');
+	if (!ft_testcoors(t))
+		return (ft_free_pl(t, param, plane, "Invalid point"), NULL);
+	plane->point = create_vec3(ft_atof(t[0]), ft_atof(t[1]), ft_atof(t[2]));
+	ft_freesplit(t);
+	t = ft_split(param[2], ',');
+	if (!ft_testvector(t))
+		return (ft_free_pl(t, param, plane, "Invalid normal vector"), NULL);
+	plane->normal = create_vec3(ft_atof(t[0]), ft_atof(t[1]), ft_atof(t[2]));
+	ft_freesplit(t);
 	rgb = ft_split(param[3], ',');
-	plane->color.r = ft_atoi(rgb[0]);
-	plane->color.g = ft_atoi(rgb[1]);
-	plane->color.b = ft_atoi(rgb[2]);
+	if (!ft_testcolor(rgb))
+		return (ft_free_pl(rgb, param, plane, "Invalid color"), NULL);
+	plane->color = fill_rgb(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
 	ft_freesplit(rgb);
 	ft_freesplit(param);
 	return (plane);
@@ -78,38 +194,33 @@ t_cy	*ft_init_cylinder(char *line)
 {
 	t_cy	*cylinder;
 	char	**param;
-	char	**temp;
-	char	**rgb;
+	char	**t;
 
 	cylinder = (t_cy *)malloc(sizeof(t_cy)); 
-    if (cylinder == NULL)
-    {
-        // Handle memory allocation error
-        return NULL;
-    }
 	param = ft_split(line, ' ');
-	temp = ft_split(param[1], ',');
-	cylinder->center.x = ft_atof(temp[0]);
-	cylinder->center.y = ft_atof(temp[1]);
-	cylinder->center.z = ft_atof(temp[2]);
-	ft_freesplit(temp);
-	temp = ft_split(param[2], ',');
-	cylinder->normal.x = ft_atof(temp[0]);
-	cylinder->normal.y = ft_atof(temp[1]);
-	cylinder->normal.z = ft_atof(temp[2]);
-	ft_freesplit(temp);
-	cylinder->diameter = ft_atof(param[3]);
-	cylinder->height = ft_atof(param[4]);
-	rgb = ft_split(param[5], ',');
-	cylinder->color.r = ft_atoi(rgb[0]);
-	cylinder->color.g = ft_atoi(rgb[1]);
-	cylinder->color.b = ft_atoi(rgb[2]);
-	ft_freesplit(rgb);
+	t = ft_split(param[1], ',');
+	if (!ft_testcoors(t))
+		return (ft_free_cy(t, param, cylinder, "Invalid center"), NULL);
+	cylinder->center = create_vec3(ft_atof(t[0]), ft_atof(t[1]), ft_atof(t[2]));
+	ft_freesplit(t);
+	t = ft_split(param[2], ',');
+	if (!ft_testcoors(t))
+		return (ft_free_cy(t, param, cylinder, "Invalid normal vector"), NULL);
+	cylinder->normal = create_vec3(ft_atof(t[0]), ft_atof(t[1]), ft_atof(t[2]));
+	ft_freesplit(t);
+	if (!ft_fillcyldiahei(cylinder, param[3], param[4]))
+		return (ft_free_cy(NULL, param, cylinder, "Bad dia or height"), NULL);
+	t = ft_split(param[5], ',');
+	if (!ft_testcolor(t))
+		return (ft_free_cy(t, param, cylinder, "Invalid color"), NULL);
+	cylinder->color = fill_rgb(ft_atoi(t[0]), ft_atoi(t[1]), ft_atoi(t[2]));
+	ft_freesplit(t);
 	ft_freesplit(param);
 	return (cylinder);
 }
 
-void	ft_init_objects(char **description, t_scene *scene)
+
+bool	ft_init_objects(char **description, t_scene *scene)
 {
 	int	i;
 	t_object *current = NULL;
@@ -123,22 +234,26 @@ void	ft_init_objects(char **description, t_scene *scene)
 		{
 			new_object = (t_object *)malloc(sizeof(t_object));
 			if (new_object == NULL)
-			{
-				return;//error
-			}
+				return (false);
 			if (ft_strncmp(description[i], "sp", 2) == 0)
 			{
 				new_object->object = (void *)ft_init_sphere(description[i]);
+				if (!(new_object->object))
+					return (false);
 				new_object->type = SPHERE;
 			}
 			else if (ft_strncmp(description[i], "pl", 2) == 0)
 			{
 				new_object->object = (void *) ft_init_plane(description[i]);
+				if (!(new_object->object))
+					return (false);
 				new_object->type = PLANE;
 			}
 			else if (ft_strncmp(description[i], "cy", 2) == 0)
 			{
 				new_object->object = (void *) ft_init_cylinder(description[i]);
+				if (!(new_object->object))
+					return (false);
 				new_object->type = CYLINDER;
 			}
 			new_object->next = NULL;
@@ -156,4 +271,5 @@ void	ft_init_objects(char **description, t_scene *scene)
 		i++;
 	}
 	scene->object = scene->head_object;
+	return (true);
 }

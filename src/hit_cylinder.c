@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 14:51:06 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/21 10:50:30 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/19 11:14:49 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,7 @@ bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
 }
 
 */
+
 
 
 

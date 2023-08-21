@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 15:45:27 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:10:32 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ camera is tilted or rotated with respect to the world's vertical axis.*/
 	camera->lower_left_corner = tmp;
 }
 
+
 /*
 Sending rays from the camera to every pixel of a projecting image.
 The color of pixels is calculated and stored in pixel_map, which
@@ -120,7 +121,8 @@ int	main(int argc, char **argv)
 
 	if (argc == 1)
 		return (ft_error("Missing scene file path"), 1);
-	ft_parser(argv[1], &scene);
+	if (ft_parser(argv[1], &scene) == 1)
+		return (1);
 	create_pix_matrix(&scene);
 	ft_init_mlx(&mlxdata);
 	ft_init_image(&mlxdata);
