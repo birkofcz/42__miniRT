@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/21 17:25:04 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/21 17:26:51 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_light	init_light(char *line)
 		light.lightpoint = create_vec3(ft_atof(lp[0]), ft_atof(lp[1]),
 				ft_atoi(lp[2]));
 	else
-		ft_free_light(lp, param, &light, "Bad viewpoint data", line);
+		ft_free_light(lp, param, &light, "Bad viewpoint data");
 	ft_freesplit(lp);
 	if (ft_testparam(param[2]))
 		light.bright_ratio = ft_atof(param[2]);
