@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 15:51:34 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/18 18:21:51 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 10:48:38 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,12 @@ t_vec3	multiply(t_vec3 vec1, double x)
 	result.y = vec1.y * x;
 	result.z = vec1.z * x;
 	return (result);
+}
+
+bool	is_normal_negative(t_vec3 vec)
+{
+	if (vec.x < 0 || vec.y < 0 ||vec.z < 0)
+		return (true);
+	else
+		return (false);
 }

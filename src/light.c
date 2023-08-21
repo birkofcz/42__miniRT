@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:24:42 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/18 16:28:41 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 12:54:31 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,85 @@ bool	sphere_shadow(t_ray ray, t_sp *sphere)
 /*
 mozna vyradit t_hit, pokud nemusime urcovat ktery stycny bod je driv
 */
+/*
 bool cylinder_shadow(t_ray ray, t_cy *cylinder)
+{
+	t_quadratic_solution solution;
+	t_vec3 hit_point;
+	double projection;
+	double t_hit;
+
+	quadratic_cylinder(cylinder, ray, &solution);
+	if (solution.discriminant < 0)
+		return false;
+	t_hit = solution.t1;
+	if (t_hit < EPSILON)
+		return false;
+	hit_point = clash_point(&ray, t_hit);
+	t_vec3 hit_to_center = substraction(hit_point, cylinder->center);
+	projection = dot_product(hit_to_center, cylinder->normal);
+	if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
+		return true;
+	t_vec3 top_center = addition(cylinder->center, multiply(cylinder->normal, cylinder->height / 2));
+	double t_top = dot_product(substraction(top_center, ray.origin), cylinder->normal) / dot_product(ray.direction, cylinder->normal);
+	t_vec3 top_intersection = clash_point(&ray, t_top);
+	if (dot_product(substraction(top_intersection, top_center), substraction(top_intersection, top_center)) <= (cylinder->diameter / 2) * (cylinder->diameter / 2))
+		return true;
+
+	return false;
+}*/
+
+bool cylinder_shadow(t_ray ray, t_cy *cylinder)
+{
+	t_quadratic_solution solution;
+	t_vec3 hit_point;
+	double projection;
+	double t_hit;
+
+	quadratic_cylinder(cylinder, ray, &solution);
+	if (solution.discriminant < 0)
+		return false;
+
+	t_hit = INFINITY; // Initialize t_hit to a large value
+
+	if (solution.t1 >= EPSILON) // Check if t1 is a valid hit
+	{
+		hit_point = clash_point(&ray, solution.t1);
+		t_vec3 hit_to_center = substraction(hit_point, cylinder->center);
+		projection = dot_product(hit_to_center, cylinder->normal);
+
+		if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
+		{
+			t_hit = solution.t1; // Update t_hit with t1 if it's a valid hit
+		}
+	}
+
+	if (solution.t2 >= EPSILON) // Check if t2 is a valid hit
+	{
+		hit_point = clash_point(&ray, solution.t2);
+		t_vec3 hit_to_center = substraction(hit_point, cylinder->center);
+		projection = dot_product(hit_to_center, cylinder->normal);
+
+		if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
+		{
+			t_hit = fmin(t_hit, solution.t2); // Update t_hit with min of t_hit and t2 if it's a valid hit
+		}
+	}
+
+	if (t_hit < INFINITY)
+		return true;
+
+	t_vec3 top_center = addition(cylinder->center, multiply(cylinder->normal, cylinder->height / 2));
+	double t_top = dot_product(substraction(top_center, ray.origin), cylinder->normal) / dot_product(ray.direction, cylinder->normal);
+	t_vec3 top_intersection = clash_point(&ray, t_top);
+	if (dot_product(substraction(top_intersection, top_center), substraction(top_intersection, top_center)) <= (cylinder->diameter / 2) * (cylinder->diameter / 2))
+		return true;
+
+	return false;
+}
+
+
+/*bool cylinder_shadow(t_ray ray, t_cy *cylinder)
 {
 	t_quadratic_solution solution;
 	t_vec3 hit_point;
@@ -40,24 +118,13 @@ bool cylinder_shadow(t_ray ray, t_cy *cylinder)
 	t_hit = solution.t1;
 	if (t_hit < EPSILON)
 		return (false);
-	//rekl bych ze zde je problem. vyhodnoti to jako styk co je bliz
-	hit_point = clash_point(&ray, t_hit);/*
-	projection = dot_product(substraction(hit_point, cylinder->center), cylinder->normal);
-    */
+	hit_point = clash_point(&ray, t_hit);
    	t_vec3 hit_to_center = substraction(hit_point, cylinder->center);
     projection = dot_product(hit_to_center, cylinder->normal);
-   // double distance_to_center = vector_len(hit_to_center);
-	// Check if the hit point is within the lateral surface of the cylinder
 	if (projection < -cylinder->height / 2 || projection > cylinder->height / 2)
 		return (false);
-    // Check if the hit point is within the top cap
-	//if (dot_product(hit_to_center, cylinder->normal) < 0)
-	//{
-	//	if (distance_to_center > cylinder->diameter / 2)
-	//		return (false);
-	//}
 	return (true);
-}
+}*/
 
 bool	intersect_shadow(t_ray ray, t_object *obj)
 {
@@ -65,8 +132,6 @@ bool	intersect_shadow(t_ray ray, t_object *obj)
 		return (sphere_shadow(ray, obj->object));
 	else if (obj->type == CYLINDER)
 		return (cylinder_shadow(ray, obj->object));
-//	else if (obj->type == PLANE)
-//		return plane_shadow(ray, obj->object);
 	return (false);
 }
 
@@ -103,18 +168,25 @@ bool	is_in_shadow(t_scene *scene, t_hitrecord *rec)
 	return (false);
 }
 
-t_rgb	color_clap(t_rgb color)
+double ft_clamp(double value, double min, double max)
+{
+    if (value < min)
+        return (min);
+    else if (value > max)
+        return (max);
+    else
+        return (value);
+}
+
+t_rgb	color_clamp(t_rgb color)
 {
 	t_rgb	tmp;
+	
+    tmp.r = ft_clamp(color.r, 0.0, 255.0);
+    tmp.g = ft_clamp(color.g, 0.0, 255.0);
+    tmp.b = ft_clamp(color.b, 0.0, 255.0);
 
-	tmp = color;
-	if (tmp.r > 255)
-		tmp.r = 255;
-	if (tmp.g > 255)
-		tmp.g = 255;
-	if (tmp.b > 255)
-		tmp.b = 255;
-	return (tmp);
+    return (tmp);
 }
 
 t_rgb	color_scalar(t_rgb color, double scalar)
@@ -125,24 +197,57 @@ t_rgb	color_scalar(t_rgb color, double scalar)
 	return (color);
 }
 
+t_rgb	apply_ambient(t_rgb object_color, t_amb amb)
+{
+	t_rgb ambient_contribution;
+
+	ambient_contribution.r = ((object_color.r + amb.color.r * amb.ratio));
+	ambient_contribution.g = ((object_color.g + amb.color.g * amb.ratio));
+	ambient_contribution.b = ((object_color.b + amb.color.b * amb.ratio));
+	ambient_contribution = color_clamp(ambient_contribution);
+	return (ambient_contribution);
+}
+
+t_rgb	apply_ambient_shadow(t_rgb object_color, t_amb amb)
+{
+	t_rgb ambient_contribution;
+
+	ambient_contribution.r = ((object_color.r + amb.color.r) / 2 )* amb.ratio;
+	ambient_contribution.g = ((object_color.g + amb.color.g) / 2 ) * amb.ratio;
+	ambient_contribution.b = ((object_color.b + amb.color.b) / 2 ) * amb.ratio;
+	ambient_contribution = color_clamp(ambient_contribution);
+	return (ambient_contribution);
+}
 void	calculate_diffuse(t_scene *scene, t_hitrecord *rec, double dot)
 {
 	t_rgb		diffuse;
 	t_vec3		light_normalized;
 
 	light_normalized = normalize_vector(scene->light.lightpoint);
-	if (rec->type == SPHERE)
+	if (rec->type == SPHERE || rec->type == CYLINDER)
 	{
 		diffuse = color_scalar(rec->color,
 				(dot * scene->light.bright_ratio));
+		diffuse = color_clamp(diffuse);
+		
 		rec->color = diffuse;
-		rec->color = color_clap(rec->color);
+		rec->color = apply_ambient(rec->color, scene->amb);
 	}
-	else if (rec->type == CYLINDER)
-	{
-		rec->color = color_scalar(rec->color,
-				(dot * scene->light.bright_ratio));
-		rec->color = color_clap(rec->color);
+	else if (rec->type == PLANE)
+    {
+        double plane_dot = dot_product(rec->normal, light_normalized);
+        if (plane_dot > 0 && ((plane_dot * scene->light.bright_ratio) > scene->amb.ratio))
+        {
+				diffuse = color_scalar(rec->color,
+                	(plane_dot * scene->light.bright_ratio));
+           		 rec->color = diffuse;
+				 rec->color = apply_ambient(rec->color, scene->amb);
+           		 rec->color = color_clamp(rec->color);
+        }
+		else
+        {
+            rec->color = apply_ambient(rec->color, scene->amb);
+        }
 	}
 }
 
@@ -164,6 +269,8 @@ A higher cosine value means the light is more directly facing the surface.
 
 fmax ensures the dot product is not negative.
 */
+
+
 void	calculate_and_apply_light(t_scene *scene, t_hitrecord *rec, bool shadow)
 {
 	double		dot;
@@ -171,7 +278,8 @@ void	calculate_and_apply_light(t_scene *scene, t_hitrecord *rec, bool shadow)
 
 	if (shadow)
 	{
-		rec->color = color_scalar(rec->color, scene->amb.ratio);
+		rec->color = apply_ambient_shadow(rec->color, scene->amb);
+		//rec->color = color_scalar(rec->color, scene->amb.ratio);
 		return ;
 	}
 	light_normalized = normalize_vector(scene->light.lightpoint);
