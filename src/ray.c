@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:58 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/18 20:00:39 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:57:01 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ bool	hit(t_scene *scene, t_hitrecord *rec, t_object *obj)
 	return (false);
 }
 
+/*
+Loop through each object in the list and check if the ray intersects
+with it
+*/
 bool hittable_list_hit(t_scene *scene, t_hitrecord *rec)
 {
     t_hitrecord tmp_rec;
@@ -58,65 +62,20 @@ bool hittable_list_hit(t_scene *scene, t_hitrecord *rec)
 }
 
 
-t_rgb	ray_color2(t_scene *scene)
+t_rgb	ray_color(t_scene *scene)
 {
 	t_hitrecord	rec;
 
 	if (hittable_list_hit(scene, &rec))
 		return (rec.color);
-	//return (fill_color(0, 0, 0));
-	/*t_vec3 unit_direction = normalize_vector(scene->ray.direction);
-    double t = 0.5 * (unit_direction.y + 1.0);
-
-    t_rgb white = {255, 255, 255};
-    t_rgb blue = {255*0.5, 255*0.7, 255};
-    t_rgb c1, c2, result;
-    c1.r = (1.0 - t) * white.r;
-    c1.g = (1.0 - t) * white.g;
-    c1.b = (1.0 - t) * white.b;
-
-    c2.r = t * blue.r;
-    c2.g = t * blue.g;
-    c2.b = t * blue.b;
-
-    result.r = c1.r + c2.r;
-    result.g = c1.g + c2.g;
-    result.b = c1.b + c2.b;*/
+	//return (fill_rgb(0, 0, 0));
 	t_rgb result;
 	result.r = 0;
     result.g = 0;
     result.b = 0;
 
     return (result);
-}	
-
-/*
-t_rgb	ray_color(t_ray ray, t_scene *scene)
-{
-
-    if (hit_sphere(scene->sp[0].center, scene->sp[0].diameter / 2, ray))
-		return (scene->sp[0].color);
-
-    t_vec3 unit_direction = normalize_vector(ray.direction);
-    double t = 0.5 * (unit_direction.y + 1.0);
-
-    t_rgb white = {255, 255, 255};
-    t_rgb blue = {255*0.5, 255*0.7, 255};
-    t_rgb c1, c2, result;
-    c1.r = (1.0 - t) * white.r;
-    c1.g = (1.0 - t) * white.g;
-    c1.b = (1.0 - t) * white.b;
-
-    c2.r = t * blue.r;
-    c2.g = t * blue.g;
-    c2.b = t * blue.b;
-
-    result.r = c1.r + c2.r;
-    result.g = c1.g + c2.g;
-    result.b = c1.b + c2.b;
-
-    return result;
-}*/
+}
 
 // Calculates the point of intersetion of ray and object.
 // Clash (intersection point along the ray) = Origin  + t * Direction
@@ -129,8 +88,6 @@ t_vec3	clash_point(t_ray *ray, double t)
 	return (clash);
 }
 
-
-
 t_ray	create_ray(t_vec3 origin, t_vec3 direction)
 {
 	t_ray result;
@@ -140,3 +97,34 @@ t_ray	create_ray(t_vec3 origin, t_vec3 direction)
 	return (result);
 }
 
+
+
+static t_vec3	direction_vec_creation(t_scene *scene, double u, double v)
+{
+	t_vec3 horizontal_contribution;
+	t_vec3 vertical_contribution;
+	t_vec3 horizontal_sum;
+	t_vec3 horizontal_and_vertical_sum;
+
+	horizontal_contribution = multiply(scene->cam.horizontal, u);
+	vertical_contribution = multiply(scene->cam.vertical, v);
+	horizontal_sum = addition(scene->cam.lower_left_corner, horizontal_contribution);
+	horizontal_and_vertical_sum = addition(horizontal_sum, vertical_contribution);
+	return(substraction(horizontal_and_vertical_sum, scene->cam.viewpoint));
+}
+
+/*
+Adding 0.5 for single-sample center of pixel
+*/
+t_ray	calculate_ray(t_scene *scene, int x, int y)
+{
+
+    double u;
+	double v;
+	t_vec3	direction;
+
+ 	u = (x + 0.5) / WIDTH;     
+    v = (HEIGHT - y - 0.5) / HEIGHT; 
+	direction = direction_vec_creation(scene, u, v);
+	return(create_ray(scene->cam.viewpoint, direction));
+}

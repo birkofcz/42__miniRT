@@ -11,81 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
-/*
-int render_sphere(t_scene *scene)
-{
-    // Image
-    const int image_width = WIDTH;
-    const int image_height = HEIGHT;
-	const double aspect_ratio = image_width / image_height;
 
-    // Camera
-    double viewport_height = 2.0;
-    double viewport_width = aspect_ratio * viewport_height;
-    double focal_length = 1.0;
-
-    t_vec3 origin = scene->cam.viewpoint;
-    t_vec3 horizontal = {viewport_width, 0, 0};
-    t_vec3 vertical = {0, viewport_height, 0};
-    t_vec3 lower_left_corner = substraction(origin, multiply(addition(horizontal, vertical), 0.5));
-    lower_left_corner = substraction(lower_left_corner, multiply((t_vec3){0, 0, 1}, focal_length));
-
-    for (int j = image_height - 1; j >= 0; --j)
-	{
-        fprintf(stderr, "\rScanlines remaining: %d ", j);
-        for (int i = 0; i < image_width; ++i) {
-            double u = (double)i / (image_width - 1);
-            double v = (double)j / (image_height - 1);
-			t_vec3 direction = substraction(addition(addition(lower_left_corner, multiply(horizontal, u)), multiply(vertical, v)), origin);
-            t_ray ray = create_ray(origin, direction);
-			t_rgb pixel_color = ray_color(ray, scene);
-            scene->pixel_map[j][i] = pixel_color;
-        }
-    }
-
-    fprintf(stderr, "\nDone.\n");
-    return 0;
-}*/
-/*
-t_ray	ray_for_pixel(t_scene *scene, float px, float py)
-{
-	float		world_x;
-	float		world_y;
-	t_point		pixel;
-	t_point		origin;
-	t_vector	direction;
-
-	world_x = camera->half_width - (px + 0.5) * camera->pixel_size;
-	world_y = camera->half_height - (py + 0.5) * camera->pixel_size;
-	pixel = multiply_tp_mx(camera->inverse, point(world_x, world_y, -1));
-	origin = multiply_tp_mx(camera->inverse, point(0, 0, 0));
-	direction = normalize(subtract(pixel, origin));
-	return (new_ray(origin, direction));
-}
-
-void	send_rays(t_scene *scene)
-{
-	float		x;
-	float		y;
-	t_ray		ray;
-	t_rgb	color;
-	t_cam	camera;
-
-	y = 0;
-	while (y < HEIGHT- 1)
-	{
-		x = 0;
-		while (x < WEIGHT - 1)
-		{
-			ray = ray_for_pixel(scene, x, y);
-			color = color_at(scene->world, ray);
-			write_pixel(canvas, x, y, rgb(color));
-			x++;
-		}
-		y++;
-	}
-}
-*/
 void	init_pixel_map(t_scene *scene)
 {
 	t_rgb **temp_map;
@@ -158,43 +84,19 @@ camera is tilted or rotated with respect to the world's vertical axis.*/
 	camera->lower_left_corner = tmp;
 }
 
-t_vec3	direction_vec_creation(t_scene *scene, double u, double v)
-{
-	t_vec3 horizontal_contribution;
-	t_vec3 vertical_contribution;
-	t_vec3 horizontal_sum;
-	t_vec3 horizontal_and_vertical_sum;
 
-	horizontal_contribution = multiply(scene->cam.horizontal, u);
-	vertical_contribution = multiply(scene->cam.vertical, v);
-	horizontal_sum = addition(scene->cam.lower_left_corner, horizontal_contribution);
-	horizontal_and_vertical_sum = addition(horizontal_sum, vertical_contribution);
-	return(substraction(horizontal_and_vertical_sum, scene->cam.viewpoint));
-}
-
-t_ray	calculate_ray(t_scene *scene, int x, int y)
-{
-
-    double u;
-	double v;
-	t_vec3	direction;
-	//printf("x = %d, y = %d\n", x, y);
-
- 	u = (x + 0.5) / WIDTH;     // Adding 0.5 for single-sample center of pixel
-    v = (HEIGHT - y - 0.5) / HEIGHT; 
-	//printf("u = %f, v = %f\n", u, v);
-	direction = direction_vec_creation(scene, u, v);
-	return(create_ray(scene->cam.viewpoint, direction));
-}
-//zalezi jestli zaciname od pixelu 1/1 a ne 0/0.
-
-void	render(t_scene *scene)
+/*
+Sending rays from the camera to every pixel of a projecting image.
+The color of pixels is calculated and stored in pixel_map, which
+is later used for rendering of the image.
+*/
+void	create_pix_matrix(t_scene *scene)
 {
 	int		x;
 	int		y;
 	t_rgb	pixel_color;
 
-	//pixel_color = fill_color(0, 0, 0);//dodelat
+	//pixel_color = fill_rgb(0, 0, 0);
 	init_camera2(&scene->cam);
 	init_pixel_map(scene);
 	y = 0;
@@ -204,17 +106,12 @@ void	render(t_scene *scene)
 		while (x < WIDTH)
 		{
 			scene->ray = calculate_ray(scene, x, y);
-			
-			//debug_print_ray(ray);
-			pixel_color = ray_color2(scene);			
+			pixel_color = ray_color(scene);			
             scene->pixel_map[y][x] = pixel_color;
-			
-			//my_mlx_pixel_put(&data->img, x, y, rgb(pixel_color));
 			x++;
 		}
 		y++;
 	}
-	//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 }
 
 int	main(int argc, char **argv)
@@ -226,11 +123,7 @@ int	main(int argc, char **argv)
 		return (ft_error("Missing scene file path"), 1);
 	if (ft_parser(argv[1], &scene) == 1)
 		return (1);
-	//debug_all(&scene);	
-	//send_rays(&scene);
-	render(&scene);
-	//
-	
+	create_pix_matrix(&scene);
 	ft_init_mlx(&mlxdata);
 	ft_init_image(&mlxdata);
 	ft_render(&mlxdata, &scene);

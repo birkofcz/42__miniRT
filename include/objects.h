@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/17 18:43:10 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:34:15 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,16 +147,13 @@ typedef struct s_scene
 	t_amb	amb;
 	t_cam	cam;
 	t_light	light;
-	//t_sp	*sp;
-	//t_pl	*pl;
-	//t_cy	*cy;
 	t_object *head_object;
 	t_object *object;
 	int		sphere_count;
 	int		plane_count;
 	int		cylinder_count;
 	t_rgb **pixel_map;
-	t_ray	ray;//aktualni paprsek v reseni.
+	t_ray	ray;
 
 }	t_scene;
 

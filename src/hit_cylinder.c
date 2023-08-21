@@ -106,8 +106,8 @@ void		quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *soluti
 	return;
 }
 
-/* Original code */
-/* bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
+/*
+bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
 {
     t_cy *cylinder = obj->object;
     t_quadratic_solution solution;
@@ -154,9 +154,9 @@ void		quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *soluti
     rec->color = cylinder->color;
 	rec->normal = get_cylinder_normal(hit_point, cylinder);
     return true;
-} */
+}*/
+/*
 
-/* TOP AND BOTTOM CAPS */
 bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
 {
     t_cy *cylinder = obj->object;
@@ -164,21 +164,20 @@ bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
     t_vec3 hit_point;
     double projection;
 
-	
-
-	//cylinder->normal = normalize(cylinder->normal);
-
     quadratic_cylinder(cylinder, scene->ray, &solution);
+
+    if (solution.discriminant < 0)
+        return false;
 
     bool hit = false;
     double t_hit = INFINITY;
 
     // Check intersection with surface
-    // ... (existing code to check intersection with cylinder's surface) ...
-	 if (solution.t1 >= scene->ray.t_min && scene->ray.t_max >= solution.t1)
+    if (solution.t1 >= scene->ray.t_min && scene->ray.t_max >= solution.t1)
     {
         hit_point = clash_point(&scene->ray, solution.t1);
         projection = dot_product(substraction(hit_point, cylinder->center), cylinder->normal);
+
         if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
         {
             hit = true;
@@ -186,45 +185,33 @@ bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
         }
     }
 
-    if (!hit && solution.t2 >= scene->ray.t_min && scene->ray.t_max >= solution.t2)
-    {
-        hit_point = clash_point(&scene->ray, solution.t2);
-        projection = dot_product(substraction(hit_point, cylinder->center), cylinder->normal);
-        if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
-        {
-            hit = true;
-            t_hit = solution.t2;
-        }
-    }
-	
-    // Check intersection with bottom cap
-    double t_bottom = (dot_product(cylinder->normal, substraction(cylinder->center, scene->ray.origin))) / dot_product(scene->ray.direction, cylinder->normal);
-    t_vec3 bottom_intersection = clash_point(&scene->ray, t_bottom);
-   	if (dot_product(substraction(bottom_intersection, cylinder->center), substraction(bottom_intersection, cylinder->center)) <= (cylinder->diameter / 4) * (cylinder->diameter / 4))
-    {
-        if (t_bottom < t_hit && t_bottom >= scene->ray.t_min && t_bottom <= scene->ray.t_max)
-		
-        {
-            hit = true;
-            t_hit = t_bottom;
-            hit_point = bottom_intersection;
-            rec->normal = multiply(cylinder->normal, -1); // inverse of the cylinder's normal
-        }
-    }
-
     // Check intersection with top cap
-    t_vec3 top_center = addition(cylinder->center, multiply(cylinder->normal, cylinder->height / 2));
+    double t_cap = (cylinder->height / 2) / dot_product(cylinder->normal, scene->ray.direction);
+    t_vec3 cap_hit_point = clash_point(&scene->ray, t_cap);
+    double cap_projection = dot_product(substraction(cap_hit_point, cylinder->center), cylinder->normal);
 
-    double t_top = (dot_product(cylinder->normal, substraction(top_center, scene->ray.origin))) / dot_product(scene->ray.direction, cylinder->normal);
-    t_vec3 top_intersection = clash_point(&scene->ray, t_top);
-    if (dot_product(substraction(top_intersection, top_center), substraction(top_intersection, top_center)) <= (cylinder->diameter / 2) * (cylinder->diameter / 2))
+    if (t_cap >= scene->ray.t_min && scene->ray.t_max >= t_cap && cap_projection <= cylinder->diameter / 2)
     {
-        if (t_top < t_hit && t_top >= scene->ray.t_min && t_top <= scene->ray.t_max)
+        if (!hit || t_cap < t_hit)
         {
             hit = true;
-            t_hit = t_top;
-            hit_point = top_intersection;
-            rec->normal = cylinder->normal; // same as the cylinder's normal
+            t_hit = t_cap;
+            hit_point = cap_hit_point;
+        }
+    }
+
+    // Check intersection with bottom cap
+    double b_cap = (-cylinder->height / 2) / dot_product(cylinder->normal, scene->ray.direction);
+    t_vec3 bcap_hit_point = clash_point(&scene->ray, b_cap);
+    double bcap_projection = dot_product(substraction(bcap_hit_point, cylinder->center), cylinder->normal);
+
+    if (b_cap >= scene->ray.t_min && scene->ray.t_max >= b_cap && bcap_projection <= cylinder->diameter / 2)
+    {
+        if (!hit || b_cap < t_hit)
+        {
+            hit = true;
+            t_hit = b_cap;
+            hit_point = bcap_hit_point;
         }
     }
 
@@ -237,9 +224,25 @@ bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
     rec->clash = hit_point;
     rec->obj = obj;
     rec->color = cylinder->color;
-	rec->normal = get_cylinder_normal(hit_point, cylinder);
+
+    if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
+    {
+        rec->normal = get_cylinder_normal(hit_point, cylinder);
+    }
+    else if (cap_projection <= cylinder->diameter / 2)
+    {
+        rec->normal = cylinder->normal;
+    }
+    else if (bcap_projection <= cylinder->diameter / 2)
+    {
+        rec->normal = multiply(cylinder->normal, -1);
+    }
+
     return true;
 }
+
+*/
+
 
 
 
@@ -287,3 +290,90 @@ bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
 	return (true);
 }
 */
+
+bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
+{
+    t_cy *cylinder = obj->object;
+    t_quadratic_solution solution;
+    t_vec3 hit_point;
+    double projection;
+
+	
+
+	//cylinder->normal = normalize(cylinder->normal);
+
+    quadratic_cylinder(cylinder, scene->ray, &solution);
+
+    bool hit = false;
+    double t_hit = INFINITY;
+
+    // Check intersection with surface
+    // ... (existing code to check intersection with cylinder's surface) ...
+	 if (solution.t1 >= scene->ray.t_min && scene->ray.t_max >= solution.t1)
+    {
+        hit_point = clash_point(&scene->ray, solution.t1);
+        projection = dot_product(substraction(hit_point, cylinder->center), cylinder->normal);
+        if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
+        {
+            hit = true;
+            t_hit = solution.t1;
+			rec->normal = get_cylinder_normal(hit_point, cylinder);
+        }
+    }
+    // Check intersection with bottom cap
+	if (is_normal_negative(cylinder->normal))
+    {
+		double t_bottom = (dot_product(cylinder->normal, substraction(cylinder->center, scene->ray.origin))) / dot_product(scene->ray.direction, cylinder->normal);
+		t_vec3 bottom_intersection = clash_point(&scene->ray, t_bottom);
+		t_vec3 bottom_center = substraction(cylinder->center, multiply(cylinder->normal, cylinder->height / 2));
+		t_bottom = dot_product(substraction(bottom_center, scene->ray.origin), cylinder->normal) / dot_product(scene->ray.direction, cylinder->normal);
+		bottom_intersection = clash_point(&scene->ray, t_bottom);
+
+		if (t_bottom >= scene->ray.t_min && t_bottom <= scene->ray.t_max)
+		{
+			t_vec3 to_intersection = substraction(bottom_intersection, bottom_center);
+			double distance_squared = dot_product(to_intersection, to_intersection);
+
+			if (distance_squared <= (cylinder->diameter / 2) * (cylinder->diameter / 2))
+			{
+				hit = true;
+				t_hit = t_bottom;
+				hit_point = bottom_intersection;
+				t_vec3 normal;
+					normal = substraction(hit_point, cylinder->center);
+					rec->normal = normalize_vector(normal);
+				//rec->normal = cylinder->normal; // Use the cylinder's normal for the cap
+			}
+		}
+	}
+
+    // Check intersection with top cap
+    t_vec3 top_center = addition(cylinder->center, multiply(cylinder->normal, cylinder->height / 2));
+
+    double t_top = (dot_product(cylinder->normal, substraction(top_center, scene->ray.origin))) / dot_product(scene->ray.direction, cylinder->normal);
+    t_vec3 top_intersection = clash_point(&scene->ray, t_top);
+    if (dot_product(substraction(top_intersection, top_center), substraction(top_intersection, top_center)) <= (cylinder->diameter / 2) * (cylinder->diameter / 2))
+    {
+        if (t_top < t_hit && t_top >= scene->ray.t_min && t_top <= scene->ray.t_max)
+        {
+            hit = true;
+            t_hit = t_top;
+            hit_point = top_intersection;
+			t_vec3 normal;
+			normal = substraction(hit_point, cylinder->center);
+    		rec->normal = normalize_vector(normal);
+           // rec->normal = cylinder->normal; // same as the cylinder's normal
+        }
+    }
+
+    if (!hit)
+        return false;
+
+    // Set other hit record properties
+    rec->clash_distance = t_hit;
+    rec->type = CYLINDER;
+    rec->clash = hit_point;
+    rec->obj = obj;
+    rec->color = cylinder->color;
+    return true;
+}

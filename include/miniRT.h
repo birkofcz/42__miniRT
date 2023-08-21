@@ -85,7 +85,7 @@ bool	ft_testfile(char *input);
 /* utils.c */
 void	ft_freesplit(char **split);
 t_rgb	fill_rgb(int r, int g, int b);
-
+void free_object_list(t_object *obj);
 
 /* events.c */
 int		ft_key_event(int key, t_mlxdata *mlxdata);
@@ -107,10 +107,10 @@ void debug_print_ray(t_ray ray);
 t_ray	create_ray(t_vec3 origin, t_vec3 direction);
 bool	hit(t_scene *scene, t_hitrecord *rec, t_object *obj);
 t_vec3	clash_point(t_ray *r, double t);
+t_ray	calculate_ray(t_scene *scene, int x, int y);
 
 /* sphere.c */
-t_rgb ray_color(t_ray ray, t_scene *scene);
-t_rgb	ray_color2(t_scene *scene);
+t_rgb	ray_color(t_scene *scene);
 bool	hit_sphere(t_scene *scene, t_hitrecord *rec, t_object *obj);
 
 /* vector_operations.c */
@@ -123,6 +123,7 @@ t_vec3	substraction(t_vec3 vec1, t_vec3 vec2);
 t_vec3	addition(t_vec3 vec1, t_vec3 vec2);
 t_vec3	multiply(t_vec3 vec1, double x);
 double length_squared(t_vec3 v);
+bool	is_normal_negative(t_vec3 vec);
 
 bool	hit_plane(t_scene *scene, t_hitrecord *rec, t_object *obj);
 bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj);
@@ -130,17 +131,4 @@ void		quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *soluti
 void	apply_light(t_scene *scene, t_hitrecord *rec);
 t_quadratic_solution quadratic_sphere(t_vec3 center, double radius, t_ray r);
 
-/*zkopirovano, nutno upravit*/
-void		print_mat4(t_mat4 mat);
-t_mat4		mat4_identity(void);
-t_mat4		mat4_mult(t_mat4 a, t_mat4 b);
-t_mat4		mat4_translate(t_vec3 v);
-t_mat4		mat4_scale(t_vec3 v);
-t_mat4		mat4_rotate_x(double angle);
-t_mat4		mat4_rotate_y(double angle);
-t_mat4		mat4_rotate_z(double angle);
-t_mat4		mat4_rotate(t_vec3 v);
-t_mat4		mat4_transpose(t_mat4 m);
-t_mat4		mat4_inverse(t_mat4 m);
-t_vec3		mat4_mult_vect(t_mat4 m, t_vec3 v);
 #endif

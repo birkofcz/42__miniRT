@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:41:19 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/08 19:29:35 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:21:23 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void put_pixels_to_img(t_mlxdata *mlxdata, t_scene *scene)
 			mlxdata->img_data[index] = scene->pixel_map[y][x].b;
 			mlxdata->img_data[index + 1] = scene->pixel_map[y][x].g;
 			mlxdata->img_data[index + 2] = scene->pixel_map[y][x].r;
-			mlxdata->img_data[index + 3] = (unsigned char)5;
+			mlxdata->img_data[index + 3] = (unsigned char)255;
 
 			x++;
 		}
