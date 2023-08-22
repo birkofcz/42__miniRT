@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 16:59:18 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/22 16:59:03 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,34 @@ bool	ft_testparam(char *param);
 bool	ft_testcolor(char **color);
 
 
-
-
 /* init_objects_utils.c */
 int		ft_count_objects(char **description);
-int		ft_allocate_objects(t_scene *scene, char **description);
+bool	ft_fillcyldiahei(t_cy *cyl, char *dia, char *hei);
+void	ft_free_sp(char **data, char **param, t_sp *sphere, char *error_msg);
+void	ft_free_pl(char **data, char **param, t_pl *plane, char *error_msg);
+void	ft_free_cy(char **data, char **param, t_cy *cyl, char *error_msg);
+
+
+/* init_object_utils2.c */
+bool	ft_testparam(char *param);
+bool	ft_fillcyldiahei(t_cy *cyl, char *dia, char *hei);
+bool	ft_testcoors(char **coors);
+bool	ft_testvector(char **vector);
+bool	ft_testcolor(char **color);
+
 
 /* init_scene.c */
 bool	ft_init_env(char **description, t_scene *scene);
 int		ft_check_env(char *line);
-t_light	init_light(char *line);
-t_cam	init_camera(char *line);
-t_amb	init_ambient(char *line);
+t_light	init_light(char *line, bool *error, int *count);
+t_cam	init_camera(char *line, bool *error, int *count);
+t_amb	init_ambient(char *line, bool *error, int *count);
+
+/* init_scene_utils.c */
+void	ft_free_amb(char **data, char **param, bool *error, char *error_msg);
+void	ft_free_cam(char **data, char **param, bool *error, char *error_msg);
+void	ft_free_light(char **data, char **param, bool *error, char *error_msg);
+
 
 /* init.c */
 int		ft_init(char **description, t_scene *scene);

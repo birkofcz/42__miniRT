@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+         #
+#    By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/24 15:29:04 by sbenes            #+#    #+#              #
-#    Updated: 2023/08/17 16:16:03 by tkajanek         ###   ########.fr        #
+#    Updated: 2023/08/22 16:40:28 by sbenes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ INC =	-I ./include/\
 #sources
 SRC_PATH =	src/
 SRC = 	main.c error.c utils.c parser.c \
-	init_objects.c init_objects_utils.c init_scene.c init.c debug.c\
+	init_objects.c init_objects_utils.c init_object_utils2.c init_scene.c init_scene_utils.c init.c debug.c\
 	events.c exit.c render.c vector_operations.c hit_sphere.c ray.c hit_plane.c\
 	hit_cylinder.c light.c
 	

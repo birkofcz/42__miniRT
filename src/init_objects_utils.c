@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_objects_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:30:50 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/12 18:52:10 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:45:46 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,39 @@ int	ft_count_objects(char **description)
 	}
 	return (count);
 }
-/*
-int	ft_allocate_objects(t_scene *scene, char **description)
-{
-	scene->sphere_count = ft_count_objects(description, "sp");
-	scene->plane_count = ft_count_objects(description, "pl");
-	scene->cylinder_count = ft_count_objects(description, "cy");
 
-	if ((scene->sphere_count + scene->plane_count + scene->cylinder_count) == 0)
-		return (1);
-	if (scene->sphere_count != 0)
-		scene->sp = (t_sp *)malloc(sizeof(t_sp) * scene->sphere_count);
-	else 
-		scene->sp = NULL;
-	if (scene->plane_count != 0)
-		scene->pl = (t_pl *)malloc(sizeof(t_pl) * scene->plane_count);
-	else
-		scene->pl = NULL;
-	if (scene->cylinder_count != 0)
-		scene->cy = (t_cy *)malloc(sizeof(t_cy) * scene->cylinder_count);
-	else
-		scene->cy = NULL;
-	return (0);
-}*/
+bool	ft_fillcyldiahei(t_cy *cyl, char *dia, char *hei)
+{
+	if ((!ft_testparam(dia)) || (!ft_testparam(hei)))
+		return (false);
+	cyl->diameter = ft_atof(dia);
+	cyl->height = ft_atof(hei);
+	return (true);
+}
+
+void	ft_free_sp(char **data, char **param, t_sp *sphere, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	free(sphere);
+	ft_error(error_msg);
+}
+
+void	ft_free_pl(char **data, char **param, t_pl *plane, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	free(plane);
+	ft_error(error_msg);
+}
+
+void	ft_free_cy(char **data, char **param, t_cy *cyl, char *error_msg)
+{
+	if (data)
+		ft_freesplit(data);
+	ft_freesplit(param);
+	free(cyl);
+	ft_error(error_msg);
+}
