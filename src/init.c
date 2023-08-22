@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:35:14 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 15:06:00 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/22 17:26:03 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_init(char **description, t_scene *scene)
 	return (0);
 }
 
-void	ft_init_image(t_mlxdata *mlxdata)
+void	ft_init_image(t_scene *scene, t_mlxdata *mlxdata)
 {
 	int		bpp;
 	int		line_size;
@@ -36,21 +36,20 @@ void	ft_init_image(t_mlxdata *mlxdata)
 
 	mlxdata->img_p = mlx_new_image(mlxdata->mlx_p, WIDTH, HEIGHT);
 	if (!(mlxdata->img_p))
-		ft_clean_exit(mlxdata);
+		ft_endgame(scene);
 	tmp = mlx_get_data_addr(mlxdata->img_p, &bpp, &line_size, &endian);
 	mlxdata->bpp = bpp;
 	mlxdata->line_size = line_size;
-	//printf("bpp = %d, line_size = %d, endian = %d", bpp, line_size, endian);
 	mlxdata->img_data = tmp;
 }
 
-void	ft_init_mlx(t_mlxdata *mlxdata)
+void	ft_init_mlx(t_scene *scene, t_mlxdata *mlxdata)
 {
 	mlxdata->mlx_p = mlx_init();
 	if (!mlxdata->mlx_p)
-		ft_clean_exit(mlxdata);
+		ft_endgame(scene);
 	mlxdata->win_p = mlx_new_window(mlxdata->mlx_p, WIDTH, HEIGHT,
 			"[TS]miniRT");
 	if (!mlxdata->win_p)
-		ft_clean_exit(mlxdata);
+		ft_endgame(scene);
 }

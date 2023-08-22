@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 15:34:15 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:54:39 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,17 +144,17 @@ typedef struct s_ray
 
 typedef struct s_scene
 {
+	t_mlxdata *mlxdata;
 	t_amb	amb;
 	t_cam	cam;
 	t_light	light;
 	t_object *head_object;
 	t_object *object;
-	int		sphere_count;
-	int		plane_count;
-	int		cylinder_count;
+	//int		sphere_count;
+	//int		plane_count;
+	//int		cylinder_count;
 	t_rgb **pixel_map;
 	t_ray	ray;
-
 }	t_scene;
 
 typedef struct	s_pixel	

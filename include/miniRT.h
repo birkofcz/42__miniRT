@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 15:05:52 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/22 17:54:36 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ t_amb	init_ambient(char *line);
 
 /* init.c */
 int		ft_init(char **description, t_scene *scene);
-void	ft_init_image(t_mlxdata *mlxdata);
-void	ft_init_mlx(t_mlxdata *mlxdata);
+void	ft_init_image(t_scene *scene, t_mlxdata *mlxdata);
+void	ft_init_mlx(t_scene *scene, t_mlxdata *mlxdata);
 
 /* parser.c */
 int		ft_parser(char *file, t_scene *scene);
@@ -86,16 +86,18 @@ bool	ft_testfile(char *input);
 void	ft_freesplit(char **split);
 t_rgb	fill_rgb(int r, int g, int b);
 void free_object_list(t_object *obj);
+void free_pixel_map(t_rgb **pixel_map);
 
 /* events.c */
-int		ft_key_event(int key, t_mlxdata *mlxdata);
+int		ft_key_event(int key, t_scene *scene);
 
 /* exit.c */
 void	ft_clean_exit(t_mlxdata *mlxdata); //add scene as second argument - clear also that struct
-int		ft_endgame(t_mlxdata *mlxdata);
+int		ft_endgame(t_scene *scene);
 
 /* render.c */
-void	ft_render(t_mlxdata *mlxdata, t_scene *scene);
+void	ft_render(t_scene *scene);
+void	put_pixels_to_img(t_scene *scene);
 
 
 /* debug.c */
@@ -124,6 +126,11 @@ t_vec3	addition(t_vec3 vec1, t_vec3 vec2);
 t_vec3	multiply(t_vec3 vec1, double x);
 double length_squared(t_vec3 v);
 bool	is_normal_negative(t_vec3 vec);
+
+/* shadow.c */
+bool	is_in_shadow(t_scene *scene, t_hitrecord *rec);
+bool	cylinder_shadow(t_ray ray, t_cy *cylinder);
+bool	sphere_shadow(t_ray ray, t_sp *sphere);
 
 bool	hit_plane(t_scene *scene, t_hitrecord *rec, t_object *obj);
 bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj);

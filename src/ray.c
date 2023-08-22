@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:58 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/21 14:57:01 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:51:52 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ t_ray	create_ray(t_vec3 origin, t_vec3 direction)
 	result.direction = direction;
 	return (result);
 }
-
-
 
 static t_vec3	direction_vec_creation(t_scene *scene, double u, double v)
 {
