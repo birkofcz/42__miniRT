@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/22 16:59:03 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/22 17:39:18 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ bool	ft_testcolor(char **color);
 /* init_scene.c */
 bool	ft_init_env(char **description, t_scene *scene);
 int		ft_check_env(char *line);
-t_light	init_light(char *line, bool *error, int *count);
-t_cam	init_camera(char *line, bool *error, int *count);
-t_amb	init_ambient(char *line, bool *error, int *count);
+t_light	init_light(char *line, int *count, char **des);
+t_cam	init_camera(char *line, int *count, char **des);
+t_amb	init_ambient(char *line, int *count, char **des);
 
 /* init_scene_utils.c */
-void	ft_free_amb(char **data, char **param, bool *error, char *error_msg);
-void	ft_free_cam(char **data, char **param, bool *error, char *error_msg);
-void	ft_free_light(char **data, char **param, bool *error, char *error_msg);
+void	ft_free_amb(char **data, char **param, char *error_msg, char **des);
+void	ft_free_cam(char **data, char **param, char *error_msg, char **des);
+void	ft_free_light(char **data, char **param, char *error_msg, char **des);
 
 
 /* init.c */
@@ -145,12 +145,12 @@ double	dot_product(t_vec3 a, t_vec3 b);
 t_vec3	substraction(t_vec3 vec1, t_vec3 vec2);
 t_vec3	addition(t_vec3 vec1, t_vec3 vec2);
 t_vec3	multiply(t_vec3 vec1, double x);
-double length_squared(t_vec3 v);
+double	length_squared(t_vec3 v);
 bool	is_normal_negative(t_vec3 vec);
 
 bool	hit_plane(t_scene *scene, t_hitrecord *rec, t_object *obj);
-bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj);
-void		quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *solution);
+bool	hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj);
+void	quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *solution);
 void	apply_light(t_scene *scene, t_hitrecord *rec);
 t_quadratic_solution quadratic_sphere(t_vec3 center, double radius, t_ray r);
 
