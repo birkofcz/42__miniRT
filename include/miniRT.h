@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/22 17:39:18 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/23 14:02:07 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ t_amb	init_ambient(char *line, int *count, char **des);
 void	ft_free_amb(char **data, char **param, char *error_msg, char **des);
 void	ft_free_cam(char **data, char **param, char *error_msg, char **des);
 void	ft_free_light(char **data, char **param, char *error_msg, char **des);
+bool	ft_testratio(char *param);
+bool	ft_testfov(char *param);
 
 
 /* init.c */

@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/22 17:36:11 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/23 14:00:38 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_amb	init_ambient(char *line, int *count, char **des)
 	char	**rgb;
 
 	param = ft_split(line, ' ');
-	if (ft_testparam(param[1]))
+	if (ft_testratio(param[1]))
 		amb.ratio = ft_atof(param[1]);
 	else
 		ft_free_amb(NULL, param, "Bad ambient ratio", des);
@@ -54,7 +54,7 @@ t_cam	init_camera(char *line, int *count, char **des)
 	else
 		ft_free_cam(v, param, "Invalid orient vector", des);
 	ft_freesplit(v);
-	if (ft_testparam(param[3]))
+	if (ft_testfov(param[3]))
 		cam.fov = ft_atoi(param[3]);
 	else
 		ft_free_cam(NULL, param, "Invalid FOV", des);
@@ -78,7 +78,7 @@ t_light	init_light(char *line, int *count, char **des)
 	else
 		ft_free_light(lp, param, "Bad viewpoint data", des);
 	ft_freesplit(lp);
-	if (ft_testparam(param[2]))
+	if (ft_testratio(param[2]))
 		light.bright_ratio = ft_atof(param[2]);
 	else
 		ft_free_light(NULL, param, "Bad bright ratio", des);

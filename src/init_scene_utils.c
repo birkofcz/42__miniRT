@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:33:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/22 17:33:23 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/23 14:00:17 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,3 +41,36 @@ void	ft_free_light(char **data, char **param, char *error_msg, char **des)
 	ft_error(error_msg);
 	exit(1);
 }
+
+bool	ft_testratio(char *param)
+{
+	int	i;
+
+	i = 0;
+	while (param[i])
+	{
+		if ((param[i] < '0' || param[i] > '9') && param[i] != '.' )
+			return (false);
+		i++;
+	}
+	if (ft_atof(param) < 0 || ft_atof(param) > 1)
+		return (false);
+	return (true);
+}
+
+bool	ft_testfov(char *param)
+{
+	int	i;
+
+	i = 0;
+	while (param[i])
+	{
+		if ((param[i] < '0' || param[i] > '9') && param[i] != '.' )
+			return (false);
+		i++;
+	}
+	if (ft_atof(param) < 0 || ft_atof(param) > 180)
+		return (false);
+	return (true);
+}
+
