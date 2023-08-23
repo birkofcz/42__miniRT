@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:33:16 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/02 16:31:30 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:37:24 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*ft_write_pool(char *pool, char *buffer)
 	if (!pool || !buffer)
 		return (NULL);
 	written_pool = ft_strjoin_gnl(pool, buffer);
-	free(pool);
 	return (written_pool);
 }
 
@@ -78,5 +77,6 @@ char	*ft_strjoin_gnl(char *pool, char *buffer)
 		joined_str[i++] = buffer[y++];
 	}
 	joined_str[i] = '\0';
+	free(pool);
 	return (joined_str);
 }

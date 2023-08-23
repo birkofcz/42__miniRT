@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 14:51:06 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/22 18:38:03 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:33:45 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,40 @@ void	quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *solutio
         solution->t2 = INFINITY;
     }
 }
-
-bool hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
+/*
+bool	surface_cylinder_hit(t_scene *scene, t_solution)
 {
-    t_cy *cylinder = obj->object;
+	double projection;
+
+	{
+        hit_point = clash_point(&scene->ray, solution.t1);
+        projection = dot_product(substraction(hit_point, cylinder->center), cylinder->normal);
+        if (projection >= - cylinder->height / 2 && projection <= cylinder->height / 2)
+        {
+            hit = true;
+            t_hit = solution.t1;
+			rec->normal = get_cylinder_normal(hit_point, cylinder);
+        }
+    }
+
+}
+*/
+
+bool	hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj)
+{
+    t_cy *cylinder;
     t_quadratic_solution solution;
     t_vec3 hit_point;
-    double projection;
+	bool hit;
+	double t_hit;
+	double projection;
 
-	
-
-	//cylinder->normal = normalize(cylinder->normal);
-
-
-    quadratic_cylinder(cylinder, scene->ray, &solution);
-
-    bool hit = false;
-    double t_hit = INFINITY;
-
-    // Check intersection with surface
-    // ... (existing code to check intersection with cylinder's surface) ...
+	cylinder = obj->object;
 	hit = false;
 	t_hit = INFINITY;
-	 if (solution.t1 >= scene->ray.t_min && scene->ray.t_max >= solution.t1)
+    quadratic_cylinder(cylinder, scene->ray, &solution);
+    // Check intersection with surface
+	if (solution.t1 >= scene->ray.t_min && scene->ray.t_max >= solution.t1)
     {
         hit_point = clash_point(&scene->ray, solution.t1);
         projection = dot_product(substraction(hit_point, cylinder->center), cylinder->normal);
