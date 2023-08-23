@@ -3,47 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:24:42 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/22 17:54:09 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:07:10 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-double ft_clamp(double value, double min, double max)
-{
-    if (value < min)
-        return (min);
-    else if (value > max)
-        return (max);
-    else
-        return (value);
-}
-
-t_rgb	color_clamp(t_rgb color)
-{
-	t_rgb	tmp;
-	
-    tmp.r = ft_clamp(color.r, 0.0, 255.0);
-    tmp.g = ft_clamp(color.g, 0.0, 255.0);
-    tmp.b = ft_clamp(color.b, 0.0, 255.0);
-
-    return (tmp);
-}
-
-t_rgb	color_scalar(t_rgb color, double scalar)
-{
-	color.r *= scalar;
-	color.g *= scalar;
-	color.b *= scalar;
-	return (color);
-}
-
 t_rgb	apply_ambient(t_rgb object_color, t_amb amb)
 {
-	t_rgb ambient_contribution;
+	t_rgb	ambient_contribution;
 
 	ambient_contribution.r = ((object_color.r + amb.color.r * amb.ratio));
 	ambient_contribution.g = ((object_color.g + amb.color.g * amb.ratio));
@@ -54,48 +25,43 @@ t_rgb	apply_ambient(t_rgb object_color, t_amb amb)
 
 t_rgb	apply_ambient_shadow(t_rgb object_color, t_amb amb)
 {
-	t_rgb ambient_contribution;
+	t_rgb	ambient_contribution;
 
-	ambient_contribution.r = ((object_color.r + amb.color.r) / 2 )* amb.ratio;
-	ambient_contribution.g = ((object_color.g + amb.color.g) / 2 ) * amb.ratio;
-	ambient_contribution.b = ((object_color.b + amb.color.b) / 2 ) * amb.ratio;
+	ambient_contribution.r = ((object_color.r + amb.color.r) / 2) * amb.ratio;
+	ambient_contribution.g = ((object_color.g + amb.color.g) / 2) * amb.ratio;
+	ambient_contribution.b = ((object_color.b + amb.color.b) / 2) * amb.ratio;
 	ambient_contribution = color_clamp(ambient_contribution);
 	return (ambient_contribution);
 }
+
 void	calculate_diffuse(t_scene *scene, t_hitrecord *rec, double dot)
 {
-	t_rgb		diffuse;
+	t_rgb		diff;
 	t_vec3		light_normalized;
+	double		pd;
 
-	light_normalized = normalize_vector(scene->light.lightpoint);
+	light_normalized = normalize_vector(scene->light.lp);
 	if (rec->type == SPHERE || rec->type == CYLINDER)
 	{
-		diffuse = color_scalar(rec->color,
-				(dot * scene->light.bright_ratio));
-		diffuse = color_clamp(diffuse);
-		
-		rec->color = diffuse;
+		diff = color_scalar(rec->color, (dot * scene->light.bright_ratio));
+		diff = color_clamp(diff);
+		rec->color = diff;
 		rec->color = apply_ambient(rec->color, scene->amb);
 	}
 	else if (rec->type == PLANE)
-    {
-        double plane_dot = dot_product(rec->normal, light_normalized);
-        if (plane_dot > 0 && ((plane_dot * scene->light.bright_ratio) > scene->amb.ratio))
-        {
-				diffuse = color_scalar(rec->color,
-                	(plane_dot * scene->light.bright_ratio));
-           		 rec->color = diffuse;
-				 rec->color = apply_ambient(rec->color, scene->amb);
-           		 rec->color = color_clamp(rec->color);
-        }
+	{
+		pd = dot_product(rec->normal, light_normalized);
+		if (pd > 0 && ((pd * scene->light.bright_ratio) > scene->amb.ratio))
+		{
+			diff = color_scalar(rec->color, (pd * scene->light.bright_ratio));
+			rec->color = diff;
+			rec->color = apply_ambient(rec->color, scene->amb);
+			rec->color = color_clamp(rec->color);
+		}
 		else
-        {
-            rec->color = apply_ambient(rec->color, scene->amb);
-        }
+			rec->color = apply_ambient(rec->color, scene->amb);
 	}
 }
-
-
 
 /*
 if hit_point is in shadow, the shadow is calculated.
@@ -122,10 +88,9 @@ void	calculate_and_apply_light(t_scene *scene, t_hitrecord *rec, bool shadow)
 	if (shadow)
 	{
 		rec->color = apply_ambient_shadow(rec->color, scene->amb);
-		//rec->color = color_scalar(rec->color, scene->amb.ratio);
 		return ;
 	}
-	light_normalized = normalize_vector(scene->light.lightpoint);
+	light_normalized = normalize_vector(scene->light.lp);
 	dot = fmax(dot_product(light_normalized, rec->normal), 0.0);
 	if (dot < scene->amb.ratio)
 		dot = scene->amb.ratio;

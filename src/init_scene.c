@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/23 14:00:38 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/23 15:02:43 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_light	init_light(char *line, int *count, char **des)
 	param = ft_split(line, ' ');
 	lp = ft_split(param[1], ',');
 	if (ft_testcoors(lp))
-		light.lightpoint = create_vec3(ft_atof(lp[0]), ft_atof(lp[1]),
+		light.lp = create_vec3(ft_atof(lp[0]), ft_atof(lp[1]),
 				ft_atoi(lp[2]));
 	else
 		ft_free_light(lp, param, "Bad viewpoint data", des);

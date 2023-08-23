@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 14:02:07 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/23 16:21:54 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,26 @@ enum e_keymap
 /* error.c */
 void	ft_error(char *message);
 
+/* events.c */
+int		ft_key_event(int key, t_scene *scene);
+
+/* exit.c */
+int		ft_endgame(t_scene *scene);
+
+/* hit_cylinder.c */
+bool	hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj);
+void	quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quads *solution);
+t_vec3	get_cylinder_normal(t_vec3 point, t_cy *cylinder);
+
+/* hit_plane.c */
+bool	hit_plane(t_scene *scene, t_hitrecord *rec, t_object *obj);
+
+/* hit_sphere.c */
+bool	hit_sphere(t_scene *scene, t_hitrecord *rec, t_object *obj);
+t_vec3	get_sphere_normal(t_vec3 clash, t_sp *sphere);
+t_quads	quadratic_sphere(t_vec3 center, double radius, t_ray r);
+
+
 /* init_objects.c */
 bool	ft_init_objects(char **description, t_scene *scene);
 t_cy	*ft_init_cylinder(char *line);
@@ -97,70 +117,78 @@ void	ft_free_light(char **data, char **param, char *error_msg, char **des);
 bool	ft_testratio(char *param);
 bool	ft_testfov(char *param);
 
-
 /* init.c */
 int		ft_init(char **description, t_scene *scene);
 void	ft_init_image(t_scene *scene, t_mlxdata *mlxdata);
 void	ft_init_mlx(t_scene *scene, t_mlxdata *mlxdata);
 
+/* light.c */
+void	apply_light(t_scene *scene, t_hitrecord *rec);
+void	calculate_and_apply_light(t_scene *scene, t_hitrecord *rec,
+			bool shadow);
+void	calculate_diffuse(t_scene *scene, t_hitrecord *rec, double dot);
+t_rgb	apply_ambient_shadow(t_rgb object_color, t_amb amb);
+t_rgb	apply_ambient(t_rgb object_color, t_amb amb);
+
+/* light_utils.c */
+double	ft_clamp(double value, double min, double max);
+t_rgb	color_clamp(t_rgb color);
+t_rgb	color_scalar(t_rgb color, double scalar);
+
+/* main.c */
+void	create_pix_matrix(t_scene *scene);
+void	init_camera2(t_cam *camera);
+void	init_pixel_map(t_scene *scene);
+
 /* parser.c */
 int		ft_parser(char *file, t_scene *scene);
 bool	ft_testfile(char *input);
 
-/* utils.c */
-void	ft_freesplit(char **split);
-t_rgb	fill_rgb(int r, int g, int b);
-void free_object_list(t_object *obj);
-void free_pixel_map(t_rgb **pixel_map);
+/* ray.c */
+bool	hit(t_scene *scene, t_hitrecord *rec, t_object *obj);
+bool	hittable_list_hit(t_scene *scene, t_hitrecord *rec);
+t_vec3	clash_point(t_ray *ray, double t);
+t_ray	create_ray(t_vec3 origin, t_vec3 direction);
+t_ray	calculate_ray(t_scene *scene, int x, int y);
 
-/* events.c */
-int		ft_key_event(int key, t_scene *scene);
-
-/* exit.c */
-void	ft_clean_exit(t_mlxdata *mlxdata); //add scene as second argument - clear also that struct
-int		ft_endgame(t_scene *scene);
+/* ray_utils.c */
+t_rgb	ray_color(t_scene *scene);
+t_vec3	direction_vec_creation(t_scene *scene, double u, double v);
 
 /* render.c */
 void	ft_render(t_scene *scene);
 void	put_pixels_to_img(t_scene *scene);
 
-
-/* debug.c */
-void	debug_all(t_scene *scene);
-void debug_print_ray(t_ray ray);
-
-
-/* ray.c */
-t_ray	create_ray(t_vec3 origin, t_vec3 direction);
-bool	hit(t_scene *scene, t_hitrecord *rec, t_object *obj);
-t_vec3	clash_point(t_ray *r, double t);
-t_ray	calculate_ray(t_scene *scene, int x, int y);
-
-/* sphere.c */
-t_rgb	ray_color(t_scene *scene);
-bool	hit_sphere(t_scene *scene, t_hitrecord *rec, t_object *obj);
-
-/* vector_operations.c */
-t_vec3	create_vec3(double x, double y, double z);
-t_vec3	normalize_vector(t_vec3 vector);
-double	vector_len(t_vec3 vector);
-t_vec3	cross_product(t_vec3 a, t_vec3 b);
-double	dot_product(t_vec3 a, t_vec3 b);
-t_vec3	substraction(t_vec3 vec1, t_vec3 vec2);
-t_vec3	addition(t_vec3 vec1, t_vec3 vec2);
-t_vec3	multiply(t_vec3 vec1, double x);
-double	length_squared(t_vec3 v);
-bool	is_normal_negative(t_vec3 vec);
-
 /* shadow.c */
 bool	is_in_shadow(t_scene *scene, t_hitrecord *rec);
 bool	cylinder_shadow(t_ray ray, t_cy *cylinder);
 bool	sphere_shadow(t_ray ray, t_sp *sphere);
-
 bool	hit_plane(t_scene *scene, t_hitrecord *rec, t_object *obj);
 bool	hit_cylinder(t_scene *scene, t_hitrecord *rec, t_object *obj);
-void	quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quadratic_solution *solution);
+void	quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quads 
+			*solution);
 void	apply_light(t_scene *scene, t_hitrecord *rec);
-t_quadratic_solution quadratic_sphere(t_vec3 center, double radius, t_ray r);
+t_quads	quadratic_sphere(t_vec3 center, double radius, t_ray r);
+
+/* utils.c */
+void	free_object_list(t_object *obj);
+void	free_pixel_map(t_rgb **pixel_map);
+void	ft_freesplit(char **split);
+t_rgb	fill_rgb(int r, int g, int b);
+
+/* vector_operations.c */
+t_vec3	create_vec3(double x, double y, double z);
+t_vec3	normalize_vector(t_vec3 vector);
+t_vec3	substraction(t_vec3 vec1, t_vec3 vec2);
+t_vec3	addition(t_vec3 vec1, t_vec3 vec2);
+t_vec3	multiply(t_vec3 vec1, double x);
+
+
+/* vector_operations_utils.c */
+t_vec3	cross_product(t_vec3 a, t_vec3 b);
+double	dot_product(t_vec3 a, t_vec3 b);
+double	vector_len(t_vec3 vector);
+double	length_squared(t_vec3 v);
+bool	is_normal_negative(t_vec3 vec);
 
 #endif

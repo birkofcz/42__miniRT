@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:41:19 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/22 17:20:13 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:28:20 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
 //HERE WE RENDER THE IMAGE AND PUTTING IT TO THE WINDOW OF MLX.
-// this function will be called every time we need to re-render - must get the data it needs
 
 /*
 Each pixel is 4 bytes, bpp = 32, line WIDTH*4
 Writes the color components into the img_data buffer.
 */
-void put_pixels_to_img(t_scene *scene)
+void	put_pixels_to_img(t_scene *scene)
 {
-	int y;
-	int x;
-	int index;
+	int	y;
+	int	x;
+	int	index;
 
 	y = 0;
 	while (y < HEIGHT)

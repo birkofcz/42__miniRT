@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:37:58 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/22 17:54:07 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:20:16 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	sphere_shadow(t_ray ray, t_sp *sphere)
 {
-	t_quadratic_solution	solution;
+	t_quads	solution;
 
 	solution = quadratic_sphere(sphere->center, sphere->diameter / 2, ray);
 	if (solution.discriminant < 0)
@@ -24,12 +24,13 @@ bool	sphere_shadow(t_ray ray, t_sp *sphere)
 	return (false);
 }
 
-bool cylinder_shadow(t_ray ray, t_cy *cylinder)
+bool	cylinder_shadow(t_ray ray, t_cy *cylinder)
 {
-	t_quadratic_solution solution;
-	t_vec3 hit_point;
-	double projection;
-	double t_hit;
+	t_quads	solution;
+	t_vec3	hit_point;
+	double	projec;
+	double	t_hit;
+	t_vec3	hit_to_center;
 
 	quadratic_cylinder(cylinder, ray, &solution);
 	if (solution.discriminant < 0)
@@ -38,17 +39,17 @@ bool cylinder_shadow(t_ray ray, t_cy *cylinder)
 	if (solution.t1 >= EPSILON)
 	{
 		hit_point = clash_point(&ray, solution.t1);
-		t_vec3 hit_to_center = substraction(hit_point, cylinder->center);
-		projection = dot_product(hit_to_center, cylinder->normal);
-		if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
+		hit_to_center = substraction(hit_point, cylinder->center);
+		projec = dot_product(hit_to_center, cylinder->normal);
+		if (projec >= -cylinder->height / 2 && projec <= cylinder->height / 2)
 			t_hit = solution.t1;
 	}
 	if (solution.t2 >= EPSILON)
 	{
 		hit_point = clash_point(&ray, solution.t2);
-		t_vec3 hit_to_center = substraction(hit_point, cylinder->center);
-		projection = dot_product(hit_to_center, cylinder->normal);
-		if (projection >= -cylinder->height / 2 && projection <= cylinder->height / 2)
+		hit_to_center = substraction(hit_point, cylinder->center);
+		projec = dot_product(hit_to_center, cylinder->normal);
+		if (projec >= -cylinder->height / 2 && projec <= cylinder->height / 2)
 			t_hit = fmin(t_hit, solution.t2);
 	}
 	if (t_hit < INFINITY)
@@ -57,9 +58,8 @@ bool cylinder_shadow(t_ray ray, t_cy *cylinder)
 	double t_top = dot_product(substraction(top_center, ray.origin), cylinder->normal) / dot_product(ray.direction, cylinder->normal);
 	t_vec3 top_intersection = clash_point(&ray, t_top);
 	if (dot_product(substraction(top_intersection, top_center), substraction(top_intersection, top_center)) <= (cylinder->diameter / 2) * (cylinder->diameter / 2))
-		return true;
-
-	return false;
+		return (true);
+	return (false);
 }
 
 static bool	intersect_shadow(t_ray ray, t_object *obj)
@@ -78,15 +78,13 @@ if the ray intersects with any objects in the scene
 before it reaches the light. If an intersection is found,
 it means the point is in shadow; otherwise, it's illuminated.
 */
-
-
 bool	is_in_shadow(t_scene *scene, t_hitrecord *rec)
 {
 	t_vec3		ray_to_light;
 	t_ray		shadow_ray;
 	t_object	*tmp;
 
-	ray_to_light = substraction(scene->light.lightpoint, rec->clash);
+	ray_to_light = substraction(scene->light.lp, rec->clash);
 	shadow_ray.origin = rec->clash;
 	shadow_ray.direction = normalize_vector(ray_to_light);
 	tmp = scene->head_object;

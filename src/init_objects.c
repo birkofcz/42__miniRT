@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:04:48 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/22 16:52:06 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/23 14:53:28 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,11 @@ t_cy	*ft_init_cylinder(char *line)
 bool	ft_init_objects(char **description, t_scene *scene)
 {
 	int			i;
-	t_object	*current = NULL;
+	t_object	*current;
 	t_object	*new_object;
 
 	i = 0;
+	current = NULL;
 	while (description[i])
 	{
 		if (ft_isstr(description[i], "sp") || ft_isstr(description[i], "pl")

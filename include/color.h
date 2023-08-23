@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 14:58:49 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/07 17:35:44 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:22:12 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "miniRT.h"
 
-/* Struct for color */
 typedef struct s_rgb
 {
 	int	r;
@@ -23,5 +22,4 @@ typedef struct s_rgb
 	int	b;
 }	t_rgb;
 
-/* Functions handling colors */
 #endif
