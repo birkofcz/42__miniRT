@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:58 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/22 15:51:52 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:16:40 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static t_vec3	direction_vec_creation(t_scene *scene, double u, double v)
 	vertical_contribution = multiply(scene->cam.vertical, v);
 	horizontal_sum = addition(scene->cam.lower_left_corner, horizontal_contribution);
 	horizontal_and_vertical_sum = addition(horizontal_sum, vertical_contribution);
-	return(substraction(horizontal_and_vertical_sum, scene->cam.viewpoint));
+	return(substraction(horizontal_and_vertical_sum, scene->cam.viewp));
 }
 
 /*
@@ -124,5 +124,5 @@ t_ray	calculate_ray(t_scene *scene, int x, int y)
  	u = (x + 0.5) / WIDTH;     
     v = (HEIGHT - y - 0.5) / HEIGHT; 
 	direction = direction_vec_creation(scene, u, v);
-	return(create_ray(scene->cam.viewpoint, direction));
+	return(create_ray(scene->cam.viewp, direction));
 }

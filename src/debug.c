@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 15:57:33 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/14 14:46:34 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:17:21 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void print_ambient_light(const t_amb *ambient_light)
 void print_camera(const t_cam *camera)
 {
 	printf("Camera:\n");
-   printf("Viewpoint: (%.2f, %.2f, %.2f)\n", camera->viewpoint.x, camera->viewpoint.y, camera->viewpoint.z);
+   printf("Viewpoint: (%.2f, %.2f, %.2f)\n", camera->viewp.x, camera->viewp.y, camera->viewp.z);
     printf("Normal: (%.2f, %.2f, %.2f)\n", camera->normal.x, camera->normal.y, camera->normal.z);
     printf("w: (%.2f, %.2f, %.2f)\n", camera->w.x, camera->w.y, camera->w.z);
     printf("u: (%.2f, %.2f, %.2f)\n", camera->u.x, camera->u.y, camera->u.z);

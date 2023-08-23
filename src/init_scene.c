@@ -3,71 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   init_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/09 17:55:13 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:00:38 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 #include "../include/objects.h"
 
-t_amb	init_ambient(char *line)
+t_amb	init_ambient(char *line, int *count, char **des)
 {
 	t_amb	amb;
 	char	**param;
 	char	**rgb;
 
 	param = ft_split(line, ' ');
-	amb.ratio = ft_atof(param[1]);
+	if (ft_testratio(param[1]))
+		amb.ratio = ft_atof(param[1]);
+	else
+		ft_free_amb(NULL, param, "Bad ambient ratio", des);
 	rgb = ft_split(param[2], ',');
+	if (ft_testcolor(rgb))
+		amb.color = fill_rgb(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+	else
+		ft_free_amb(rgb, param, "Bad coloring in ambient", des);
 	ft_freesplit(param);
-	amb.color.r = ft_atoi(rgb[0]);
-	amb.color.g = ft_atoi(rgb[1]);
-	amb.color.b = ft_atoi(rgb[2]);
 	ft_freesplit(rgb);
+	*count += 1;
 	return (amb);
 }
 
-t_cam	init_camera(char *line)
+t_cam	init_camera(char *line, int *count, char **des)
 {
 	t_cam	cam;
 	char	**param;
-	char	**view_point;
-	char	**orient_vect;
+	char	**v;
 
 	param = ft_split(line, ' ');
-	view_point = ft_split(param[1], ',');
-	cam.viewpoint.x = ft_atof(view_point[0]);
-	cam.viewpoint.y = ft_atof(view_point[1]);
-	cam.viewpoint.z = ft_atof(view_point[2]);
-	ft_freesplit(view_point);
-	orient_vect = ft_split(param[2], ',');
-	cam.normal.x = ft_atof(orient_vect[0]);
-	cam.normal.y = ft_atof(orient_vect[1]);
-	cam.normal.z = ft_atof(orient_vect[2]);
-	ft_freesplit(orient_vect);
-	cam.fov = ft_atoi(param[3]);
+	v = ft_split(param[1], ',');
+	if (ft_testcoors(v))
+		cam.viewp = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
+	else
+		ft_free_cam(v, param, "Bad viewpoint data", des);
+	ft_freesplit(v);
+	v = ft_split(param[2], ',');
+	if (ft_testvector(v))
+		cam.normal = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
+	else
+		ft_free_cam(v, param, "Invalid orient vector", des);
+	ft_freesplit(v);
+	if (ft_testfov(param[3]))
+		cam.fov = ft_atoi(param[3]);
+	else
+		ft_free_cam(NULL, param, "Invalid FOV", des);
 	ft_freesplit(param);
 	cam.aspect_ratio = (double)16 / 9;
+	*count += 1;
 	return (cam);
 }
 
-t_light	init_light(char *line)
+t_light	init_light(char *line, int *count, char **des)
 {
 	t_light	light;
 	char	**param;
-	char	**coor;
+	char	**lp;
 
 	param = ft_split(line, ' ');
-	coor = ft_split(param[1], ',');
-	light.lightpoint.x = ft_atof(coor[0]);
-	light.lightpoint.y = ft_atof(coor[1]);
-	light.lightpoint.z = ft_atof(coor[2]);
-	ft_freesplit(coor);
-	light.bright_ratio = ft_atof(param[2]);
+	lp = ft_split(param[1], ',');
+	if (ft_testcoors(lp))
+		light.lightpoint = create_vec3(ft_atof(lp[0]), ft_atof(lp[1]),
+				ft_atoi(lp[2]));
+	else
+		ft_free_light(lp, param, "Bad viewpoint data", des);
+	ft_freesplit(lp);
+	if (ft_testratio(param[2]))
+		light.bright_ratio = ft_atof(param[2]);
+	else
+		ft_free_light(NULL, param, "Bad bright ratio", des);
 	ft_freesplit(param);
+	*count += 1;
 	return (light);
 }
 
@@ -88,33 +104,24 @@ int	ft_check_env(char *line)
 		return (4);
 }
 
-bool	ft_init_env(char **description, t_scene *scene)
+bool	ft_init_env(char **desc, t_scene *scene)
 {
-	int	i;
-	int	env_count;
+	int		i;
+	int		count;
 
 	i = 0;
-	env_count = 0;
-	while (description[i] != NULL)
+	count = 0;
+	while (desc[i] != NULL)
 	{
-		if (ft_check_env(description[i]) == 1)
-		{
-			scene->amb = init_ambient(description[i]);
-			env_count++;
-		}
-		else if (ft_check_env(description[i]) == 2)
-		{
-			scene->cam = init_camera(description[i]);
-			env_count++;
-		}
-		else if (ft_check_env(description[i]) == 3)
-		{
-			scene->light = init_light(description[i]);
-			env_count++;
-		}
+		if (ft_check_env(desc[i]) == 1)
+			scene->amb = init_ambient(desc[i], &count, desc);
+		else if (ft_check_env(desc[i]) == 2)
+			scene->cam = init_camera(desc[i], &count, desc);
+		else if (ft_check_env(desc[i]) == 3)
+			scene->light = init_light(desc[i], &count, desc);
 		i++;
 	}
-	if (env_count != 3)
-		return (false);
+	if (count != 3)
+		return (ft_error("Duplicate or missing A, C, L values"), false);
 	return (true);
 }

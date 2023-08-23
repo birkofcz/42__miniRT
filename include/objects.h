@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/22 17:54:39 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:17:12 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_ambientlight
 {
 	double	ratio;
 	t_rgb	color;
+	bool	error_flag;
 }	t_amb;
 
 /* Camera 
@@ -36,7 +37,7 @@ fov - horizontal field of view in degrees in range [0,180]
  */
 typedef struct s_camera
 {
-	t_vec3	viewpoint;
+	t_vec3	viewp;
 	t_vec3	normal;
 	t_vec3	w;
 	t_vec3	u;
@@ -50,6 +51,7 @@ typedef struct s_camera
 	double	viewport_height;
 	double	viewport_width;
 	double	aspect_ratio;
+	bool	error_flag;
 }	t_cam;
 
 /* Light
@@ -61,6 +63,7 @@ typedef struct s_light
 {
 	t_vec3	lightpoint;
 	double	bright_ratio;
+	bool	error_flag;
 }	t_light;
 
 /* Sphere - object
