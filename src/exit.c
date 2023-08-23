@@ -3,38 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:32:08 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/03 17:14:33 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/22 17:18:43 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-/* 
-Clean exit.
- */
-void	ft_clean_exit(t_mlxdata *mlxdata) //add scene as second argument - clear also that struct
-{
-	if (!mlxdata)
-		exit(0);
-	if (mlxdata->img_p && mlxdata->mlx_p)
-		mlx_destroy_image(mlxdata->mlx_p, mlxdata->img_p);
-	if (mlxdata->win_p && mlxdata->mlx_p)
-		mlx_destroy_window(mlxdata->mlx_p, mlxdata->win_p);
-	if (mlxdata->mlx_p)
-	{
-		mlx_loop_end(mlxdata->mlx_p);
-		mlx_destroy_display(mlxdata->mlx_p);
-		free(mlxdata->mlx_p);
-	}
-	exit(0);
-}
-
 /* MLX takes int type funct, this needs to be here to call clean exit */
-int	ft_endgame(t_mlxdata *mlxdata)
+int	ft_endgame(t_scene *scene)
 {
-	ft_clean_exit(mlxdata);
-	return (0);
+	if (scene->mlxdata == NULL)
+		exit(EXIT_SUCCESS);
+	if (scene->mlxdata->img_p != NULL && scene->mlxdata->mlx_p != NULL)
+		mlx_destroy_image(scene->mlxdata->mlx_p, scene->mlxdata->img_p);
+	if (scene->mlxdata->win_p != NULL && scene->mlxdata->mlx_p != NULL)
+		mlx_destroy_window(scene->mlxdata->mlx_p, scene->mlxdata->win_p);
+	if (scene->mlxdata->mlx_p != NULL )
+	{
+		mlx_loop_end(scene->mlxdata->mlx_p);
+		mlx_destroy_display(scene->mlxdata->mlx_p);
+		free(scene->mlxdata->mlx_p);
+	}
+	if (scene != NULL)
+	{
+		if (scene->head_object != NULL)
+			free_object_list(scene->head_object);
+		if (scene->pixel_map != NULL)
+			free_pixel_map(scene->pixel_map);
+	}
+	exit(EXIT_SUCCESS);
 }

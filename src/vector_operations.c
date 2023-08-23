@@ -6,7 +6,7 @@
 /*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 15:51:34 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 10:48:38 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:37:12 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_vec3	normalize_vector(t_vec3 vector)
 double	vector_len(t_vec3 vector)
 {
 	return (sqrt(vector.x * vector.x + vector.y * vector.y +
-													vector.z * vector.z));
+		vector.z * vector.z));
 }
 
 double length_squared(t_vec3 v)
