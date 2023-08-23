@@ -45,7 +45,7 @@ SRC_PATH =	src/
 SRC = 	main.c error.c utils.c parser.c \
 	init_objects.c init_objects_utils.c init_object_utils2.c init_scene.c init_scene_utils.c init.c debug.c\
 	events.c exit.c render.c vector_operations.c hit_sphere.c ray.c hit_plane.c\
-	hit_cylinder.c light.c
+	hit_cylinder.c light.c shadow.c
 	
 SRCS =	$(addprefix $(SRC_PATH), $(SRC))
 

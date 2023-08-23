@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
 /*   Updated: 2023/08/21 17:16:23 by sbenes           ###   ########.fr       */
@@ -88,7 +88,7 @@ camera is tilted or rotated with respect to the world's vertical axis.*/
 /*
 Sending rays from the camera to every pixel of a projecting image.
 The color of pixels is calculated and stored in pixel_map, which
-is later used for rendering of the image.
+is later used for rendering image.
 */
 void	create_pix_matrix(t_scene *scene)
 {
@@ -117,20 +117,19 @@ void	create_pix_matrix(t_scene *scene)
 int	main(int argc, char **argv)
 {
 	t_scene		scene;
-	t_mlxdata	mlxdata;
+	t_mlxdata	mlx;
 
 	if (argc == 1)
 		return (ft_error("Missing scene file path"), 1);
 	if (ft_parser(argv[1], &scene) == 1)
 		return (1);
 	create_pix_matrix(&scene);
-	ft_init_mlx(&mlxdata);
-	ft_init_image(&mlxdata);
-	ft_render(&mlxdata, &scene);
-	mlx_hook(mlxdata.win_p, EXIT_BUTTON, 0, ft_endgame, &mlxdata);
-	//mlx_mouse_hook(mlxdata.win_p, ft_mouse_event, &mlxdata);
-	mlx_key_hook(mlxdata.win_p, ft_key_event, &mlxdata);
-	
-	mlx_loop(mlxdata.mlx_p);
+	scene.mlxdata = &mlx;
+	ft_init_mlx(&scene, &mlx);
+	ft_init_image(&scene, &mlx);
+	ft_render(&scene);
+	mlx_hook(mlx.win_p, EXIT_BUTTON, 0, ft_endgame, &scene);
+	mlx_key_hook(mlx.win_p, ft_key_event, &scene);
+	mlx_loop(mlx.mlx_p);
 	return (0);
 }

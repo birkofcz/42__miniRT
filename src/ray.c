@@ -97,8 +97,6 @@ t_ray	create_ray(t_vec3 origin, t_vec3 direction)
 	return (result);
 }
 
-
-
 static t_vec3	direction_vec_creation(t_scene *scene, double u, double v)
 {
 	t_vec3 horizontal_contribution;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:22:24 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 15:59:13 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/22 18:04:33 by tkajanek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void free_object_list(t_object *obj)
 	t_sp *sphere;
 	t_cy *cylinder;
 	t_pl *plane;
-	 t_object *next;
+	t_object *next;
 
 	sphere = NULL;
 	cylinder = NULL;
@@ -70,4 +70,18 @@ void free_object_list(t_object *obj)
         free(obj);
         obj = next;
     }
+}
+
+void free_pixel_map(t_rgb **pixel_map)
+{
+		int i;
+
+		i = 0;
+		while (i < HEIGHT)
+		{
+			free(pixel_map[i]);
+			i++;
+		}
+		free(pixel_map);
+		pixel_map = NULL;
 }
