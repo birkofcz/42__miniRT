@@ -6,25 +6,14 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:37:58 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/23 16:20:16 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 14:37:49 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
 
-bool	sphere_shadow(t_ray ray, t_sp *sphere)
-{
-	t_quads	solution;
 
-	solution = quadratic_sphere(sphere->center, sphere->diameter / 2, ray);
-	if (solution.discriminant < 0)
-		return (false);
-	if (solution.t1 > EPSILON || solution.t2 > EPSILON)
-		return (true);
-	return (false);
-}
-
-bool	cylinder_shadow(t_ray ray, t_cy *cylinder)
+/* bool	cylinder_shadow(t_ray ray, t_cy *cylinder)
 {
 	t_quads	solution;
 	t_vec3	hit_point;
@@ -60,7 +49,58 @@ bool	cylinder_shadow(t_ray ray, t_cy *cylinder)
 	if (dot_product(substraction(top_intersection, top_center), substraction(top_intersection, top_center)) <= (cylinder->diameter / 2) * (cylinder->diameter / 2))
 		return (true);
 	return (false);
+} */
+
+bool	check_solution(t_ray *ray, t_cy *cylinder, double t, double *t_hit)
+{
+	t_vec3	hit_point;
+	t_vec3	hit_to_center;
+	double	projec;
+
+	hit_point = clash_point(ray, t);
+	hit_to_center = substraction(hit_point, cylinder->center);
+	projec = dot_product(hit_to_center, cylinder->normal);
+	if (projec >= -cylinder->height / 2 && projec <= cylinder->height / 2) 
+	{
+		*t_hit = fmin(*t_hit, t);
+		return (true);
+	}
+	return (false);
 }
+
+bool	check_top_intersection(t_ray *ray, t_cy *c)
+{
+	t_vec3	top_center;
+	double	t_top;
+	t_vec3	top_intersection;
+
+	top_center = addition(c->center, multiply(c->normal, c->height / 2));
+	t_top = dot_product(substraction(top_center, ray->origin), c->normal)
+		/ dot_product(ray->direction, c->normal);
+	top_intersection = clash_point(ray, t_top);
+	return (dot_product(substraction(top_intersection, top_center),
+			substraction(top_intersection, top_center)) <= (c->diameter / 2)
+		* (c->diameter / 2));
+}
+
+bool	cylinder_shadow(t_ray ray, t_cy *cylinder)
+{
+	t_quads	solution;
+	double	t_hit;
+
+	t_hit = INFINITY;
+	quadratic_cylinder(cylinder, ray, &solution);
+	if (solution.discriminant < 0)
+		return (false);
+	if (solution.t1 >= EPSILON)
+		check_solution(&ray, cylinder, solution.t1, &t_hit);
+	if (solution.t2 >= EPSILON)
+		check_solution(&ray, cylinder, solution.t2, &t_hit);
+	if (t_hit < INFINITY) 
+		return (true);
+	return (check_top_intersection(&ray, cylinder));
+}
+
 
 static bool	intersect_shadow(t_ray ray, t_object *obj)
 {
