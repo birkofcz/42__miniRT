@@ -6,12 +6,11 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:37:58 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/24 14:37:49 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:29:22 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRT.h"
-
 
 /* bool	cylinder_shadow(t_ray ray, t_cy *cylinder)
 {
@@ -30,7 +29,8 @@
 		hit_point = clash_point(&ray, solution.t1);
 		hit_to_center = substraction(hit_point, cylinder->center);
 		projec = dot_product(hit_to_center, cylinder->normal);
-		if (projec >= -cylinder->height / 2 && projec <= cylinder->height / 2)
+		if (projec >= -cylinder->height / 2 && projec 
+				<= cylinder->height / 2)
 			t_hit = solution.t1;
 	}
 	if (solution.t2 >= EPSILON)
@@ -38,15 +38,20 @@
 		hit_point = clash_point(&ray, solution.t2);
 		hit_to_center = substraction(hit_point, cylinder->center);
 		projec = dot_product(hit_to_center, cylinder->normal);
-		if (projec >= -cylinder->height / 2 && projec <= cylinder->height / 2)
+		if (projec >= -cylinder->height / 2 && projec 
+				<= cylinder->height / 2)
 			t_hit = fmin(t_hit, solution.t2);
 	}
 	if (t_hit < INFINITY)
 		return true;
-	t_vec3 top_center = addition(cylinder->center, multiply(cylinder->normal, cylinder->height / 2));
-	double t_top = dot_product(substraction(top_center, ray.origin), cylinder->normal) / dot_product(ray.direction, cylinder->normal);
+	t_vec3 top_center = addition(cylinder->center, 
+			multiply(cylinder->normal, cylinder->height / 2));
+	double t_top = dot_product(substraction(top_center, ray.origin),
+			cylinder->normal) / dot_product(ray.direction, cylinder->normal);
 	t_vec3 top_intersection = clash_point(&ray, t_top);
-	if (dot_product(substraction(top_intersection, top_center), substraction(top_intersection, top_center)) <= (cylinder->diameter / 2) * (cylinder->diameter / 2))
+	if (dot_product(substraction(top_intersection, top_center),
+			substraction(top_intersection, top_center)) 
+				<= (cylinder->diameter / 2) * (cylinder->diameter / 2))
 		return (true);
 	return (false);
 } */
@@ -100,7 +105,6 @@ bool	cylinder_shadow(t_ray ray, t_cy *cylinder)
 		return (true);
 	return (check_top_intersection(&ray, cylinder));
 }
-
 
 static bool	intersect_shadow(t_ray ray, t_object *obj)
 {

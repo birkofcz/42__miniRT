@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:33:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 14:00:17 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:30:00 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,3 @@ bool	ft_testfov(char *param)
 		return (false);
 	return (true);
 }
-

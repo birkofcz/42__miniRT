@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 15:44:54 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 15:47:47 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:24:52 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	is_normal_negative(t_vec3 vec)
 {
-	if (vec.x < 0 || vec.y < 0 ||vec.z < 0)
+	if (vec.x < 0 || vec.y < 0 || vec.z < 0)
 		return (true);
 	else
 		return (false);
@@ -22,8 +22,8 @@ bool	is_normal_negative(t_vec3 vec)
 
 double	vector_len(t_vec3 vector)
 {
-	return (sqrt(vector.x * vector.x + vector.y * vector.y +
-			vector.z * vector.z));
+	return (sqrt(vector.x * vector.x + vector.y * vector.y 
+			+ vector.z * vector.z));
 }
 
 double	length_squared(t_vec3 v)

@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 16:21:21 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:32:12 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,6 @@ For rendering hit, you need to get the lowest t
 from the hittable objects along the ray.
 Intersection_point = Ray_origin + t * Ray_direction
 */
-
 
 //hit record
 //clash: Hit point where the ray intersects the object's surface. 

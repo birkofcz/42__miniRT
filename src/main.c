@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 15:14:19 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:23:33 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ void	init_camera2(t_cam *camera)
 	vec_up = camera->normal;
 	camera->fov_rad = camera->fov * M_PI / 180;
 	camera->focal_length = 1.0;
-	look_at = create_vec3(0,0,0);
+	look_at = create_vec3(0, 0, 0);
 	half_width = camera->focal_length * tan(camera->fov_rad / 2);
 	camera->viewport_height = 2.0 * half_width;
 	camera->viewport_width = camera->aspect_ratio * camera->viewport_height;
-
 	camera->w = normalize_vector(substraction(camera->viewp, look_at));
 	camera->u = normalize_vector(cross_product(vec_up, camera->w));
 	camera->v = cross_product(camera->w, camera->u);

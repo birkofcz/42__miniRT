@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:58 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/23 15:27:50 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:25:05 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ bool	hittable_list_hit(t_scene *scene, t_hitrecord *rec)
 		apply_light(scene, rec);
 	return (hit_anything);
 }
-
 
 // Calculates the point of intersetion of ray and object.
 // Clash (intersection point along the ray) = Origin  + t * Direction

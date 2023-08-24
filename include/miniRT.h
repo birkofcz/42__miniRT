@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/24 15:00:16 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:32:33 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ enum e_keymap
 	MOUSE_ZOOMOUT = 5
 };
 
-
 /* error.c */
 void		ft_error(char *message);
 
@@ -71,7 +70,6 @@ bool		hit_cylinder_bottom_cap(t_object *obj, t_hitrecord *rec, t_cy *c,
 bool		hit_cylinder_surface(t_object *obj, t_hitrecord *rec, t_cy 
 				*cylinder, t_ray *ray);
 
-
 /* hit_cylinder_utils.c */
 void		quadratic_cylinder(t_cy *cylinder,	t_ray ray, t_quads *solution);
 t_vec3		get_cylinder_normal(t_vec3 point, t_cy *cylinder);
@@ -84,7 +82,6 @@ bool		hit_sphere(t_scene *scene, t_hitrecord *rec, t_object *obj);
 t_vec3		get_sphere_normal(t_vec3 clash, t_sp *sphere);
 t_quads		quadratic_sphere(t_vec3 center, double radius, t_ray r);
 
-
 /* init_objects.c */
 bool		ft_init_objects(char **description, t_scene *scene);
 t_cy		*ft_init_cylinder(char *line);
@@ -95,7 +92,6 @@ bool		ft_testvector(char **vector);
 bool		ft_testparam(char *param);
 bool		ft_testcolor(char **color);
 
-
 /* init_objects_utils.c */
 int			ft_count_objects(char **description);
 bool		ft_fillcyldiahei(t_cy *cyl, char *dia, char *hei);
@@ -103,7 +99,6 @@ void		ft_free_sp(char **data, char **param, t_sp *sphere,
 				char *error_msg);
 void		ft_free_pl(char **data, char **param, t_pl *plane, char *error_msg);
 void		ft_free_cy(char **data, char **param, t_cy *cyl, char *error_msg);
-
 
 /* init_object_utils2.c */
 bool		ft_testparam(char *param);
@@ -195,7 +190,6 @@ t_vec3		normalize_vector(t_vec3 vector);
 t_vec3		substraction(t_vec3 vec1, t_vec3 vec2);
 t_vec3		addition(t_vec3 vec1, t_vec3 vec2);
 t_vec3		multiply(t_vec3 vec1, double x);
-
 
 /* vector_operations_utils.c */
 t_vec3		cross_product(t_vec3 a, t_vec3 b);
