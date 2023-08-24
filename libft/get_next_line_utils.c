@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:33:16 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 14:37:24 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:53:39 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,5 @@ char	*ft_strjoin_gnl(char *pool, char *buffer)
 		joined_str[i++] = buffer[y++];
 	}
 	joined_str[i] = '\0';
-	free(pool);
 	return (joined_str);
 }
