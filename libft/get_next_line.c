@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:24:00 by sbenes            #+#    #+#             */
-/*   Updated: 2023/03/02 16:37:54 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 17:53:02 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,15 +133,14 @@ char	*get_next_line(int fd)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
+			return (free(buffer), NULL);
 		buffer[bytes_read] = '\0';
 		pool = ft_write_pool(pool, buffer);
 	}
 	free(buffer);
 	buffer = ft_line(pool);
 	pool = ft_newpool(pool);
+	if (!pool)
+		free(pool);
 	return (buffer);
 }

@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:56 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/21 17:17:12 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:32:12 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bright_ratio - light brightness ratio in range [0.0,1.0]
  */
 typedef struct s_light
 {
-	t_vec3	lightpoint;
+	t_vec3	lp;
 	double	bright_ratio;
 	bool	error_flag;
 }	t_light;
@@ -118,8 +118,8 @@ typedef struct s_mlxdata
 	char	*img_data;
 	int		bpp;
 	int		line_size;
-	int	img_height;
-	int img_width;
+	int		img_height;
+	int		img_width;
 }	t_mlxdata;
 
 typedef enum e_type
@@ -147,24 +147,21 @@ typedef struct s_ray
 
 typedef struct s_scene
 {
-	t_mlxdata *mlxdata;
-	t_amb	amb;
-	t_cam	cam;
-	t_light	light;
-	t_object *head_object;
-	t_object *object;
-	//int		sphere_count;
-	//int		plane_count;
-	//int		cylinder_count;
-	t_rgb **pixel_map;
-	t_ray	ray;
+	t_mlxdata	*mlxdata;
+	t_amb		amb;
+	t_cam		cam;
+	t_light		light;
+	t_object	*head_object;
+	t_object	*object;
+	t_rgb		**pixel_map;
+	t_ray		ray;
 }	t_scene;
 
-typedef struct	s_pixel	
+typedef struct s_pixel
 {
-	unsigned char b;
-	unsigned char g;
-	unsigned char r;
+	unsigned char	b;
+	unsigned char	g;
+	unsigned char	r;
 }				t_pixel;
 
 /*
@@ -174,7 +171,6 @@ For rendering hit, you need to get the lowest t
 from the hittable objects along the ray.
 Intersection_point = Ray_origin + t * Ray_direction
 */
-
 
 //hit record
 //clash: Hit point where the ray intersects the object's surface. 
@@ -188,7 +184,7 @@ typedef struct s_hitrecord
 	t_vec3		normal;
 	t_rgb		color;
 	t_type		type;
-	bool		front_face; //maybe discard, used for transparent
+	bool		front_face;
 	t_object	*obj;
 }				t_hitrecord;
 
@@ -199,7 +195,7 @@ typedef struct s_qua_sol
 	double		t1;
 	double		t2;
 	double		discriminant;
-}		t_quadratic_solution;
+}		t_quads;
 
 /*
 2x2 Matrix (t_mat2):

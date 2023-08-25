@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkajanek <tkajanek@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:03:58 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 14:37:07 by tkajanek         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:38:03 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,23 @@ int	ft_parser(char *file, t_scene *scene)
 	char	**description;
 
 	line = ft_strdup("");
-	input = ("");
+	input = ft_strdup("");
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (ft_error("Unable to open file"), 1);
-	if (ft_testfile(file)) //move before open
+		return (free(input), free(line), ft_error("Unable to open file"), 1);
+	if (ft_testfile(file))
 	{
 		while (line != NULL)
 		{
 			input = ft_strjoin_gnl(input, line);
 			free(line);
-			line = get_next_line (fd);
+			line = get_next_line(fd);
 		}
 	}
 	else
-		return (ft_error("Invalid scene file"), 1);
+		return (free(input), free(line), ft_error("Invalid scene file"), 1);
 	description = ft_split(input, '\n');
-	free(input);
 	if (ft_init(description, scene) == 1)
-		return (1);
-	return (0);
+		return (free(input), 1);
+	return (free(input), 0);
 }

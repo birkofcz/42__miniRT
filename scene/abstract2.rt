@@ -1,0 +1,27 @@
+A 0.2 100,100,100
+
+C 1.5,1,1 0,1,0 100
+
+L 2,5,1 1 255,255,255
+
+# Central Sphere - A large, radiant sphere
+sp 0,1,0 1 255,0,150
+
+# Surrounding Spheres - These will create a pattern around the central sphere
+sp 1.5,1,0 0.5 0,255,255
+sp -1.5,1,0 0.5 0,255,255
+sp 0,2.5,0 0.5 0,255,255
+sp 0,-0.5,0 0.5 0,255,255
+
+# Cylinders - These will be placed like pillars around the central sphere
+cy 2,1,0 0,1,0 0.1 2 255,255,0
+cy -2,1,0 0,1,0 0.1 2 255,255,0
+cy 0,1,2 1,0,0 0.1 2 255,255,0
+cy 0,1,-2 1,0,0 0.1 2 255,255,0
+
+# Ground Plane - A reflective surface
+pl 0,-0.1,-1 0,1,0 150,150,150
+
+# Ceiling Plane - To add depth and a sense of enclosure
+pl 0,3,-1 0,-1,0 100,0,100
+

@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.h                                            :+:      :+:    :+:   */
+/*   shadow_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/06 14:58:49 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 16:22:12 by sbenes           ###   ########.fr       */
+/*   Created: 2023/08/24 14:36:46 by sbenes            #+#    #+#             */
+/*   Updated: 2023/08/24 14:40:34 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
+#include "../include/miniRT.h"
 
-# include "miniRT.h"
-
-typedef struct s_rgb
+bool	sphere_shadow(t_ray ray, t_sp *sphere)
 {
-	int	r;
-	int	g;
-	int	b;
-}	t_rgb;
+	t_quads	solution;
 
-#endif
+	solution = quadratic_sphere(sphere->center, sphere->diameter / 2, ray);
+	if (solution.discriminant < 0)
+		return (false);
+	if (solution.t1 > EPSILON || solution.t2 > EPSILON)
+		return (true);
+	return (false);
+}

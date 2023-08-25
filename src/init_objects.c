@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:04:48 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/22 16:52:06 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/24 15:01:01 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,15 @@ t_cy	*ft_init_cylinder(char *line)
 	return (cylinder);
 }
 
-
-bool	ft_init_objects(char **description, t_scene *scene)
+/* ORIGINAL FUNCTION BEFORE NORMINETTE BULLSHIT */
+/* bool	ft_init_objects(char **description, t_scene *scene)
 {
 	int			i;
-	t_object	*current = NULL;
+	t_object	*current;
 	t_object	*new_object;
 
 	i = 0;
+	current = NULL;
 	while (description[i])
 	{
 		if (ft_isstr(description[i], "sp") || ft_isstr(description[i], "pl")
@@ -145,6 +146,30 @@ bool	ft_init_objects(char **description, t_scene *scene)
 				current->next = new_object;
 				current = current->next;
 			}
+		}
+		i++;
+	}
+	scene->object = scene->head_object;
+	return (true);
+} */
+
+bool	ft_init_objects(char **description, t_scene *scene)
+{
+	int			i;
+	t_object	*current;
+	t_object	*new_object;
+
+	i = 0;
+	current = NULL;
+	while (description[i]) 
+	{
+		if (ft_isstr(description[i], "sp") || ft_isstr(description[i], "pl")
+			|| ft_isstr(description[i], "cy")) 
+		{
+			new_object = init_new_object(description[i]);
+			if (!new_object)
+				return (false);
+			append_to_scene(scene, &current, new_object);
 		}
 		i++;
 	}
