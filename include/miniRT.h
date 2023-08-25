@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/24 16:32:33 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/25 15:35:20 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,10 @@ t_rgb		apply_ambient(t_rgb object_color, t_amb amb);
 double		ft_clamp(double value, double min, double max);
 t_rgb		color_clamp(t_rgb color);
 t_rgb		color_scalar(t_rgb color, double scalar);
+t_rgb		calculate_sphere_diffuse(t_hitrecord *rec, t_scene *scene, 
+				double dot);
+t_rgb		calculate_cylinder_diffuse(t_hitrecord *rec, t_scene *scene, 
+				t_vec3 light_normalized);
 
 /* main.c */
 void		create_pix_matrix(t_scene *scene);

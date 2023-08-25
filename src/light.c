@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 14:24:42 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/23 15:07:10 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/25 15:33:54 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,63 @@ t_rgb	apply_ambient_shadow(t_rgb object_color, t_amb amb)
 	return (ambient_contribution);
 }
 
-void	calculate_diffuse(t_scene *scene, t_hitrecord *rec, double dot)
+/* void	calculate_diffuse(t_scene *scene, t_hitrecord *rec, double dot)
 {
 	t_rgb		diff;
 	t_vec3		light_normalized;
 	double		pd;
 
 	light_normalized = normalize_vector(scene->light.lp);
-	if (rec->type == SPHERE || rec->type == CYLINDER)
+	if (rec->type == SPHERE)
 	{
 		diff = color_scalar(rec->color, (dot * scene->light.bright_ratio));
 		diff = color_clamp(diff);
 		rec->color = diff;
 		rec->color = apply_ambient(rec->color, scene->amb);
 	}
+	else if (rec->type == CYLINDER)
+	{
+		pd = dot_product(rec->normal, light_normalized);
+		double curved_diffuse = pd * scene->light.bright_ratio;
+		if (pd > 0)
+		{
+			diff = color_scalar(rec->color, curved_diffuse);
+			diff = apply_ambient(diff, scene->amb);
+		}
+		else
+		{
+			diff = color_scalar(rec->color, curved_diffuse * scene->amb.ratio);
+			diff = apply_ambient(diff, scene->amb);
+		}
+			diff = color_clamp(diff);
+			rec->color = diff;
+		}
+	else if (rec->type == PLANE)
+	{
+		pd = dot_product(rec->normal, light_normalized);
+		if (pd > 0 && ((pd * scene->light.bright_ratio) > scene->amb.ratio))
+		{
+			diff = color_scalar(rec->color, (pd * scene->light.bright_ratio));
+			rec->color = diff;
+			rec->color = apply_ambient(rec->color, scene->amb);
+			rec->color = color_clamp(rec->color);
+		}
+		else
+			rec->color = apply_ambient(rec->color, scene->amb);
+	}
+} */
+
+void	calculate_diffuse(t_scene *scene, t_hitrecord *rec, double dot)
+{
+	t_rgb	diff;
+	t_vec3	light_normalized;
+	double	pd;
+
+	light_normalized = normalize_vector(scene->light.lp);
+	if (rec->type == SPHERE)
+		rec->color = calculate_sphere_diffuse(rec, scene, dot);
+	else if (rec->type == CYLINDER)
+		rec->color = calculate_cylinder_diffuse(rec, scene, light_normalized);
 	else if (rec->type == PLANE)
 	{
 		pd = dot_product(rec->normal, light_normalized);
