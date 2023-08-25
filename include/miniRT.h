@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/25 15:35:20 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/25 16:37:02 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,8 @@ void		free_object_list(t_object *obj);
 void		free_pixel_map(t_rgb **pixel_map);
 void		ft_freesplit(char **split);
 t_rgb		fill_rgb(int r, int g, int b);
+int			ft_arraysize(char **array);
+
 
 /* vector_operations.c */
 t_vec3		create_vec3(double x, double y, double z);

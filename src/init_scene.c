@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/23 15:02:43 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/25 17:20:30 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_cam	init_camera(char *line, int *count, char **des)
 	else
 		ft_free_cam(NULL, param, "Invalid FOV", des);
 	ft_freesplit(param);
-	cam.aspect_ratio = (double)16 / 9;
+	cam.aspect_ratio = (double) WIDTH / HEIGHT;
 	*count += 1;
 	return (cam);
 }

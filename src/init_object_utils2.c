@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:39:39 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 14:52:34 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/25 16:42:05 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ bool	ft_testcoors(char **coors)
 	int	y;
 
 	i = 0;
+	if (ft_arraysize(coors) != 3)
+		return (false);
 	while (coors[i])
 	{
 		y = 0;
@@ -52,9 +54,10 @@ bool	ft_testvector(char **vector)
 	int		i;
 	int		y;
 	double	magnitude;
-	double	tolerance;
 
 	i = 0;
+	if (ft_arraysize(vector) != 3)
+		return (false);
 	while (vector[i])
 	{
 		y = 0;
@@ -69,8 +72,7 @@ bool	ft_testvector(char **vector)
 	}
 	magnitude = pow(ft_atof(vector[0]), 2) + pow(ft_atof(vector[1]), 2) 
 		+ pow(ft_atof(vector[2]), 2);
-	tolerance = 0.00001;
-	if (fabs(magnitude - 1) > tolerance)
+	if (fabs(magnitude - 1) > 0.1)
 		return (false);
 	return (true);
 }
@@ -82,6 +84,8 @@ bool	ft_testcolor(char **color)
 	int	color_value;
 
 	i = 0;
+	if (ft_arraysize(color) != 3)
+		return (false);
 	while (color[i]) 
 	{
 		y = 0;

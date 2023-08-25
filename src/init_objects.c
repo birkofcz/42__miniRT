@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:04:48 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/24 15:01:01 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/25 17:35:38 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_cy	*ft_init_cylinder(char *line)
 	char	**param;
 	char	**t;
 
-	cylinder = (t_cy *)malloc(sizeof(t_cy)); 
+	cylinder = (t_cy *)malloc(sizeof(t_cy));
 	param = ft_split(line, ' ');
 	t = ft_split(param[1], ',');
 	if (!ft_testcoors(t))
@@ -82,7 +82,7 @@ t_cy	*ft_init_cylinder(char *line)
 	cylinder->center = create_vec3(ft_atof(t[0]), ft_atof(t[1]), ft_atof(t[2]));
 	ft_freesplit(t);
 	t = ft_split(param[2], ',');
-	if (!ft_testcoors(t))
+	if (!ft_testvector(t))
 		return (ft_free_cy(t, param, cylinder, "Invalid normal vector"), NULL);
 	cylinder->normal = create_vec3(ft_atof(t[0]), ft_atof(t[1]), ft_atof(t[2]));
 	ft_freesplit(t);

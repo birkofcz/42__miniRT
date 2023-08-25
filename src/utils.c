@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:22:24 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 15:43:08 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/25 16:36:44 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,14 @@ void	free_pixel_map(t_rgb **pixel_map)
 	}
 	free(pixel_map);
 	pixel_map = NULL;
+}
+
+int	ft_arraysize(char **array)
+{
+	int	count;
+
+	count = 0;
+	while (array[count] != NULL)
+		count++;
+	return (count);
 }
