@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:03:58 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/24 18:01:42 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/25 11:38:03 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_parser(char *file, t_scene *scene)
 		}
 	}
 	else
-		return (ft_error("Invalid scene file"), 1);
+		return (free(input), free(line), ft_error("Invalid scene file"), 1);
 	description = ft_split(input, '\n');
 	if (ft_init(description, scene) == 1)
 		return (free(input), 1);
