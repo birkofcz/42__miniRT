@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/26 12:11:41 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/26 14:02:09 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,54 @@ t_amb	init_ambient(char *line, int *count, char **des)
 	return (amb);
 }
 
+t_cam	init_camera_2(t_cam cam, char **param, char **des)
+{
+	char	**v;
+
+	v = ft_split(param[1], ',');
+	if (ft_testcoors(v))
+		cam.viewp = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
+	else
+		ft_free_cam(v, param, "CAM: Bad viewpoint data", des);
+	ft_freesplit(v);
+	v = ft_split(param[2], ',');
+	if (ft_testvector(v))
+		cam.normal = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
+	else
+		ft_free_cam(v, param, "CAM: Invalid orient vector", des);
+	ft_freesplit(v);
+	if (ft_testfov(param[3]))
+		cam.fov = ft_atoi(param[3]);
+	else
+		ft_free_cam(NULL, param, "CAM: Invalid FOV", des);
+	ft_freesplit(param);
+	return (cam);
+}
+
 t_cam	init_camera(char *line, int *count, char **des)
+{
+	t_cam	cam;
+	char	**param;
+	char	**v;
+
+	ft_memset(&cam, 0, sizeof(t_cam));
+	param = ft_split(line, ' ');
+	if (ft_arraysize(param) != 4)
+		ft_free_cam(NULL, param, "CAM: Invalid parameters", des);
+	v = ft_split(param[1], ',');
+	if (ft_testcoors(v))
+		cam.viewp = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
+	else
+		ft_free_cam(v, param, "CAM: Bad viewpoint data", des);
+	ft_freesplit(v);
+	cam = init_camera_2(cam, param, des);
+	cam.aspect_ratio = (double) WIDTH / HEIGHT;
+	*count += 1;
+	return (cam);
+}
+
+/* Complete init camera before damn norminette split... */
+/* t_cam	init_camera(char *line, int *count, char **des)
 {
 	t_cam	cam;
 	char	**param;
@@ -66,7 +113,7 @@ t_cam	init_camera(char *line, int *count, char **des)
 	cam.aspect_ratio = (double) WIDTH / HEIGHT;
 	*count += 1;
 	return (cam);
-}
+} */
 
 t_light	init_light(char *line, int *count, char **des)
 {
@@ -91,23 +138,6 @@ t_light	init_light(char *line, int *count, char **des)
 	ft_freesplit(param);
 	*count += 1;
 	return (light);
-}
-
-int	ft_check_env(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] == ' ')
-		i++;
-	if (line[i] == 'A')
-		return (1);
-	else if (line[i] == 'C')
-		return (2);
-	else if (line[i] == 'L')
-		return (3);
-	else
-		return (4);
 }
 
 bool	ft_init_env(char **desc, t_scene *scene)

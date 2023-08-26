@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:04:05 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/26 11:38:43 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/26 14:09:00 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ void		append_to_scene(t_scene *scene, t_object **current,
 
 /* init_scene.c */
 bool		ft_init_env(char **description, t_scene *scene);
-int			ft_check_env(char *line);
 t_light		init_light(char *line, int *count, char **des);
 t_cam		init_camera(char *line, int *count, char **des);
+t_cam		init_camera_2(t_cam cam, char **param, char **des);
 t_amb		init_ambient(char *line, int *count, char **des);
 
 /* init_scene_utils.c */
@@ -123,6 +123,9 @@ void		ft_free_light(char **data, char **param, char *error_msg,
 				char **des);
 bool		ft_testratio(char *param);
 bool		ft_testfov(char *param);
+
+/* init_scene_utils2.c */
+int			ft_check_env(char *line);
 
 /* init.c */
 int			ft_init(char **description, t_scene *scene);
@@ -152,7 +155,7 @@ void		init_camera2(t_cam *camera);
 void		init_pixel_map(t_scene *scene);
 
 /* parser.c */
-int			ft_parser(char *file, t_scene *scene);
+int			ft_parser(char *file, t_scene *scene, int fd);
 bool		ft_testfile(char *input);
 
 /* ray.c */
@@ -185,7 +188,6 @@ void		free_pixel_map(t_rgb **pixel_map);
 void		ft_freesplit(char **split);
 t_rgb		fill_rgb(int r, int g, int b);
 int			ft_arraysize(char **array);
-
 
 /* vector_operations.c */
 t_vec3		create_vec3(double x, double y, double z);

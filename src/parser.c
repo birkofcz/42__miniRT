@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:03:58 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/26 12:09:10 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/26 13:46:05 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,14 @@ bool	ft_testfile(char *input)
 /* 
 Taking argv[1] as arg, parsing based on identifier...
  */
-int	ft_parser(char *file, t_scene *scene)
+int	ft_parser(char *file, t_scene *scene, int fd)
 {
-	int		fd;
 	char	*line;
 	char	*input;
 	char	**description;
 
 	line = ft_strdup("");
 	input = ft_strdup("");
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		return (free(input), free(line), ft_error("Unable to open file"), 1);
 	if (ft_testfile(file))
 	{
 		while (line != NULL)

@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/26 11:37:49 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/26 13:39:26 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,14 @@ int	main(int argc, char **argv)
 {
 	t_scene		scene;
 	t_mlxdata	mlx;
+	int			fd;
 
 	if (argc == 1)
 		return (ft_error("Missing scene file path"), 1);
-	if (ft_parser(argv[1], &scene) == 1)
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+		return (ft_error("Unable to open file"), 1);
+	if (ft_parser(argv[1], &scene, fd) == 1)
 		return (1);
 	create_pix_matrix(&scene);
 	scene.mlxdata = &mlx;
