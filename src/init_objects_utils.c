@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:30:50 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/23 14:52:46 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/26 10:53:21 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	ft_free_cy(char **data, char **param, t_cy *cyl, char *error_msg)
 	if (data)
 		ft_freesplit(data);
 	ft_freesplit(param);
-	free(cyl);
+	if (cyl)
+		free(cyl);
 	ft_error(error_msg);
 }

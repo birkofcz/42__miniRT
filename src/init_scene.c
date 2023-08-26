@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/25 17:20:30 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/26 12:11:41 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_amb	init_ambient(char *line, int *count, char **des)
 	char	**rgb;
 
 	param = ft_split(line, ' ');
+	if (ft_arraysize(param) != 3)
+		ft_free_amb(NULL, param, "AMB: Invalid parameters", des);
 	if (ft_testratio(param[1]))
 		amb.ratio = ft_atof(param[1]);
 	else
@@ -42,22 +44,24 @@ t_cam	init_camera(char *line, int *count, char **des)
 	char	**v;
 
 	param = ft_split(line, ' ');
+	if (ft_arraysize(param) != 4)
+		ft_free_cam(NULL, param, "CAM: Invalid parameters", des);
 	v = ft_split(param[1], ',');
 	if (ft_testcoors(v))
 		cam.viewp = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
 	else
-		ft_free_cam(v, param, "Bad viewpoint data", des);
+		ft_free_cam(v, param, "CAM: Bad viewpoint data", des);
 	ft_freesplit(v);
 	v = ft_split(param[2], ',');
 	if (ft_testvector(v))
 		cam.normal = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
 	else
-		ft_free_cam(v, param, "Invalid orient vector", des);
+		ft_free_cam(v, param, "CAM: Invalid orient vector", des);
 	ft_freesplit(v);
 	if (ft_testfov(param[3]))
 		cam.fov = ft_atoi(param[3]);
 	else
-		ft_free_cam(NULL, param, "Invalid FOV", des);
+		ft_free_cam(NULL, param, "CAM: Invalid FOV", des);
 	ft_freesplit(param);
 	cam.aspect_ratio = (double) WIDTH / HEIGHT;
 	*count += 1;
@@ -71,17 +75,19 @@ t_light	init_light(char *line, int *count, char **des)
 	char	**lp;
 
 	param = ft_split(line, ' ');
+	if (ft_arraysize(param) != 4)
+		ft_free_light(NULL, param, "LIGHT: Invalid parameters", des);
 	lp = ft_split(param[1], ',');
 	if (ft_testcoors(lp))
 		light.lp = create_vec3(ft_atof(lp[0]), ft_atof(lp[1]),
 				ft_atoi(lp[2]));
 	else
-		ft_free_light(lp, param, "Bad viewpoint data", des);
+		ft_free_light(lp, param, "LIGHT: Bad viewpoint data", des);
 	ft_freesplit(lp);
 	if (ft_testratio(param[2]))
 		light.bright_ratio = ft_atof(param[2]);
 	else
-		ft_free_light(NULL, param, "Bad bright ratio", des);
+		ft_free_light(NULL, param, "LIGHT: Bad bright ratio", des);
 	ft_freesplit(param);
 	*count += 1;
 	return (light);
