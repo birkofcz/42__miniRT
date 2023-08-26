@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 17:06:12 by sbenes            #+#    #+#             */
-/*   Updated: 2023/08/26 13:39:26 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/26 15:01:52 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		return (ft_error("Unable to open file"), 1);
+	ft_memset(&scene, 0, sizeof(t_scene));
 	if (ft_parser(argv[1], &scene, fd) == 1)
 		return (1);
 	create_pix_matrix(&scene);
