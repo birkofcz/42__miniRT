@@ -6,7 +6,7 @@
 /*   By: sbenes <sbenes@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:11:15 by tkajanek          #+#    #+#             */
-/*   Updated: 2023/08/26 14:02:09 by sbenes           ###   ########.fr       */
+/*   Updated: 2023/08/26 15:52:02 by sbenes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ t_cam	init_camera_2(t_cam cam, char **param, char **des)
 {
 	char	**v;
 
-	v = ft_split(param[1], ',');
-	if (ft_testcoors(v))
-		cam.viewp = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
-	else
-		ft_free_cam(v, param, "CAM: Bad viewpoint data", des);
-	ft_freesplit(v);
 	v = ft_split(param[2], ',');
 	if (ft_testvector(v))
 		cam.normal = create_vec3(ft_atof(v[0]), ft_atof(v[1]), ft_atof(v[2]));
