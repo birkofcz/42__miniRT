@@ -1,0 +1,23 @@
+// Ambient lighting
+A 0.1 100,100,100
+
+// Camera positioned slightly above and looking down at the scene
+C 0,1.5,-2.5 0,0,1 90
+
+// Bright white light source from above
+L 0,3,-1 1 255,255,255
+
+// Objects
+
+// Reflective sphere on the left
+sp -1,0,-1 0.5 55,155,255
+
+// Matte sphere on the right
+sp 1,0,-1 0.5 255,0,0
+
+// Cylinder sitting between the two spheres, with a metallic gold color
+cy 0,0,-1 0,1,0 0.25 1 255,223,0
+
+// Infinite plane beneath all objects, light gray
+pl 0,-0.6,0 0,1,0 192,192,192
+
